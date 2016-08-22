@@ -1,3 +1,7 @@
+This migration / update is to normalize the database, to add N:N relationships
+between the main tables (frbs, observations, radio_obs_params and radio_measured_params)
+and the references table via *_have_refs tables
+
 To migrate the frbcat DB to the new schema (as of 20160804) there are two options:
 
 1 - Run ./alter_db.csh . This will make the changes necessary in the DB with schema prior to 20160804

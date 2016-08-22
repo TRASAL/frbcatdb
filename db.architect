@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <architect-project version="1.0" appversion="1.0.8">
  <project-name>db</project-name>
- <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
+ <print-settings printerName="PDF" numCopies="1" zoom="0.34" pageNumbersPrinted="false" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
    <property key="Logical" value="PlayPen Database" />
@@ -2291,16 +2291,19 @@
   <table id="TAB700" populated="true" UUID="e2f85b34-fc23-44d0-b079-3cc5a7c0292c" name="frbs" objectType="TABLE" physicalName="frbs" >
    <remarks></remarks>
    <folder id="FOLTAB7001" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL701" populated="true" UUID="af61b037-aa27-4e0d-8ad8-9de99119b8a6" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL4" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL701" populated="true" UUID="af61b037-aa27-4e0d-8ad8-9de99119b8a6" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL4" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL702" populated="true" UUID="18251ce9-f07a-4a6c-a236-e8d1d45550b1" autoIncrement="false" defaultValue="" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" scale="0" source-column-ref="COL5" sourceDataTypeName="TINYTEXT" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL702" populated="true" UUID="e32ca9c6-5078-4c64-b045-d72e715923bd" autoIncrement="false" autoIncrementSequenceName="frbs_author_id_seq" defaultValue="" name="author_id" nullable="0" physicalName="author_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL703" populated="true" UUID="6dee9ba6-8d3c-4a4c-b567-cafcf2a114eb" autoIncrement="false" defaultValue="" name="utc" nullable="0" physicalName="utc" precision="0" referenceCount="1" scale="0" source-column-ref="COL6" sourceDataTypeName="DATETIME" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL703" populated="true" UUID="18251ce9-f07a-4a6c-a236-e8d1d45550b1" autoIncrement="false" defaultValue="" name="name" nullable="0" physicalName="name" precision="255" referenceCount="1" scale="0" source-column-ref="COL5" sourceDataTypeName="TINYTEXT" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL704" populated="true" UUID="6dee9ba6-8d3c-4a4c-b567-cafcf2a114eb" autoIncrement="false" defaultValue="" name="utc" nullable="0" physicalName="utc" precision="0" referenceCount="1" scale="0" source-column-ref="COL6" sourceDataTypeName="DATETIME" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks>at infinite frequency</remarks>
     </column>
-    <column id="COL704" populated="true" UUID="c1559fa0-cae4-4dfb-afaa-452eeb681788" autoIncrement="false" defaultValue="0" name="private" nullable="0" physicalName="private" precision="0" referenceCount="1" scale="0" source-column-ref="COL7" sourceDataTypeName="BIT" type="-7" userDefinedTypeUUID="936cd049-d1df-44fc-ab05-b47cabe09060" >
+    <column id="COL705" populated="true" UUID="c1559fa0-cae4-4dfb-afaa-452eeb681788" autoIncrement="false" defaultValue="0" name="private" nullable="0" physicalName="private" precision="0" referenceCount="1" scale="0" source-column-ref="COL7" sourceDataTypeName="BIT" type="-7" userDefinedTypeUUID="936cd049-d1df-44fc-ab05-b47cabe09060" >
      <remarks></remarks>
     </column>
     </folder>
@@ -2309,699 +2312,667 @@
     <folder id="FOLTAB7002" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB7004" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX705" populated="true" UUID="0677986e-b409-442a-9504-1a240a2a80e1" clustered="false" name="frbs_PK" physicalName="frbs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC706" populated="true" UUID="4efedb00-46b9-4c1a-a465-5d4264319874" ascendingOrDescending="UNSPECIFIED" column-ref="COL701" name="id" physicalName="id" />
+    <index id="IDX706" populated="true" UUID="0677986e-b409-442a-9504-1a240a2a80e1" clustered="false" name="frbs_PK" physicalName="frbs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC707" populated="true" UUID="4efedb00-46b9-4c1a-a465-5d4264319874" ascendingOrDescending="UNSPECIFIED" column-ref="COL701" name="id" physicalName="id" />
     </index>
-    <index id="IDX707" populated="true" UUID="11608de3-5381-4728-a94f-dff43cbcfda0" clustered="false" index-type="BTREE" name="name" physicalName="name" primaryKeyIndex="false" qualifier="" unique="true" >
-     <index-column id="IDC708" populated="true" UUID="3bb4d3c0-8ecd-4b18-a86c-893d32e02559" ascendingOrDescending="ASCENDING" column-ref="COL702" name="name" physicalName="name" />
-    </index>
-   </folder>
-  </table>
-  <table id="TAB709" populated="true" UUID="6cb10c1e-c390-4a3f-be81-19d1d973d2e8" name="frbs_have_refs" objectType="TABLE" physicalName="frbs_have_refs" >
-   <remarks></remarks>
-   <folder id="FOLTAB7091" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL710" populated="true" UUID="60e74e48-59d6-4450-a756-a3d31e900592" autoIncrement="false" defaultValue="" name="frb_id" nullable="0" physicalName="frb_id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL13" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL711" populated="true" UUID="98a204ad-db79-41db-9185-122362462166" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" source-column-ref="COL14" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    </folder>
-    <folder id="FOLTAB7093" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
-    </folder>
-    <folder id="FOLTAB7092" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
-    </folder>
-    <folder id="FOLTAB7094" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX712" populated="true" UUID="5f544c7b-3c34-44fa-8e38-4d82e44d6d22" clustered="false" name="frbs_have_refs_PK" physicalName="frbs_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC713" populated="true" UUID="cce073e2-e5e9-45e1-8d2b-f369826eacc9" ascendingOrDescending="UNSPECIFIED" column-ref="COL710" name="frb_id" physicalName="frb_id" />
-     <index-column id="IDC714" populated="true" UUID="ba53b82b-1efd-44e2-a033-2641538a4bd3" ascendingOrDescending="UNSPECIFIED" column-ref="COL711" name="reference_id" physicalName="reference_id" />
+    <index id="IDX708" populated="true" UUID="11608de3-5381-4728-a94f-dff43cbcfda0" clustered="false" index-type="BTREE" name="name" physicalName="name" primaryKeyIndex="false" qualifier="" unique="true" >
+     <index-column id="IDC709" populated="true" UUID="3bb4d3c0-8ecd-4b18-a86c-893d32e02559" ascendingOrDescending="ASCENDING" column-ref="COL703" name="name" physicalName="name" />
     </index>
    </folder>
   </table>
-  <table id="TAB715" populated="true" UUID="c1dd219d-737f-4fa1-8566-1888bc48de32" name="frbs_notes" objectType="TABLE" physicalName="frbs_notes" >
+  <table id="TAB710" populated="true" UUID="6cb10c1e-c390-4a3f-be81-19d1d973d2e8" name="frbs_have_refs" objectType="TABLE" physicalName="frbs_have_refs" >
    <remarks></remarks>
-   <folder id="FOLTAB7151" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL716" populated="true" UUID="fff5cdeb-e334-4a99-a917-cb601ab861da" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL21" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB7101" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL711" populated="true" UUID="60e74e48-59d6-4450-a756-a3d31e900592" autoIncrement="false" defaultValue="" name="frb_id" nullable="0" physicalName="frb_id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL13" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL717" populated="true" UUID="9d8dd212-9441-450a-88e5-6dd9a5b1d0c5" autoIncrement="false" defaultValue="" name="frb_id" nullable="0" physicalName="frb_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL22" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL718" populated="true" UUID="3d20343c-4e16-4719-b78d-a9f35ce82ad6" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL23" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
-     <remarks></remarks>
-    </column>
-    <column id="COL719" populated="true" UUID="f96b23dc-1566-4929-b4f1-f6b9fdffdee0" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL24" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL720" populated="true" UUID="13d3c2e6-14f0-4635-bc6d-0cd9f001b747" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL25" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
+    <column id="COL712" populated="true" UUID="98a204ad-db79-41db-9185-122362462166" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" source-column-ref="COL14" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB7153" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB7103" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB7152" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB7102" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB7154" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX721" populated="true" UUID="f5b3dbc4-3f8e-4eb3-bc3c-3ebbad77880d" clustered="false" name="frbs_notes_PK" physicalName="frbs_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC722" populated="true" UUID="f92d48ac-1e9b-4ba5-9648-a07f5013a1e8" ascendingOrDescending="UNSPECIFIED" column-ref="COL716" name="id" physicalName="id" />
-    </index>
-    <index id="IDX723" populated="true" UUID="2c225971-7782-47fd-88de-aaf99d6883e5" clustered="false" index-type="BTREE" name="frb_id" physicalName="frb_id" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC724" populated="true" UUID="8a3e6f71-5750-4d08-875a-d350b4661887" ascendingOrDescending="ASCENDING" column-ref="COL717" name="frb_id" physicalName="frb_id" />
+    <folder id="FOLTAB7104" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX713" populated="true" UUID="5f544c7b-3c34-44fa-8e38-4d82e44d6d22" clustered="false" name="frbs_have_refs_PK" physicalName="frbs_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC714" populated="true" UUID="cce073e2-e5e9-45e1-8d2b-f369826eacc9" ascendingOrDescending="UNSPECIFIED" column-ref="COL711" name="frb_id" physicalName="frb_id" />
+     <index-column id="IDC715" populated="true" UUID="ba53b82b-1efd-44e2-a033-2641538a4bd3" ascendingOrDescending="UNSPECIFIED" column-ref="COL712" name="reference_id" physicalName="reference_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB725" populated="true" UUID="77c6f253-aa22-44ca-a8db-64fa81b77f25" name="observations" objectType="TABLE" physicalName="observations" >
+  <table id="TAB716" populated="true" UUID="c1dd219d-737f-4fa1-8566-1888bc48de32" name="frbs_notes" objectType="TABLE" physicalName="frbs_notes" >
    <remarks></remarks>
-   <folder id="FOLTAB7251" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL726" populated="true" UUID="513bb375-0b35-4830-be34-9fbdb8f58fb5" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL31" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB7161" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL717" populated="true" UUID="fff5cdeb-e334-4a99-a917-cb601ab861da" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL21" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL727" populated="true" UUID="b9e391ff-3330-4702-949a-26b345d1e566" autoIncrement="false" defaultValue="" name="frb_id" nullable="0" physicalName="frb_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL32" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL718" populated="true" UUID="9d8dd212-9441-450a-88e5-6dd9a5b1d0c5" autoIncrement="false" defaultValue="" name="frb_id" nullable="0" physicalName="frb_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL22" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL728" populated="true" UUID="2a4ef355-6474-45b7-9593-9247ebe12a0c" autoIncrement="false" defaultValue="" name="type" nullable="0" physicalName="type" precision="0" referenceCount="1" scale="0" source-column-ref="COL33" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL719" populated="true" UUID="3d20343c-4e16-4719-b78d-a9f35ce82ad6" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL23" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
-    <column id="COL729" populated="true" UUID="405b727a-646b-4af4-a3c3-4cbebee9d6f2" autoIncrement="false" defaultValue="" name="telescope" nullable="0" physicalName="telescope" precision="0" referenceCount="1" scale="0" source-column-ref="COL34" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL720" populated="true" UUID="f96b23dc-1566-4929-b4f1-f6b9fdffdee0" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL24" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL730" populated="true" UUID="6b3e66d4-d5dc-4c5f-8a08-5874ccccab24" autoIncrement="false" defaultValue="" name="utc" nullable="0" physicalName="utc" precision="0" referenceCount="1" scale="0" source-column-ref="COL35" sourceDataTypeName="DATETIME" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL721" populated="true" UUID="13d3c2e6-14f0-4635-bc6d-0cd9f001b747" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL25" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB7163" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB7162" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB7164" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX722" populated="true" UUID="f5b3dbc4-3f8e-4eb3-bc3c-3ebbad77880d" clustered="false" name="frbs_notes_PK" physicalName="frbs_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC723" populated="true" UUID="f92d48ac-1e9b-4ba5-9648-a07f5013a1e8" ascendingOrDescending="UNSPECIFIED" column-ref="COL717" name="id" physicalName="id" />
+    </index>
+    <index id="IDX724" populated="true" UUID="2c225971-7782-47fd-88de-aaf99d6883e5" clustered="false" index-type="BTREE" name="frb_id" physicalName="frb_id" primaryKeyIndex="false" qualifier="" unique="false" >
+     <index-column id="IDC725" populated="true" UUID="8a3e6f71-5750-4d08-875a-d350b4661887" ascendingOrDescending="ASCENDING" column-ref="COL718" name="frb_id" physicalName="frb_id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB726" populated="true" UUID="77c6f253-aa22-44ca-a8db-64fa81b77f25" name="observations" objectType="TABLE" physicalName="observations" >
+   <remarks></remarks>
+   <folder id="FOLTAB7261" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL727" populated="true" UUID="513bb375-0b35-4830-be34-9fbdb8f58fb5" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL31" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL728" populated="true" UUID="b9e391ff-3330-4702-949a-26b345d1e566" autoIncrement="false" defaultValue="" name="frb_id" nullable="0" physicalName="frb_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL32" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL729" populated="true" UUID="6b8caf52-9fe6-4742-962e-e186ea8bb51a" autoIncrement="false" autoIncrementSequenceName="observations_author_id_seq" defaultValue="" name="author_id" nullable="0" physicalName="author_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL730" populated="true" UUID="2a4ef355-6474-45b7-9593-9247ebe12a0c" autoIncrement="false" defaultValue="" name="type" nullable="0" physicalName="type" precision="0" referenceCount="1" scale="0" source-column-ref="COL33" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+     <remarks></remarks>
+    </column>
+    <column id="COL731" populated="true" UUID="405b727a-646b-4af4-a3c3-4cbebee9d6f2" autoIncrement="false" defaultValue="" name="telescope" nullable="0" physicalName="telescope" precision="0" referenceCount="1" scale="0" source-column-ref="COL34" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+     <remarks></remarks>
+    </column>
+    <column id="COL732" populated="true" UUID="6b3e66d4-d5dc-4c5f-8a08-5874ccccab24" autoIncrement="false" defaultValue="" name="utc" nullable="0" physicalName="utc" precision="0" referenceCount="1" scale="0" source-column-ref="COL35" sourceDataTypeName="DATETIME" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks>start_utc</remarks>
     </column>
-    <column id="COL731" populated="true" UUID="6ef508d1-1e6f-455d-a46c-011b1efa3c1f" autoIncrement="false" defaultValue="" name="data_link" nullable="1" physicalName="data_link" precision="0" referenceCount="1" scale="0" source-column-ref="COL36" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL733" populated="true" UUID="6ef508d1-1e6f-455d-a46c-011b1efa3c1f" autoIncrement="false" defaultValue="" name="data_link" nullable="1" physicalName="data_link" precision="0" referenceCount="1" scale="0" source-column-ref="COL36" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
      <remarks></remarks>
     </column>
-    <column id="COL732" populated="true" UUID="5d8dfd1b-2876-42c5-8087-4f4e4df5a593" autoIncrement="false" defaultValue="0" name="detected" nullable="0" physicalName="detected" precision="0" referenceCount="1" scale="0" source-column-ref="COL37" sourceDataTypeName="BIT" type="-7" userDefinedTypeUUID="936cd049-d1df-44fc-ab05-b47cabe09060" >
+    <column id="COL734" populated="true" UUID="5d8dfd1b-2876-42c5-8087-4f4e4df5a593" autoIncrement="false" defaultValue="0" name="detected" nullable="0" physicalName="detected" precision="0" referenceCount="1" scale="0" source-column-ref="COL37" sourceDataTypeName="BIT" type="-7" userDefinedTypeUUID="936cd049-d1df-44fc-ab05-b47cabe09060" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB7253" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB7263" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB7252" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB7262" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB7254" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX733" populated="true" UUID="e2bbc153-99de-4e23-9801-c5daad799273" clustered="false" name="observations_PK" physicalName="observations_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC734" populated="true" UUID="1d86b7c4-4ce3-473c-bf04-0cc242a20e58" ascendingOrDescending="UNSPECIFIED" column-ref="COL726" name="id" physicalName="id" />
+    <folder id="FOLTAB7264" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX735" populated="true" UUID="e2bbc153-99de-4e23-9801-c5daad799273" clustered="false" name="observations_PK" physicalName="observations_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC736" populated="true" UUID="1d86b7c4-4ce3-473c-bf04-0cc242a20e58" ascendingOrDescending="UNSPECIFIED" column-ref="COL727" name="id" physicalName="id" />
     </index>
-    <index id="IDX735" populated="true" UUID="f7d63324-a1b8-40ea-819b-6709c85cbee5" clustered="false" index-type="BTREE" name="frb_id" physicalName="frb_id" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC736" populated="true" UUID="beff3b59-a283-44fe-9274-550143c7fad2" ascendingOrDescending="ASCENDING" column-ref="COL727" name="frb_id" physicalName="frb_id" />
-    </index>
-   </folder>
-  </table>
-  <table id="TAB737" populated="true" UUID="af756ed4-3203-46dc-8f05-3fc0f422fafe" name="observations_have_refs" objectType="TABLE" physicalName="observations_have_refs" >
-   <remarks></remarks>
-   <folder id="FOLTAB7371" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL738" populated="true" UUID="bb7425b8-e90c-41d7-bb6e-2760a2c888c6" autoIncrement="false" defaultValue="" name="obs_id" nullable="0" physicalName="obs_id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL43" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL739" populated="true" UUID="a6c7b223-d6d7-4a4c-b3dd-c22484302f47" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" source-column-ref="COL44" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    </folder>
-    <folder id="FOLTAB7373" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
-    </folder>
-    <folder id="FOLTAB7372" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
-    </folder>
-    <folder id="FOLTAB7374" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX740" populated="true" UUID="84c6c696-1a0c-46f8-abc6-3fd17ef344bb" clustered="false" name="observations_have_refs_PK" physicalName="observations_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC741" populated="true" UUID="9628d145-d741-465e-b411-671f2ffb4aca" ascendingOrDescending="UNSPECIFIED" column-ref="COL738" name="obs_id" physicalName="obs_id" />
-     <index-column id="IDC742" populated="true" UUID="0ad99e28-2097-4f83-ad9d-439c6a5ccdf2" ascendingOrDescending="UNSPECIFIED" column-ref="COL739" name="reference_id" physicalName="reference_id" />
+    <index id="IDX737" populated="true" UUID="f7d63324-a1b8-40ea-819b-6709c85cbee5" clustered="false" index-type="BTREE" name="frb_id" physicalName="frb_id" primaryKeyIndex="false" qualifier="" unique="false" >
+     <index-column id="IDC738" populated="true" UUID="beff3b59-a283-44fe-9274-550143c7fad2" ascendingOrDescending="ASCENDING" column-ref="COL728" name="frb_id" physicalName="frb_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB743" populated="true" UUID="3b098cb5-0cde-4c33-914b-e27ba2892907" name="observations_notes" objectType="TABLE" physicalName="observations_notes" >
+  <table id="TAB739" populated="true" UUID="af756ed4-3203-46dc-8f05-3fc0f422fafe" name="observations_have_refs" objectType="TABLE" physicalName="observations_have_refs" >
    <remarks></remarks>
-   <folder id="FOLTAB7431" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL744" populated="true" UUID="07a6d4da-09ca-4f55-93ae-fecc00c7d65d" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL51" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB7391" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL740" populated="true" UUID="bb7425b8-e90c-41d7-bb6e-2760a2c888c6" autoIncrement="false" defaultValue="" name="obs_id" nullable="0" physicalName="obs_id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL43" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL745" populated="true" UUID="2012463a-5987-4014-a967-9001854c7ae1" autoIncrement="false" defaultValue="" name="observation_id" nullable="0" physicalName="observation_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL52" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL746" populated="true" UUID="4aa50aeb-4d8c-4d95-ae06-0dd2fa5f12fd" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL53" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
-     <remarks></remarks>
-    </column>
-    <column id="COL747" populated="true" UUID="0c9795a0-1f77-4eef-a813-0611f44130aa" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL54" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL748" populated="true" UUID="8bf333d8-40f0-4475-b680-0f1b59625727" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL55" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
+    <column id="COL741" populated="true" UUID="a6c7b223-d6d7-4a4c-b3dd-c22484302f47" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" source-column-ref="COL44" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB7433" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB7393" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB7432" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB7392" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB7434" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX749" populated="true" UUID="f4c60c1c-cb15-414c-9496-4c4187782eee" clustered="false" name="observations_notes_PK" physicalName="observations_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC750" populated="true" UUID="033e3278-c867-421c-99d1-1a253a0499c0" ascendingOrDescending="UNSPECIFIED" column-ref="COL744" name="id" physicalName="id" />
-    </index>
-    <index id="IDX751" populated="true" UUID="8a348057-3627-4d93-b8cd-bb791d1b7f8b" clustered="false" index-type="BTREE" name="observation_id" physicalName="observation_id" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC752" populated="true" UUID="7df7e2ee-2693-43c5-82dc-ec2f4b9d479f" ascendingOrDescending="ASCENDING" column-ref="COL745" name="observation_id" physicalName="observation_id" />
+    <folder id="FOLTAB7394" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX742" populated="true" UUID="84c6c696-1a0c-46f8-abc6-3fd17ef344bb" clustered="false" name="observations_have_refs_PK" physicalName="observations_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC743" populated="true" UUID="9628d145-d741-465e-b411-671f2ffb4aca" ascendingOrDescending="UNSPECIFIED" column-ref="COL740" name="obs_id" physicalName="obs_id" />
+     <index-column id="IDC744" populated="true" UUID="0ad99e28-2097-4f83-ad9d-439c6a5ccdf2" ascendingOrDescending="UNSPECIFIED" column-ref="COL741" name="reference_id" physicalName="reference_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB753" populated="true" UUID="3231efd5-ae88-4165-942d-1b78bd23315f" name="original" objectType="TABLE" physicalName="original" >
+  <table id="TAB745" populated="true" UUID="3b098cb5-0cde-4c33-914b-e27ba2892907" name="observations_notes" objectType="TABLE" physicalName="observations_notes" >
    <remarks></remarks>
-   <folder id="FOLTAB7531" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL754" populated="true" UUID="e70521e7-644f-4454-8fcf-aff8b5a12234" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL61" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB7451" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL746" populated="true" UUID="07a6d4da-09ca-4f55-93ae-fecc00c7d65d" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL51" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL755" populated="true" UUID="5cbaddb0-1e55-4640-a221-659ce9a645ec" autoIncrement="false" defaultValue="&apos;&apos;" name="name" nullable="0" physicalName="name" precision="9" referenceCount="1" scale="0" source-column-ref="COL62" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL747" populated="true" UUID="2012463a-5987-4014-a967-9001854c7ae1" autoIncrement="false" defaultValue="" name="observation_id" nullable="0" physicalName="observation_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL52" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL756" populated="true" UUID="3fc61bb7-1dbc-4915-b97c-da40667080cd" autoIncrement="false" defaultValue="" name="telescope" nullable="0" physicalName="telescope" precision="32" referenceCount="1" scale="0" source-column-ref="COL63" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL748" populated="true" UUID="4aa50aeb-4d8c-4d95-ae06-0dd2fa5f12fd" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL53" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
-    <column id="COL757" populated="true" UUID="34c05aba-23a2-400d-bf6a-583d18073743" autoIncrement="false" defaultValue="" name="utc" nullable="1" physicalName="utc" precision="19" referenceCount="1" scale="0" source-column-ref="COL64" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL749" populated="true" UUID="0c9795a0-1f77-4eef-a813-0611f44130aa" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL54" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL758" populated="true" UUID="565eca58-39fd-4133-826b-4579bc950c7a" autoIncrement="false" defaultValue="" name="beam" nullable="1" physicalName="beam" precision="8" referenceCount="1" scale="0" source-column-ref="COL65" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL759" populated="true" UUID="890fabd1-b91d-4f94-ac96-dd92593fdac3" autoIncrement="false" defaultValue="" name="raj" nullable="1" physicalName="raj" precision="16" referenceCount="1" scale="0" source-column-ref="COL66" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL760" populated="true" UUID="8d140332-fe54-4df4-ab29-15dcb5caccce" autoIncrement="false" defaultValue="" name="decj" nullable="1" physicalName="decj" precision="16" referenceCount="1" scale="0" source-column-ref="COL67" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL761" populated="true" UUID="78324c22-ed70-4ef2-af5b-af8e585a1ab0" autoIncrement="false" defaultValue="" name="gl" nullable="1" physicalName="gl" precision="0" referenceCount="1" scale="0" source-column-ref="COL68" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL762" populated="true" UUID="e2ff2859-2594-4a0b-ac3f-a347cff81e4a" autoIncrement="false" defaultValue="" name="gb" nullable="1" physicalName="gb" precision="0" referenceCount="1" scale="0" source-column-ref="COL69" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL763" populated="true" UUID="ebe63022-506e-4043-9747-57d45a735169" autoIncrement="false" defaultValue="" name="sampling_time" nullable="1" physicalName="sampling_time" precision="0" referenceCount="1" scale="0" source-column-ref="COL70" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL764" populated="true" UUID="3a994bd7-845e-4dec-a8fb-b596693e26fc" autoIncrement="false" defaultValue="" name="bandwidth" nullable="1" physicalName="bandwidth" precision="0" referenceCount="1" scale="0" source-column-ref="COL71" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL765" populated="true" UUID="20766332-a789-4e5f-acd8-f3024090fdf3" autoIncrement="false" defaultValue="" name="centre_frequency" nullable="1" physicalName="centre_frequency" precision="0" referenceCount="1" scale="0" source-column-ref="COL72" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL766" populated="true" UUID="21360b76-7e51-441e-a8fd-11b5f1a1f546" autoIncrement="false" defaultValue="" name="dm" nullable="1" physicalName="dm" precision="0" referenceCount="1" scale="0" source-column-ref="COL73" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL767" populated="true" UUID="03ae12d7-8385-45ef-a7bf-b19352bd61ba" autoIncrement="false" defaultValue="" name="dm_error" nullable="1" physicalName="dm_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL74" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL768" populated="true" UUID="424af56f-5f6b-430c-8999-0218639ed571" autoIncrement="false" defaultValue="" name="snr" nullable="1" physicalName="snr" precision="0" referenceCount="1" scale="0" source-column-ref="COL75" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL769" populated="true" UUID="61ce08c9-348e-442d-b867-80f1a0851350" autoIncrement="false" defaultValue="" name="snr_error" nullable="1" physicalName="snr_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL76" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL770" populated="true" UUID="7a8c54a7-6bcd-4975-853b-14674aa3d812" autoIncrement="false" defaultValue="" name="width" nullable="1" physicalName="width" precision="0" referenceCount="1" scale="0" source-column-ref="COL77" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL771" populated="true" UUID="7a1ba004-29ad-41bd-9d2b-a39cf1552b71" autoIncrement="false" defaultValue="" name="width_error_upper" nullable="1" physicalName="width_error_upper" precision="0" referenceCount="1" scale="0" source-column-ref="COL78" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL772" populated="true" UUID="0bb20491-4c29-4272-b70a-39780d1a63a2" autoIncrement="false" defaultValue="" name="width_error_lower" nullable="1" physicalName="width_error_lower" precision="0" referenceCount="1" scale="0" source-column-ref="COL79" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL773" populated="true" UUID="abeb8d60-2fce-4048-a51d-9b76df35c69c" autoIncrement="false" defaultValue="" name="flux" nullable="1" physicalName="flux" precision="0" referenceCount="1" scale="0" source-column-ref="COL80" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL774" populated="true" UUID="192f970e-f5a3-45b8-bbb5-efd32670f140" autoIncrement="false" defaultValue="" name="flux_error_upper" nullable="1" physicalName="flux_error_upper" precision="0" referenceCount="1" scale="0" source-column-ref="COL81" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL775" populated="true" UUID="472144d6-5dcc-45fe-9295-94058fdd0861" autoIncrement="false" defaultValue="" name="flux_error_lower" nullable="1" physicalName="flux_error_lower" precision="0" referenceCount="1" scale="0" source-column-ref="COL82" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL776" populated="true" UUID="325949cf-4f88-47b1-bcb7-3d25051f8a9e" autoIncrement="false" defaultValue="" name="reference_id" nullable="1" physicalName="reference_id" precision="8" referenceCount="1" scale="0" source-column-ref="COL83" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL777" populated="true" UUID="3b8526f6-4083-4b4b-8341-a6b0c65cdb31" autoIncrement="false" defaultValue="" name="public" nullable="0" physicalName="public" precision="0" referenceCount="1" scale="0" source-column-ref="COL84" sourceDataTypeName="BIT" type="-7" userDefinedTypeUUID="936cd049-d1df-44fc-ab05-b47cabe09060" >
-     <remarks></remarks>
-    </column>
-    <column id="COL778" populated="true" UUID="51dc9f24-00e5-4cce-b4d0-97e8066a6f78" autoIncrement="false" defaultValue="" name="freq_time_plot" nullable="1" physicalName="freq_time_plot" precision="256" referenceCount="1" scale="0" source-column-ref="COL85" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL779" populated="true" UUID="438b52a3-ca1c-4525-8127-8dd6081b0f28" autoIncrement="false" defaultValue="" name="polarization_plot" nullable="1" physicalName="polarization_plot" precision="256" referenceCount="1" scale="0" source-column-ref="COL86" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL780" populated="true" UUID="cd82ce27-b5b9-4aed-8a37-1a7f2e1bf828" autoIncrement="false" defaultValue="" name="dm_galaxy" nullable="1" physicalName="dm_galaxy" precision="0" referenceCount="1" scale="0" source-column-ref="COL87" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL781" populated="true" UUID="82b5aa17-752b-4d1c-9444-442d93779c56" autoIncrement="false" defaultValue="" name="dist_comoving" nullable="1" physicalName="dist_comoving" precision="0" referenceCount="1" scale="0" source-column-ref="COL88" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL782" populated="true" UUID="598404f7-8966-450a-8522-224ac896bbf5" autoIncrement="false" defaultValue="" name="dist_comoving_error_upper" nullable="1" physicalName="dist_comoving_error_upper" precision="0" referenceCount="1" scale="0" source-column-ref="COL89" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
-     <remarks></remarks>
-    </column>
-    <column id="COL783" populated="true" UUID="94ea2290-f459-49aa-a821-b9df9c77526b" autoIncrement="false" defaultValue="" name="dist_comoving_error_lower" nullable="1" physicalName="dist_comoving_error_lower" precision="0" referenceCount="1" scale="0" source-column-ref="COL90" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL750" populated="true" UUID="8bf333d8-40f0-4475-b680-0f1b59625727" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL55" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB7533" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB7453" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB7532" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB7452" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB7534" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX784" populated="true" UUID="a9d5a78d-4962-431f-b9ac-a024ddf595bd" clustered="false" name="original_PK" physicalName="original_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC785" populated="true" UUID="c1b1402a-779d-4a78-8a4a-56c941b453e2" ascendingOrDescending="UNSPECIFIED" column-ref="COL754" name="id" physicalName="id" />
+    <folder id="FOLTAB7454" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX751" populated="true" UUID="f4c60c1c-cb15-414c-9496-4c4187782eee" clustered="false" name="observations_notes_PK" physicalName="observations_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC752" populated="true" UUID="033e3278-c867-421c-99d1-1a253a0499c0" ascendingOrDescending="UNSPECIFIED" column-ref="COL746" name="id" physicalName="id" />
+    </index>
+    <index id="IDX753" populated="true" UUID="8a348057-3627-4d93-b8cd-bb791d1b7f8b" clustered="false" index-type="BTREE" name="observation_id" physicalName="observation_id" primaryKeyIndex="false" qualifier="" unique="false" >
+     <index-column id="IDC754" populated="true" UUID="7df7e2ee-2693-43c5-82dc-ec2f4b9d479f" ascendingOrDescending="ASCENDING" column-ref="COL747" name="observation_id" physicalName="observation_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB786" populated="true" UUID="47174d3d-aa64-4395-9e4a-0d8d7fb1077d" name="radio_images" objectType="TABLE" physicalName="radio_images" >
+  <table id="TAB755" populated="true" UUID="47174d3d-aa64-4395-9e4a-0d8d7fb1077d" name="radio_images" objectType="TABLE" physicalName="radio_images" >
    <remarks></remarks>
-   <folder id="FOLTAB7861" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL787" populated="true" UUID="11b626e4-76df-445c-b193-e78c844ef8e6" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL94" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB7551" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL756" populated="true" UUID="11b626e4-76df-445c-b193-e78c844ef8e6" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL94" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL788" populated="true" UUID="604730ab-59d2-4dd4-97f0-57418a044280" autoIncrement="false" defaultValue="" name="radio_obs_params_id" nullable="0" physicalName="radio_obs_params_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL95" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL757" populated="true" UUID="b2208b4a-0c6a-4126-84c6-1517f720a164" autoIncrement="false" autoIncrementSequenceName="radio_images_radio_measured_param_id_seq" defaultValue="" name="radio_measured_param_id" nullable="0" physicalName="radio_measured_param_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL789" populated="true" UUID="975dc57a-7d4e-41a3-8ade-3be62bfa3b35" autoIncrement="false" defaultValue="" name="title" nullable="1" physicalName="title" precision="0" referenceCount="1" scale="0" source-column-ref="COL96" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL758" populated="true" UUID="975dc57a-7d4e-41a3-8ade-3be62bfa3b35" autoIncrement="false" defaultValue="" name="title" nullable="1" physicalName="title" precision="0" referenceCount="1" scale="0" source-column-ref="COL96" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
      <remarks></remarks>
     </column>
-    <column id="COL790" populated="true" UUID="2d327efb-3c13-45c8-a035-14d00b318433" autoIncrement="false" defaultValue="" name="caption" nullable="1" physicalName="caption" precision="0" referenceCount="1" scale="0" source-column-ref="COL97" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
+    <column id="COL759" populated="true" UUID="2d327efb-3c13-45c8-a035-14d00b318433" autoIncrement="false" defaultValue="" name="caption" nullable="1" physicalName="caption" precision="0" referenceCount="1" scale="0" source-column-ref="COL97" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
      <remarks></remarks>
     </column>
-    <column id="COL791" populated="true" UUID="ae29e048-2de8-458a-ba76-b9739929ed6e" autoIncrement="false" defaultValue="" name="image" nullable="1" physicalName="image" precision="0" referenceCount="1" scale="0" source-column-ref="COL98" sourceDataTypeName="LONGBLOB" type="2004" userDefinedTypeUUID="5c50e616-a448-40e1-abcd-5bfc04dcc607" >
+    <column id="COL760" populated="true" UUID="ae29e048-2de8-458a-ba76-b9739929ed6e" autoIncrement="false" defaultValue="" name="image" nullable="1" physicalName="image" precision="0" referenceCount="1" scale="0" source-column-ref="COL98" sourceDataTypeName="LONGBLOB" type="2004" userDefinedTypeUUID="5c50e616-a448-40e1-abcd-5bfc04dcc607" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB7863" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB7553" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB7862" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB7552" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB7864" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX792" populated="true" UUID="16695b41-f4ff-4ea2-addc-d4b5032027d7" clustered="false" name="radio_images_PK" physicalName="radio_images_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC793" populated="true" UUID="c1af77d3-23c1-4fdf-b953-cf115c0fdf6c" ascendingOrDescending="UNSPECIFIED" column-ref="COL787" name="id" physicalName="id" />
-    </index>
-    <index id="IDX794" populated="true" UUID="8bd948ce-115f-4592-a59c-e3287c16f72d" clustered="false" index-type="BTREE" name="radio_images_fk" physicalName="radio_images_fk" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC795" populated="true" UUID="5007ca41-f1ef-4b71-9468-c5b1c6da9739" ascendingOrDescending="ASCENDING" column-ref="COL788" name="radio_obs_params_id" physicalName="radio_obs_params_id" />
+    <folder id="FOLTAB7554" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX761" populated="true" UUID="16695b41-f4ff-4ea2-addc-d4b5032027d7" clustered="false" name="radio_images_PK" physicalName="radio_images_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC762" populated="true" UUID="c1af77d3-23c1-4fdf-b953-cf115c0fdf6c" ascendingOrDescending="UNSPECIFIED" column-ref="COL756" name="id" physicalName="id" />
     </index>
    </folder>
   </table>
-  <table id="TAB796" populated="true" UUID="5ecbcd37-bc3a-4368-8d94-2c8c98ff485a" name="radio_measured_params" objectType="TABLE" physicalName="radio_measured_params" >
+  <table id="TAB763" populated="true" UUID="5ecbcd37-bc3a-4368-8d94-2c8c98ff485a" name="radio_measured_params" objectType="TABLE" physicalName="radio_measured_params" >
    <remarks></remarks>
-   <folder id="FOLTAB7961" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL797" populated="true" UUID="5070916a-bea8-49fd-97d9-fbfb71cf9a17" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL104" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB7631" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL764" populated="true" UUID="5070916a-bea8-49fd-97d9-fbfb71cf9a17" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="3" scale="0" source-column-ref="COL104" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL798" populated="true" UUID="02ed7cdc-db0a-4c02-a865-e775e2e1132f" autoIncrement="false" defaultValue="" name="obs_params_id" nullable="0" physicalName="obs_params_id" precision="0" referenceCount="1" scale="0" source-column-ref="COL105" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL765" populated="true" UUID="02ed7cdc-db0a-4c02-a865-e775e2e1132f" autoIncrement="false" defaultValue="" name="obs_params_id" nullable="0" physicalName="obs_params_id" precision="0" referenceCount="1" scale="0" source-column-ref="COL105" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL799" populated="true" UUID="de7f3e4b-e19a-4813-8e9f-e5baad62b96d" autoIncrement="false" defaultValue="" name="dm" nullable="1" physicalName="dm" precision="0" referenceCount="1" scale="0" source-column-ref="COL106" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL766" populated="true" UUID="9854d54d-cadf-4e78-9b86-2393ba83a314" autoIncrement="false" autoIncrementSequenceName="radio_measured_params_author_id_seq" defaultValue="" name="author_id" nullable="0" physicalName="author_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL800" populated="true" UUID="1c375fae-42a0-470e-9e65-a7f56741d522" autoIncrement="false" defaultValue="" name="dm_error" nullable="1" physicalName="dm_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL107" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL767" populated="true" UUID="7090388b-6edc-416c-a1ec-4a2407129344" autoIncrement="false" autoIncrementSequenceName="radio_measured_params_voevent_ivorn_seq" defaultValue="" name="voevent_ivorn" nullable="0" physicalName="voevent_ivorn" precision="200" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL801" populated="true" UUID="b3cb353d-ea91-4569-99a2-f39e8c29f515" autoIncrement="false" defaultValue="" name="snr" nullable="1" physicalName="snr" precision="0" referenceCount="1" scale="0" source-column-ref="COL108" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL768" populated="true" UUID="ae8462f0-d68c-4d78-b181-9613509923a7" autoIncrement="false" autoIncrementSequenceName="radio_measured_params_voevent_xml_seq" defaultValue="" name="voevent_xml" nullable="0" physicalName="voevent_xml" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
      <remarks></remarks>
     </column>
-    <column id="COL802" populated="true" UUID="25f804fa-9de2-4fa1-98d0-5a92ac64f223" autoIncrement="false" defaultValue="" name="width" nullable="1" physicalName="width" precision="0" referenceCount="1" scale="0" source-column-ref="COL109" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL769" populated="true" UUID="de7f3e4b-e19a-4813-8e9f-e5baad62b96d" autoIncrement="false" defaultValue="" name="dm" nullable="1" physicalName="dm" precision="0" referenceCount="1" scale="0" source-column-ref="COL106" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL803" populated="true" UUID="05e7aef5-8cb4-4c8f-a83c-a17824da5679" autoIncrement="false" defaultValue="" name="width_error_upper" nullable="1" physicalName="width_error_upper" precision="0" referenceCount="1" scale="0" source-column-ref="COL110" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL770" populated="true" UUID="1c375fae-42a0-470e-9e65-a7f56741d522" autoIncrement="false" defaultValue="" name="dm_error" nullable="1" physicalName="dm_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL107" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL804" populated="true" UUID="51e6e2b9-1ec3-4b2e-b58c-2fe53423f08a" autoIncrement="false" defaultValue="" name="width_error_lower" nullable="1" physicalName="width_error_lower" precision="0" referenceCount="1" scale="0" source-column-ref="COL111" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL771" populated="true" UUID="b3cb353d-ea91-4569-99a2-f39e8c29f515" autoIncrement="false" defaultValue="" name="snr" nullable="1" physicalName="snr" precision="0" referenceCount="1" scale="0" source-column-ref="COL108" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL805" populated="true" UUID="0e5f908a-a30d-4974-9548-7a23fd27c3d1" autoIncrement="false" defaultValue="" name="flux" nullable="1" physicalName="flux" precision="0" referenceCount="1" scale="0" source-column-ref="COL112" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL772" populated="true" UUID="25f804fa-9de2-4fa1-98d0-5a92ac64f223" autoIncrement="false" defaultValue="" name="width" nullable="1" physicalName="width" precision="0" referenceCount="1" scale="0" source-column-ref="COL109" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL806" populated="true" UUID="ca0f16b0-13ba-41fb-9246-3ed63d938d39" autoIncrement="false" defaultValue="" name="flux_prefix" nullable="0" physicalName="flux_prefix" precision="255" referenceCount="1" scale="0" source-column-ref="COL113" sourceDataTypeName="TINYTEXT" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL773" populated="true" UUID="05e7aef5-8cb4-4c8f-a83c-a17824da5679" autoIncrement="false" defaultValue="" name="width_error_upper" nullable="1" physicalName="width_error_upper" precision="0" referenceCount="1" scale="0" source-column-ref="COL110" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL807" populated="true" UUID="ebe16ad7-c448-4348-ad1c-66778d4f8dd6" autoIncrement="false" defaultValue="" name="flux_error_upper" nullable="1" physicalName="flux_error_upper" precision="0" referenceCount="1" scale="0" source-column-ref="COL114" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL774" populated="true" UUID="51e6e2b9-1ec3-4b2e-b58c-2fe53423f08a" autoIncrement="false" defaultValue="" name="width_error_lower" nullable="1" physicalName="width_error_lower" precision="0" referenceCount="1" scale="0" source-column-ref="COL111" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL808" populated="true" UUID="0eb8b2a0-2e7f-4cb1-aa52-0439076a02f6" autoIncrement="false" defaultValue="" name="flux_error_lower" nullable="1" physicalName="flux_error_lower" precision="0" referenceCount="1" scale="0" source-column-ref="COL115" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL775" populated="true" UUID="0e5f908a-a30d-4974-9548-7a23fd27c3d1" autoIncrement="false" defaultValue="" name="flux" nullable="1" physicalName="flux" precision="0" referenceCount="1" scale="0" source-column-ref="COL112" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL809" populated="true" UUID="89bf1e71-df33-4a37-8167-8a9f187cc2d2" autoIncrement="false" defaultValue="0" name="flux_calibrated" nullable="0" physicalName="flux_calibrated" precision="0" referenceCount="1" scale="0" source-column-ref="COL116" sourceDataTypeName="BIT" type="-7" userDefinedTypeUUID="936cd049-d1df-44fc-ab05-b47cabe09060" >
+    <column id="COL776" populated="true" UUID="ca0f16b0-13ba-41fb-9246-3ed63d938d39" autoIncrement="false" defaultValue="" name="flux_prefix" nullable="0" physicalName="flux_prefix" precision="255" referenceCount="1" scale="0" source-column-ref="COL113" sourceDataTypeName="TINYTEXT" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL810" populated="true" UUID="b596435e-6ea7-4357-bac0-2af8f7d9f032" autoIncrement="false" defaultValue="" name="dm_index" nullable="1" physicalName="dm_index" precision="0" referenceCount="1" scale="0" source-column-ref="COL117" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL777" populated="true" UUID="ebe16ad7-c448-4348-ad1c-66778d4f8dd6" autoIncrement="false" defaultValue="" name="flux_error_upper" nullable="1" physicalName="flux_error_upper" precision="0" referenceCount="1" scale="0" source-column-ref="COL114" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL811" populated="true" UUID="bf187fa7-b4f4-4b3d-9f8a-c5e6eb56d541" autoIncrement="false" defaultValue="" name="dm_index_error" nullable="1" physicalName="dm_index_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL118" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL778" populated="true" UUID="0eb8b2a0-2e7f-4cb1-aa52-0439076a02f6" autoIncrement="false" defaultValue="" name="flux_error_lower" nullable="1" physicalName="flux_error_lower" precision="0" referenceCount="1" scale="0" source-column-ref="COL115" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL812" populated="true" UUID="63e5362a-942f-408c-9efd-6df4ed08d92c" autoIncrement="false" defaultValue="" name="scattering_index" nullable="1" physicalName="scattering_index" precision="0" referenceCount="1" scale="0" source-column-ref="COL119" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL779" populated="true" UUID="89bf1e71-df33-4a37-8167-8a9f187cc2d2" autoIncrement="false" defaultValue="0" name="flux_calibrated" nullable="0" physicalName="flux_calibrated" precision="0" referenceCount="1" scale="0" source-column-ref="COL116" sourceDataTypeName="BIT" type="-7" userDefinedTypeUUID="936cd049-d1df-44fc-ab05-b47cabe09060" >
      <remarks></remarks>
     </column>
-    <column id="COL813" populated="true" UUID="0b16bdf6-a87c-4e09-848e-b61c531bd217" autoIncrement="false" defaultValue="" name="scattering_index_error" nullable="1" physicalName="scattering_index_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL120" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL780" populated="true" UUID="b596435e-6ea7-4357-bac0-2af8f7d9f032" autoIncrement="false" defaultValue="" name="dm_index" nullable="1" physicalName="dm_index" precision="0" referenceCount="1" scale="0" source-column-ref="COL117" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL814" populated="true" UUID="9f65f14f-e286-4841-9321-cacddd002a93" autoIncrement="false" defaultValue="" name="scattering_time" nullable="1" physicalName="scattering_time" precision="0" referenceCount="1" scale="0" source-column-ref="COL121" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL781" populated="true" UUID="bf187fa7-b4f4-4b3d-9f8a-c5e6eb56d541" autoIncrement="false" defaultValue="" name="dm_index_error" nullable="1" physicalName="dm_index_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL118" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+     <remarks></remarks>
+    </column>
+    <column id="COL782" populated="true" UUID="63e5362a-942f-408c-9efd-6df4ed08d92c" autoIncrement="false" defaultValue="" name="scattering_index" nullable="1" physicalName="scattering_index" precision="0" referenceCount="1" scale="0" source-column-ref="COL119" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+     <remarks></remarks>
+    </column>
+    <column id="COL783" populated="true" UUID="0b16bdf6-a87c-4e09-848e-b61c531bd217" autoIncrement="false" defaultValue="" name="scattering_index_error" nullable="1" physicalName="scattering_index_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL120" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+     <remarks></remarks>
+    </column>
+    <column id="COL784" populated="true" UUID="9f65f14f-e286-4841-9321-cacddd002a93" autoIncrement="false" defaultValue="" name="scattering_time" nullable="1" physicalName="scattering_time" precision="0" referenceCount="1" scale="0" source-column-ref="COL121" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>At 1 GHz</remarks>
     </column>
-    <column id="COL815" populated="true" UUID="53a3a210-bc5c-472d-aebf-7d2e3f3e9870" autoIncrement="false" defaultValue="" name="scattering_time_error" nullable="1" physicalName="scattering_time_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL122" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL785" populated="true" UUID="53a3a210-bc5c-472d-aebf-7d2e3f3e9870" autoIncrement="false" defaultValue="" name="scattering_time_error" nullable="1" physicalName="scattering_time_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL122" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL816" populated="true" UUID="c9eb44f2-01ea-4818-a99b-c0ebe6644b75" autoIncrement="false" defaultValue="" name="linear_poln_frac" nullable="1" physicalName="linear_poln_frac" precision="0" referenceCount="1" scale="0" source-column-ref="COL123" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL786" populated="true" UUID="c9eb44f2-01ea-4818-a99b-c0ebe6644b75" autoIncrement="false" defaultValue="" name="linear_poln_frac" nullable="1" physicalName="linear_poln_frac" precision="0" referenceCount="1" scale="0" source-column-ref="COL123" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL817" populated="true" UUID="7b76ffcf-7031-4223-8c52-7fe0c831c80d" autoIncrement="false" defaultValue="" name="linear_poln_frac_error" nullable="1" physicalName="linear_poln_frac_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL124" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL787" populated="true" UUID="7b76ffcf-7031-4223-8c52-7fe0c831c80d" autoIncrement="false" defaultValue="" name="linear_poln_frac_error" nullable="1" physicalName="linear_poln_frac_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL124" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL818" populated="true" UUID="6f775a0b-d0ad-4ac1-bae3-d5509cd52c47" autoIncrement="false" defaultValue="" name="circular_poln_frac" nullable="1" physicalName="circular_poln_frac" precision="0" referenceCount="1" scale="0" source-column-ref="COL125" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL788" populated="true" UUID="6f775a0b-d0ad-4ac1-bae3-d5509cd52c47" autoIncrement="false" defaultValue="" name="circular_poln_frac" nullable="1" physicalName="circular_poln_frac" precision="0" referenceCount="1" scale="0" source-column-ref="COL125" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL819" populated="true" UUID="c1a9c0a9-9851-4e97-9d53-e0110d7d6256" autoIncrement="false" defaultValue="" name="circular_poln_frac_error" nullable="1" physicalName="circular_poln_frac_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL126" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL789" populated="true" UUID="c1a9c0a9-9851-4e97-9d53-e0110d7d6256" autoIncrement="false" defaultValue="" name="circular_poln_frac_error" nullable="1" physicalName="circular_poln_frac_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL126" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL820" populated="true" UUID="e8b93a0b-c252-41b5-bdd2-94e1ace01f70" autoIncrement="false" defaultValue="" name="spectral index" nullable="1" physicalName="spectral_index" precision="0" referenceCount="1" scale="0" source-column-ref="COL127" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL790" populated="true" UUID="e8b93a0b-c252-41b5-bdd2-94e1ace01f70" autoIncrement="false" defaultValue="" name="spectral index" nullable="1" physicalName="spectral_index" precision="0" referenceCount="1" scale="0" source-column-ref="COL127" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL821" populated="true" UUID="09769871-50f1-4050-9471-21e0924f864d" autoIncrement="false" defaultValue="" name="spectral index error" nullable="1" physicalName="spectral_index_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL128" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL791" populated="true" UUID="09769871-50f1-4050-9471-21e0924f864d" autoIncrement="false" defaultValue="" name="spectral index error" nullable="1" physicalName="spectral_index_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL128" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL822" populated="true" UUID="f3077a76-962c-448d-ac0e-1e5100e5d3e0" autoIncrement="false" defaultValue="" name="z_phot" nullable="1" physicalName="z_phot" precision="0" referenceCount="1" scale="0" source-column-ref="COL129" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL792" populated="true" UUID="f3077a76-962c-448d-ac0e-1e5100e5d3e0" autoIncrement="false" defaultValue="" name="z_phot" nullable="1" physicalName="z_phot" precision="0" referenceCount="1" scale="0" source-column-ref="COL129" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL823" populated="true" UUID="ecdf599e-2507-48b0-8028-8d9e4b75eaa4" autoIncrement="false" defaultValue="" name="z_phot_error" nullable="1" physicalName="z_phot_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL130" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL793" populated="true" UUID="ecdf599e-2507-48b0-8028-8d9e4b75eaa4" autoIncrement="false" defaultValue="" name="z_phot_error" nullable="1" physicalName="z_phot_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL130" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL824" populated="true" UUID="8b58fce5-2ed1-4e17-8709-186bac887e1b" autoIncrement="false" defaultValue="" name="z_spec" nullable="1" physicalName="z_spec" precision="0" referenceCount="1" scale="0" source-column-ref="COL131" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL794" populated="true" UUID="8b58fce5-2ed1-4e17-8709-186bac887e1b" autoIncrement="false" defaultValue="" name="z_spec" nullable="1" physicalName="z_spec" precision="0" referenceCount="1" scale="0" source-column-ref="COL131" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL825" populated="true" UUID="4d26796a-e1ab-433b-aa25-adbb53841d26" autoIncrement="false" defaultValue="" name="z_spec_error" nullable="1" physicalName="z_spec_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL132" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL795" populated="true" UUID="4d26796a-e1ab-433b-aa25-adbb53841d26" autoIncrement="false" defaultValue="" name="z_spec_error" nullable="1" physicalName="z_spec_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL132" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL826" populated="true" UUID="83db446c-f31e-4bff-b917-911f626df19b" autoIncrement="false" defaultValue="" name="rank" nullable="0" physicalName="rank" precision="0" referenceCount="1" scale="0" source-column-ref="COL133" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL796" populated="true" UUID="83db446c-f31e-4bff-b917-911f626df19b" autoIncrement="false" defaultValue="" name="rank" nullable="0" physicalName="rank" precision="0" referenceCount="1" scale="0" source-column-ref="COL133" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB7963" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB7633" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB7962" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB7632" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB7964" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX827" populated="true" UUID="2288fe8f-e792-4077-a3d2-2e809597d61a" clustered="false" name="radio_measured_params_PK" physicalName="radio_measured_params_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC828" populated="true" UUID="bed79ec5-a46e-469e-ae8d-08b58c017d41" ascendingOrDescending="UNSPECIFIED" column-ref="COL797" name="id" physicalName="id" />
+    <folder id="FOLTAB7634" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX797" populated="true" UUID="2288fe8f-e792-4077-a3d2-2e809597d61a" clustered="false" name="radio_measured_params_PK" physicalName="radio_measured_params_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC798" populated="true" UUID="bed79ec5-a46e-469e-ae8d-08b58c017d41" ascendingOrDescending="UNSPECIFIED" column-ref="COL764" name="id" physicalName="id" />
     </index>
-    <index id="IDX829" populated="true" UUID="9890bb3c-db6a-44cd-9d30-f999193a3ef8" clustered="false" index-type="BTREE" name="obs_params_id" physicalName="obs_params_id" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC830" populated="true" UUID="83b45df0-0160-47dd-b069-1415de69daed" ascendingOrDescending="ASCENDING" column-ref="COL798" name="obs_params_id" physicalName="obs_params_id" />
-    </index>
-   </folder>
-  </table>
-  <table id="TAB831" populated="true" UUID="f6d8be77-5d4c-4fe6-a7d3-1d0b057aa144" name="radio_measured_params_have_refs" objectType="TABLE" physicalName="radio_measured_params_have_refs" >
-   <remarks></remarks>
-   <folder id="FOLTAB8311" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL832" populated="true" UUID="4431761a-64a7-4479-a710-26c460fe0687" autoIncrement="false" defaultValue="" name="radio_measured_param_id" nullable="0" physicalName="radio_measured_param_id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL139" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL833" populated="true" UUID="3d094b25-17cc-4225-b166-7c2273e784f8" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" source-column-ref="COL140" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    </folder>
-    <folder id="FOLTAB8313" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
-    </folder>
-    <folder id="FOLTAB8312" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
-    </folder>
-    <folder id="FOLTAB8314" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX834" populated="true" UUID="9e4d4864-8fe0-402a-99c5-4a6eda2419de" clustered="false" name="radio_measured_params_have_refs_PK" physicalName="radio_measured_params_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC835" populated="true" UUID="d995e419-50d6-44ea-ba09-d459afadd3aa" ascendingOrDescending="UNSPECIFIED" column-ref="COL832" name="radio_measured_param_id" physicalName="radio_measured_param_id" />
-     <index-column id="IDC836" populated="true" UUID="27a5a1ff-d2f5-4d05-bfcd-0380475eba58" ascendingOrDescending="UNSPECIFIED" column-ref="COL833" name="reference_id" physicalName="reference_id" />
+    <index id="IDX799" populated="true" UUID="9890bb3c-db6a-44cd-9d30-f999193a3ef8" clustered="false" index-type="BTREE" name="obs_params_id" physicalName="obs_params_id" primaryKeyIndex="false" qualifier="" unique="false" >
+     <index-column id="IDC800" populated="true" UUID="83b45df0-0160-47dd-b069-1415de69daed" ascendingOrDescending="ASCENDING" column-ref="COL765" name="obs_params_id" physicalName="obs_params_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB837" populated="true" UUID="e297cc6e-ee79-4675-b98e-7fe10c12fc47" name="radio_measured_params_notes" objectType="TABLE" physicalName="radio_measured_params_notes" >
+  <table id="TAB801" populated="true" UUID="f6d8be77-5d4c-4fe6-a7d3-1d0b057aa144" name="radio_measured_params_have_refs" objectType="TABLE" physicalName="radio_measured_params_have_refs" >
    <remarks></remarks>
-   <folder id="FOLTAB8371" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL838" populated="true" UUID="c608007b-a3e5-4210-8f7f-afcb47355750" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL147" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB8011" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL802" populated="true" UUID="4431761a-64a7-4479-a710-26c460fe0687" autoIncrement="false" defaultValue="" name="radio_measured_param_id" nullable="0" physicalName="radio_measured_param_id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL139" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL839" populated="true" UUID="239915c6-a919-4cc3-a31d-7ca6e60ac591" autoIncrement="false" defaultValue="" name="radio_measured_param_id" nullable="0" physicalName="radio_measured_param_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL148" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL840" populated="true" UUID="7e63041e-f0a2-44a4-a9e3-7b0fbe0a3dd0" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL149" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
-     <remarks></remarks>
-    </column>
-    <column id="COL841" populated="true" UUID="842d5f8b-d0be-48e5-9171-c576de580072" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL150" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL842" populated="true" UUID="7fc611bc-6e6b-4ec0-94de-e86b6034614d" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL151" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
+    <column id="COL803" populated="true" UUID="3d094b25-17cc-4225-b166-7c2273e784f8" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" source-column-ref="COL140" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB8373" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB8013" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB8372" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB8012" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB8374" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX843" populated="true" UUID="0aaff72d-49c8-4ad9-994c-f0dea216e497" clustered="false" name="radio_measured_params_notes_PK" physicalName="radio_measured_params_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC844" populated="true" UUID="2e2fdeba-fe34-49c1-98d3-6ee4b7cc65aa" ascendingOrDescending="UNSPECIFIED" column-ref="COL838" name="id" physicalName="id" />
-    </index>
-    <index id="IDX845" populated="true" UUID="58408b87-389b-40f2-bc2c-326e94937f9f" clustered="false" index-type="BTREE" name="radio_measured_param_id" physicalName="radio_measured_param_id" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC846" populated="true" UUID="52a0ed2a-76be-418a-a307-dd6290ae273a" ascendingOrDescending="ASCENDING" column-ref="COL839" name="radio_measured_param_id" physicalName="radio_measured_param_id" />
+    <folder id="FOLTAB8014" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX804" populated="true" UUID="9e4d4864-8fe0-402a-99c5-4a6eda2419de" clustered="false" name="radio_measured_params_have_refs_PK" physicalName="radio_measured_params_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC805" populated="true" UUID="d995e419-50d6-44ea-ba09-d459afadd3aa" ascendingOrDescending="UNSPECIFIED" column-ref="COL802" name="radio_measured_param_id" physicalName="radio_measured_param_id" />
+     <index-column id="IDC806" populated="true" UUID="27a5a1ff-d2f5-4d05-bfcd-0380475eba58" ascendingOrDescending="UNSPECIFIED" column-ref="COL803" name="reference_id" physicalName="reference_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB847" populated="true" UUID="3f1e1ac8-6862-47d8-93a4-bb918bf88905" name="radio_obs_params" objectType="TABLE" physicalName="radio_obs_params" >
+  <table id="TAB807" populated="true" UUID="e297cc6e-ee79-4675-b98e-7fe10c12fc47" name="radio_measured_params_notes" objectType="TABLE" physicalName="radio_measured_params_notes" >
    <remarks></remarks>
-   <folder id="FOLTAB8471" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL848" populated="true" UUID="76ef1937-886e-4fc2-b353-5a6d9e0b5cb7" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL157" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB8071" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL808" populated="true" UUID="c608007b-a3e5-4210-8f7f-afcb47355750" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL147" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL849" populated="true" UUID="3bb8d62e-6a5d-4f2f-936e-5dc74bf5f2b2" autoIncrement="false" defaultValue="" name="obs_id" nullable="0" physicalName="obs_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL158" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL809" populated="true" UUID="239915c6-a919-4cc3-a31d-7ca6e60ac591" autoIncrement="false" defaultValue="" name="radio_measured_param_id" nullable="0" physicalName="radio_measured_param_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL148" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL850" populated="true" UUID="0404af66-85cb-4546-b77a-ac2907d2ad40" autoIncrement="false" defaultValue="" name="receiver" nullable="1" physicalName="receiver" precision="0" referenceCount="1" scale="0" source-column-ref="COL159" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL810" populated="true" UUID="7e63041e-f0a2-44a4-a9e3-7b0fbe0a3dd0" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL149" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
-    <column id="COL851" populated="true" UUID="85bfe5a1-154d-42ca-ba11-858b22a8ed0b" autoIncrement="false" defaultValue="" name="backend" nullable="1" physicalName="backend" precision="0" referenceCount="1" scale="0" source-column-ref="COL160" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL811" populated="true" UUID="842d5f8b-d0be-48e5-9171-c576de580072" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL150" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL852" populated="true" UUID="e6e04b14-8c9a-4876-87b0-b982e0d53ee7" autoIncrement="false" defaultValue="" name="beam" nullable="1" physicalName="beam" precision="8" referenceCount="1" scale="0" source-column-ref="COL161" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL812" populated="true" UUID="7fc611bc-6e6b-4ec0-94de-e86b6034614d" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL151" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
      <remarks></remarks>
     </column>
-    <column id="COL853" populated="true" UUID="dc6a6cc2-c7e0-4b69-bbdc-12f2a4f464a3" autoIncrement="false" defaultValue="&apos;&apos;" name="raj" nullable="0" physicalName="raj" precision="16" referenceCount="1" scale="0" source-column-ref="COL162" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    </folder>
+    <folder id="FOLTAB8073" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB8072" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB8074" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX813" populated="true" UUID="0aaff72d-49c8-4ad9-994c-f0dea216e497" clustered="false" name="radio_measured_params_notes_PK" physicalName="radio_measured_params_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC814" populated="true" UUID="2e2fdeba-fe34-49c1-98d3-6ee4b7cc65aa" ascendingOrDescending="UNSPECIFIED" column-ref="COL808" name="id" physicalName="id" />
+    </index>
+    <index id="IDX815" populated="true" UUID="58408b87-389b-40f2-bc2c-326e94937f9f" clustered="false" index-type="BTREE" name="radio_measured_param_id" physicalName="radio_measured_param_id" primaryKeyIndex="false" qualifier="" unique="false" >
+     <index-column id="IDC816" populated="true" UUID="52a0ed2a-76be-418a-a307-dd6290ae273a" ascendingOrDescending="ASCENDING" column-ref="COL809" name="radio_measured_param_id" physicalName="radio_measured_param_id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB817" populated="true" UUID="3f1e1ac8-6862-47d8-93a4-bb918bf88905" name="radio_obs_params" objectType="TABLE" physicalName="radio_obs_params" >
+   <remarks></remarks>
+   <folder id="FOLTAB8171" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL818" populated="true" UUID="76ef1937-886e-4fc2-b353-5a6d9e0b5cb7" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL157" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL854" populated="true" UUID="74cd7f23-b998-4be5-9ac2-1374a9aaef15" autoIncrement="false" defaultValue="&apos;&apos;" name="decj" nullable="0" physicalName="decj" precision="16" referenceCount="1" scale="0" source-column-ref="COL163" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL819" populated="true" UUID="3bb8d62e-6a5d-4f2f-936e-5dc74bf5f2b2" autoIncrement="false" defaultValue="" name="obs_id" nullable="0" physicalName="obs_id" precision="0" referenceCount="2" scale="0" source-column-ref="COL158" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL855" populated="true" UUID="4bd5bffb-5666-4bd5-96fe-4cf0fecef9fd" autoIncrement="false" defaultValue="" name="gl" nullable="0" physicalName="gl" precision="0" referenceCount="1" scale="0" source-column-ref="COL164" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL820" populated="true" UUID="45af3a99-8584-44cc-a93f-ce165a903572" autoIncrement="false" autoIncrementSequenceName="radio_obs_params_author_id_seq" defaultValue="" name="author_id" nullable="0" physicalName="author_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL856" populated="true" UUID="6e18fa59-4bd8-4ca8-8dc4-df97200ec870" autoIncrement="false" defaultValue="" name="gb" nullable="0" physicalName="gb" precision="0" referenceCount="1" scale="0" source-column-ref="COL165" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL821" populated="true" UUID="0404af66-85cb-4546-b77a-ac2907d2ad40" autoIncrement="false" defaultValue="" name="receiver" nullable="1" physicalName="receiver" precision="0" referenceCount="1" scale="0" source-column-ref="COL159" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
      <remarks></remarks>
     </column>
-    <column id="COL857" populated="true" UUID="8944afd5-b5ce-457e-b7c9-a94040aeda19" autoIncrement="false" defaultValue="" name="pointing_error" nullable="0" physicalName="pointing_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL166" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL822" populated="true" UUID="85bfe5a1-154d-42ca-ba11-858b22a8ed0b" autoIncrement="false" defaultValue="" name="backend" nullable="1" physicalName="backend" precision="0" referenceCount="1" scale="0" source-column-ref="COL160" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+     <remarks></remarks>
+    </column>
+    <column id="COL823" populated="true" UUID="e6e04b14-8c9a-4876-87b0-b982e0d53ee7" autoIncrement="false" defaultValue="" name="beam" nullable="1" physicalName="beam" precision="8" referenceCount="1" scale="0" source-column-ref="COL161" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL824" populated="true" UUID="dc6a6cc2-c7e0-4b69-bbdc-12f2a4f464a3" autoIncrement="false" defaultValue="&apos;&apos;" name="raj" nullable="0" physicalName="raj" precision="16" referenceCount="1" scale="0" source-column-ref="COL162" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL825" populated="true" UUID="74cd7f23-b998-4be5-9ac2-1374a9aaef15" autoIncrement="false" defaultValue="&apos;&apos;" name="decj" nullable="0" physicalName="decj" precision="16" referenceCount="1" scale="0" source-column-ref="COL163" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL826" populated="true" UUID="4bd5bffb-5666-4bd5-96fe-4cf0fecef9fd" autoIncrement="false" defaultValue="" name="gl" nullable="0" physicalName="gl" precision="0" referenceCount="1" scale="0" source-column-ref="COL164" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+     <remarks></remarks>
+    </column>
+    <column id="COL827" populated="true" UUID="6e18fa59-4bd8-4ca8-8dc4-df97200ec870" autoIncrement="false" defaultValue="" name="gb" nullable="0" physicalName="gb" precision="0" referenceCount="1" scale="0" source-column-ref="COL165" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+     <remarks></remarks>
+    </column>
+    <column id="COL828" populated="true" UUID="8944afd5-b5ce-457e-b7c9-a94040aeda19" autoIncrement="false" defaultValue="" name="pointing_error" nullable="0" physicalName="pointing_error" precision="0" referenceCount="1" scale="0" source-column-ref="COL166" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>pointing accuracy in arcsec</remarks>
     </column>
-    <column id="COL858" populated="true" UUID="ed1fd9fa-6713-4d49-b440-492fcc7b908b" autoIncrement="false" defaultValue="" name="FWHM" nullable="0" physicalName="FWHM" precision="0" referenceCount="1" scale="0" source-column-ref="COL167" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL829" populated="true" UUID="ed1fd9fa-6713-4d49-b440-492fcc7b908b" autoIncrement="false" defaultValue="" name="FWHM" nullable="0" physicalName="FWHM" precision="0" referenceCount="1" scale="0" source-column-ref="COL167" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>FWHM of beam in arcmin</remarks>
     </column>
-    <column id="COL859" populated="true" UUID="46c87c28-de8d-47d6-92db-38124745b568" autoIncrement="false" defaultValue="" name="sampling_time" nullable="0" physicalName="sampling_time" precision="0" referenceCount="1" scale="0" source-column-ref="COL168" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL830" populated="true" UUID="46c87c28-de8d-47d6-92db-38124745b568" autoIncrement="false" defaultValue="" name="sampling_time" nullable="0" physicalName="sampling_time" precision="0" referenceCount="1" scale="0" source-column-ref="COL168" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
-    <column id="COL860" populated="true" UUID="2bb5bc59-6639-428c-85ca-2b42a2dcc446" autoIncrement="false" defaultValue="" name="bandwidth" nullable="0" physicalName="bandwidth" precision="0" referenceCount="1" scale="0" source-column-ref="COL169" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL831" populated="true" UUID="2bb5bc59-6639-428c-85ca-2b42a2dcc446" autoIncrement="false" defaultValue="" name="bandwidth" nullable="0" physicalName="bandwidth" precision="0" referenceCount="1" scale="0" source-column-ref="COL169" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>in MHz</remarks>
     </column>
-    <column id="COL861" populated="true" UUID="3156d88f-0113-402a-a892-69bb7a7c62dd" autoIncrement="false" defaultValue="" name="centre_frequency" nullable="0" physicalName="centre_frequency" precision="0" referenceCount="1" scale="0" source-column-ref="COL170" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL832" populated="true" UUID="3156d88f-0113-402a-a892-69bb7a7c62dd" autoIncrement="false" defaultValue="" name="centre_frequency" nullable="0" physicalName="centre_frequency" precision="0" referenceCount="1" scale="0" source-column-ref="COL170" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>in MHz</remarks>
     </column>
-    <column id="COL862" populated="true" UUID="0f611df7-7cae-4224-b67d-10339c64590b" autoIncrement="false" defaultValue="2" name="npol" nullable="0" physicalName="npol" precision="0" referenceCount="1" scale="0" source-column-ref="COL171" sourceDataTypeName="INT" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL833" populated="true" UUID="0f611df7-7cae-4224-b67d-10339c64590b" autoIncrement="false" defaultValue="2" name="npol" nullable="0" physicalName="npol" precision="0" referenceCount="1" scale="0" source-column-ref="COL171" sourceDataTypeName="INT" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL863" populated="true" UUID="f47548e1-126d-41eb-9217-03168bcb2906" autoIncrement="false" defaultValue="" name="channel_bandwidth" nullable="0" physicalName="channel_bandwidth" precision="0" referenceCount="1" scale="0" source-column-ref="COL172" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL834" populated="true" UUID="f47548e1-126d-41eb-9217-03168bcb2906" autoIncrement="false" defaultValue="" name="channel_bandwidth" nullable="0" physicalName="channel_bandwidth" precision="0" referenceCount="1" scale="0" source-column-ref="COL172" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>in MHz</remarks>
     </column>
-    <column id="COL864" populated="true" UUID="7d94e023-6f61-4ca6-9fd1-8d19ec568823" autoIncrement="false" defaultValue="" name="bits_per_sample" nullable="0" physicalName="bits_per_sample" precision="0" referenceCount="1" scale="0" source-column-ref="COL173" sourceDataTypeName="TINYINT" type="-6" userDefinedTypeUUID="608a1d2c-c960-44ac-b1f3-503aba0a5b7b" >
+    <column id="COL835" populated="true" UUID="7d94e023-6f61-4ca6-9fd1-8d19ec568823" autoIncrement="false" defaultValue="" name="bits_per_sample" nullable="0" physicalName="bits_per_sample" precision="0" referenceCount="1" scale="0" source-column-ref="COL173" sourceDataTypeName="TINYINT" type="-6" userDefinedTypeUUID="608a1d2c-c960-44ac-b1f3-503aba0a5b7b" >
      <remarks></remarks>
     </column>
-    <column id="COL865" populated="true" UUID="030f2d9c-4748-4381-8fbb-365f59749fa0" autoIncrement="false" defaultValue="" name="gain" nullable="0" physicalName="gain" precision="0" referenceCount="1" scale="0" source-column-ref="COL174" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL836" populated="true" UUID="030f2d9c-4748-4381-8fbb-365f59749fa0" autoIncrement="false" defaultValue="" name="gain" nullable="0" physicalName="gain" precision="0" referenceCount="1" scale="0" source-column-ref="COL174" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>K/Jy</remarks>
     </column>
-    <column id="COL866" populated="true" UUID="59554d5f-d852-46c7-a76e-c4b018c92471" autoIncrement="false" defaultValue="" name="tsys" nullable="0" physicalName="tsys" precision="0" referenceCount="1" scale="0" source-column-ref="COL175" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL837" populated="true" UUID="59554d5f-d852-46c7-a76e-c4b018c92471" autoIncrement="false" defaultValue="" name="tsys" nullable="0" physicalName="tsys" precision="0" referenceCount="1" scale="0" source-column-ref="COL175" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks>K</remarks>
     </column>
-    <column id="COL867" populated="true" UUID="ecad651a-3938-4b9b-8c79-64bde2acca4f" autoIncrement="false" defaultValue="" name="ne2001_dm_limit" nullable="0" physicalName="ne2001_dm_limit" precision="0" referenceCount="1" scale="0" source-column-ref="COL176" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
+    <column id="COL838" populated="true" UUID="ecad651a-3938-4b9b-8c79-64bde2acca4f" autoIncrement="false" defaultValue="" name="ne2001_dm_limit" nullable="0" physicalName="ne2001_dm_limit" precision="0" referenceCount="1" scale="0" source-column-ref="COL176" sourceDataTypeName="FLOAT" type="6" userDefinedTypeUUID="7e55bcd0-7606-4153-b749-9c397f12c4d8" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB8473" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB8173" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB8472" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB8172" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB8474" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX868" populated="true" UUID="68f63a8c-151f-4411-8e33-19d7af6c085c" clustered="false" name="radio_obs_params_PK" physicalName="radio_obs_params_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC869" populated="true" UUID="3699adc5-1711-4c07-be7d-054b3ca57969" ascendingOrDescending="UNSPECIFIED" column-ref="COL848" name="id" physicalName="id" />
+    <folder id="FOLTAB8174" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX839" populated="true" UUID="68f63a8c-151f-4411-8e33-19d7af6c085c" clustered="false" name="radio_obs_params_PK" physicalName="radio_obs_params_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC840" populated="true" UUID="3699adc5-1711-4c07-be7d-054b3ca57969" ascendingOrDescending="UNSPECIFIED" column-ref="COL818" name="id" physicalName="id" />
     </index>
-    <index id="IDX870" populated="true" UUID="c467040a-1b83-4c28-976e-3ea43e996f4b" clustered="false" index-type="BTREE" name="obs_id" physicalName="obs_id" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC871" populated="true" UUID="a2a1e29c-2647-4e12-865d-11e5edc50a38" ascendingOrDescending="ASCENDING" column-ref="COL849" name="obs_id" physicalName="obs_id" />
-    </index>
-   </folder>
-  </table>
-  <table id="TAB872" populated="true" UUID="5f3a81de-6ba6-4d84-a551-b70e58f60398" name="radio_obs_params_have_refs" objectType="TABLE" physicalName="radio_obs_params_have_refs" >
-   <remarks></remarks>
-   <folder id="FOLTAB8721" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL873" populated="true" UUID="d2c37c0a-f32a-4123-9fba-b1f052d63322" autoIncrement="false" defaultValue="" name="radio_obs_param_id" nullable="0" physicalName="radio_obs_param_id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL182" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL874" populated="true" UUID="ce77b1fd-7e22-465c-a9ca-677d1a9cad20" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    </folder>
-    <folder id="FOLTAB8723" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
-    </folder>
-    <folder id="FOLTAB8722" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
-    </folder>
-    <folder id="FOLTAB8724" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX875" populated="true" UUID="17b02959-4358-4970-9bcc-b96d0c281be3" clustered="false" name="radio_obs_params_have_refs_PK" physicalName="radio_obs_params_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC876" populated="true" UUID="3dc6f11c-9f7c-4f4f-8582-1caf2fdfa5b8" ascendingOrDescending="UNSPECIFIED" column-ref="COL873" name="radio_obs_param_id" physicalName="radio_obs_param_id" />
-     <index-column id="IDC877" populated="true" UUID="6245e0ab-33e6-4797-b85f-a0e1477f2b6c" ascendingOrDescending="UNSPECIFIED" column-ref="COL874" name="reference_id" physicalName="reference_id" />
+    <index id="IDX841" populated="true" UUID="c467040a-1b83-4c28-976e-3ea43e996f4b" clustered="false" index-type="BTREE" name="obs_id" physicalName="obs_id" primaryKeyIndex="false" qualifier="" unique="false" >
+     <index-column id="IDC842" populated="true" UUID="a2a1e29c-2647-4e12-865d-11e5edc50a38" ascendingOrDescending="ASCENDING" column-ref="COL819" name="obs_id" physicalName="obs_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB878" populated="true" UUID="2ea34bde-6689-4204-9c6b-0b0bdcd3e52e" name="radio_obs_params_notes" objectType="TABLE" physicalName="radio_obs_params_notes" >
+  <table id="TAB843" populated="true" UUID="5f3a81de-6ba6-4d84-a551-b70e58f60398" name="radio_obs_params_have_refs" objectType="TABLE" physicalName="radio_obs_params_have_refs" >
    <remarks></remarks>
-   <folder id="FOLTAB8781" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL879" populated="true" UUID="ce59d16f-8847-4ebc-a8a7-1b9cad793c8c" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL190" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB8431" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL844" populated="true" UUID="d2c37c0a-f32a-4123-9fba-b1f052d63322" autoIncrement="false" defaultValue="" name="radio_obs_param_id" nullable="0" physicalName="radio_obs_param_id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL182" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL880" populated="true" UUID="b6637d35-b782-486a-8a9b-e23ec28c36e7" autoIncrement="false" defaultValue="" name="radio_obs_param_id" nullable="0" physicalName="radio_obs_param_id" precision="0" referenceCount="1" scale="0" source-column-ref="COL191" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
-     <remarks></remarks>
-    </column>
-    <column id="COL881" populated="true" UUID="125a5b4a-169a-43ab-a8fa-1173af06af86" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL192" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
-     <remarks></remarks>
-    </column>
-    <column id="COL882" populated="true" UUID="65ac9230-033f-4162-b97c-abb0ca3ccc70" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL193" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
-     <remarks></remarks>
-    </column>
-    <column id="COL883" populated="true" UUID="25a7eec7-7b2b-4dd1-b953-95dacfe331fd" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL194" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
+    <column id="COL845" populated="true" UUID="ce77b1fd-7e22-465c-a9ca-677d1a9cad20" autoIncrement="false" defaultValue="" name="reference_id" nullable="0" physicalName="reference_id" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB8783" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB8433" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB8782" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB8432" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB8784" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX884" populated="true" UUID="48e856e4-b995-4c82-b4d3-563399a7bac6" clustered="false" name="radio_obs_params_notes_PK" physicalName="radio_obs_params_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC885" populated="true" UUID="32e82bc6-d9ad-4933-a4b6-14c26e375a82" ascendingOrDescending="UNSPECIFIED" column-ref="COL879" name="id" physicalName="id" />
-    </index>
-    <index id="IDX886" populated="true" UUID="2c53214a-a04c-4f30-85f9-3b9711c203dd" clustered="false" index-type="BTREE" name="radio_obs_param_id" physicalName="radio_obs_param_id" primaryKeyIndex="false" qualifier="" unique="false" >
-     <index-column id="IDC887" populated="true" UUID="bd5d52cf-7bb3-49be-a0ce-183508175615" ascendingOrDescending="ASCENDING" column-ref="COL880" name="radio_obs_param_id" physicalName="radio_obs_param_id" />
+    <folder id="FOLTAB8434" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX846" populated="true" UUID="17b02959-4358-4970-9bcc-b96d0c281be3" clustered="false" name="radio_obs_params_have_refs_PK" physicalName="radio_obs_params_have_refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC847" populated="true" UUID="3dc6f11c-9f7c-4f4f-8582-1caf2fdfa5b8" ascendingOrDescending="UNSPECIFIED" column-ref="COL844" name="radio_obs_param_id" physicalName="radio_obs_param_id" />
+     <index-column id="IDC848" populated="true" UUID="6245e0ab-33e6-4797-b85f-a0e1477f2b6c" ascendingOrDescending="UNSPECIFIED" column-ref="COL845" name="reference_id" physicalName="reference_id" />
     </index>
    </folder>
   </table>
-  <table id="TAB888" populated="true" UUID="6758e54d-7165-4d33-a9f8-687c125be53a" name="refs" objectType="TABLE" physicalName="refs" >
+  <table id="TAB849" populated="true" UUID="2ea34bde-6689-4204-9c6b-0b0bdcd3e52e" name="radio_obs_params_notes" objectType="TABLE" physicalName="radio_obs_params_notes" >
    <remarks></remarks>
-   <folder id="FOLTAB8881" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL889" populated="true" UUID="89a90e52-f22e-4775-90c5-32202471ec3a" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL200" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+   <folder id="FOLTAB8491" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL850" populated="true" UUID="ce59d16f-8847-4ebc-a8a7-1b9cad793c8c" autoIncrement="false" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" source-column-ref="COL190" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL890" populated="true" UUID="b9c5c1ce-1ca2-493e-aeb9-95a570a8e476" autoIncrement="false" defaultValue="" name="type" nullable="1" physicalName="type" precision="0" referenceCount="1" scale="0" source-column-ref="COL201" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL851" populated="true" UUID="b6637d35-b782-486a-8a9b-e23ec28c36e7" autoIncrement="false" defaultValue="" name="radio_obs_param_id" nullable="0" physicalName="radio_obs_param_id" precision="0" referenceCount="1" scale="0" source-column-ref="COL191" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL891" populated="true" UUID="d2692372-5332-4113-90a8-2575246d56da" autoIncrement="false" defaultValue="" name="reference" nullable="1" physicalName="reference" precision="0" referenceCount="1" scale="0" source-column-ref="COL202" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL852" populated="true" UUID="125a5b4a-169a-43ab-a8fa-1173af06af86" autoIncrement="false" defaultValue="CURRENT_TIMESTAMP" name="last_modified" nullable="0" physicalName="last_modified" precision="0" referenceCount="1" scale="0" source-column-ref="COL192" sourceDataTypeName="TIMESTAMP" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
      <remarks></remarks>
     </column>
-    <column id="COL892" populated="true" UUID="cf13cc33-0a9c-4e29-a7fc-915bd5792249" autoIncrement="false" defaultValue="" name="link" nullable="1" physicalName="link" precision="0" referenceCount="1" scale="0" source-column-ref="COL203" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL853" populated="true" UUID="65ac9230-033f-4162-b97c-abb0ca3ccc70" autoIncrement="false" defaultValue="&apos;&apos;" name="author" nullable="0" physicalName="author" precision="32" referenceCount="1" scale="0" source-column-ref="COL193" sourceDataTypeName="VARCHAR" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL893" populated="true" UUID="af7086f3-0c82-497a-ad1c-6ddd56f723a8" autoIncrement="false" defaultValue="" name="description" nullable="1" physicalName="description" precision="0" referenceCount="1" scale="0" source-column-ref="COL204" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+    <column id="COL854" populated="true" UUID="25a7eec7-7b2b-4dd1-b953-95dacfe331fd" autoIncrement="false" defaultValue="" name="note" nullable="0" physicalName="note" precision="0" referenceCount="1" scale="0" source-column-ref="COL194" sourceDataTypeName="LONGTEXT" type="2005" userDefinedTypeUUID="9c22ed40-2868-4d9e-96ca-789234a53c8f" >
      <remarks></remarks>
     </column>
     </folder>
-    <folder id="FOLTAB8883" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    <folder id="FOLTAB8493" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
     </folder>
-    <folder id="FOLTAB8882" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    <folder id="FOLTAB8492" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
-    <folder id="FOLTAB8884" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX894" populated="true" UUID="fc5c36e7-fd12-4b0d-a7ea-85a1ce9d22bc" clustered="false" name="refs_PK" physicalName="refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
-     <index-column id="IDC895" populated="true" UUID="f927685c-490f-465e-a5c4-987a7d80b0cc" ascendingOrDescending="UNSPECIFIED" column-ref="COL889" name="id" physicalName="id" />
+    <folder id="FOLTAB8494" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX855" populated="true" UUID="48e856e4-b995-4c82-b4d3-563399a7bac6" clustered="false" name="radio_obs_params_notes_PK" physicalName="radio_obs_params_notes_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC856" populated="true" UUID="32e82bc6-d9ad-4933-a4b6-14c26e375a82" ascendingOrDescending="UNSPECIFIED" column-ref="COL850" name="id" physicalName="id" />
+    </index>
+    <index id="IDX857" populated="true" UUID="2c53214a-a04c-4f30-85f9-3b9711c203dd" clustered="false" index-type="BTREE" name="radio_obs_param_id" physicalName="radio_obs_param_id" primaryKeyIndex="false" qualifier="" unique="false" >
+     <index-column id="IDC858" populated="true" UUID="bd5d52cf-7bb3-49be-a0ce-183508175615" ascendingOrDescending="ASCENDING" column-ref="COL851" name="radio_obs_param_id" physicalName="radio_obs_param_id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB859" populated="true" UUID="6758e54d-7165-4d33-a9f8-687c125be53a" name="refs" objectType="TABLE" physicalName="refs" >
+   <remarks></remarks>
+   <folder id="FOLTAB8591" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL860" populated="true" UUID="89a90e52-f22e-4775-90c5-32202471ec3a" autoIncrement="true" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL200" sourceDataTypeName="INT UNSIGNED" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL861" populated="true" UUID="b9c5c1ce-1ca2-493e-aeb9-95a570a8e476" autoIncrement="false" defaultValue="" name="type" nullable="1" physicalName="type" precision="0" referenceCount="1" scale="0" source-column-ref="COL201" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+     <remarks></remarks>
+    </column>
+    <column id="COL862" populated="true" UUID="d2692372-5332-4113-90a8-2575246d56da" autoIncrement="false" defaultValue="" name="reference" nullable="1" physicalName="reference" precision="0" referenceCount="1" scale="0" source-column-ref="COL202" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+     <remarks></remarks>
+    </column>
+    <column id="COL863" populated="true" UUID="cf13cc33-0a9c-4e29-a7fc-915bd5792249" autoIncrement="false" defaultValue="" name="link" nullable="1" physicalName="link" precision="0" referenceCount="1" scale="0" source-column-ref="COL203" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+     <remarks></remarks>
+    </column>
+    <column id="COL864" populated="true" UUID="af7086f3-0c82-497a-ad1c-6ddd56f723a8" autoIncrement="false" defaultValue="" name="description" nullable="1" physicalName="description" precision="0" referenceCount="1" scale="0" source-column-ref="COL204" sourceDataTypeName="TEXT" type="-1" userDefinedTypeUUID="9a814859-ab26-4acd-9415-ea82291bcac1" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB8593" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB8592" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB8594" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX865" populated="true" UUID="fc5c36e7-fd12-4b0d-a7ea-85a1ce9d22bc" clustered="false" name="refs_PK" physicalName="refs_pk" primaryKeyIndex="true" qualifier="" unique="true" >
+     <index-column id="IDC866" populated="true" UUID="f927685c-490f-465e-a5c4-987a7d80b0cc" ascendingOrDescending="UNSPECIFIED" column-ref="COL860" name="id" physicalName="id" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB867" populated="true" UUID="4b9f5fa1-ebbb-4f23-8b8b-515475aa4e85" name="authors" objectType="TABLE" physicalName="authors" >
+   <remarks></remarks>
+   <folder id="FOLTAB8671" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL868" populated="true" UUID="4669365c-527c-4214-b74c-a07fae9679b0" autoIncrement="false" autoIncrementSequenceName="authors_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL869" populated="true" UUID="16f1ba28-162e-46e0-8902-87382b3fbf85" autoIncrement="false" autoIncrementSequenceName="authors_ivorn_seq" defaultValue="" name="ivorn" nullable="0" physicalName="ivorn" precision="200" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL870" populated="true" UUID="3caef838-b08b-4192-897b-0584a5d9fa19" autoIncrement="false" autoIncrementSequenceName="authors_title_seq" defaultValue="" name="title" nullable="1" physicalName="title" precision="100" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL871" populated="true" UUID="995b0bfe-d9ca-4647-ad34-1a146bc74351" autoIncrement="false" autoIncrementSequenceName="authors_logo_url_seq" defaultValue="" name="logo_url" nullable="1" physicalName="logo_url" precision="100" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL872" populated="true" UUID="4aea95c1-2d48-4284-b42e-78413903e19b" autoIncrement="false" autoIncrementSequenceName="authors_short_name_seq" defaultValue="" name="short_name" nullable="1" physicalName="short_name" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL873" populated="true" UUID="0a598fa4-0647-4777-aa25-3fa62c879d72" autoIncrement="false" autoIncrementSequenceName="authors_contact_name_seq" defaultValue="" name="contact_name" nullable="1" physicalName="contact_name" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL874" populated="true" UUID="e423889d-6f52-4d42-a092-b3f0fd889274" autoIncrement="false" autoIncrementSequenceName="authors_contact_email_seq" defaultValue="" name="contact_email" nullable="1" physicalName="contact_email" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL875" populated="true" UUID="b3154223-77d1-4129-9985-c90f89865cd3" autoIncrement="false" autoIncrementSequenceName="authors_contact_phone_seq" defaultValue="" name="contact_phone" nullable="1" physicalName="contact_phone" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL876" populated="true" UUID="d19e2c5a-e30e-424b-917f-ed9ef7280c94" autoIncrement="false" autoIncrementSequenceName="authors_other_information_seq" defaultValue="" name="other_information" nullable="1" physicalName="other_information" precision="500" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB8673" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB8672" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB8674" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX877" populated="true" UUID="090ac75e-2137-4ba3-8202-d726fbb45813" clustered="false" name="authors_pk" physicalName="authors_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC878" populated="true" UUID="56a9627c-5117-4573-b3f9-6b7c7557a499" ascendingOrDescending="UNSPECIFIED" column-ref="COL868" name="id" physicalName="id" />
+    </index>
+    <index id="IDX879" populated="true" UUID="c8087b8a-f21c-4550-b92c-d59c2e665e73" clustered="false" name="authors_ivorn_idx" physicalName="authors_ivorn_idx" primaryKeyIndex="false" unique="true" >
+     <index-column id="IDC880" populated="true" UUID="bd8edc08-be0c-4ad2-9386-cf053476ceca" ascendingOrDescending="UNSPECIFIED" column-ref="COL869" name="ivorn" physicalName="ivorn" />
     </index>
    </folder>
   </table>
   <relationships>
-   <relationship id="REL896" populated="true" UUID="9bef35f4-f178-48fd-a150-51c11c98533d" deferrability="7" deleteRule="3" fk-table-ref="TAB709" fkCardinality="7" identifying="true" name="frbs_frbs_have_refs_fk" physicalName="frbs_frbs_have_refs_fk" pk-table-ref="TAB700" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP897" populated="true" UUID="410f7fda-f22a-4ab9-bf91-675d3ca8ea1b" fk-column-ref="COL710" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL701" />
+   <relationship id="REL881" populated="true" UUID="9bef35f4-f178-48fd-a150-51c11c98533d" deferrability="7" deleteRule="3" fk-table-ref="TAB710" fkCardinality="7" identifying="true" name="frbs_frbs_have_refs_fk" physicalName="frbs_frbs_have_refs_fk" pk-table-ref="TAB700" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP882" populated="true" UUID="410f7fda-f22a-4ab9-bf91-675d3ca8ea1b" fk-column-ref="COL711" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL701" />
    </relationship>
-   <relationship id="REL898" populated="true" UUID="61abd653-09a7-49f3-a8e2-1355d2cb0916" deferrability="7" deleteRule="3" fk-table-ref="TAB715" fkCardinality="7" identifying="false" name="frbs_notes_ibfk_1" physicalName="frbs_notes_ibfk_1" pk-table-ref="TAB700" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP899" populated="true" UUID="ca326226-8d1e-4095-8f9d-9c58924b9772" fk-column-ref="COL717" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL701" />
+   <relationship id="REL883" populated="true" UUID="61abd653-09a7-49f3-a8e2-1355d2cb0916" deferrability="7" deleteRule="3" fk-table-ref="TAB716" fkCardinality="7" identifying="false" name="frbs_notes_ibfk_1" physicalName="frbs_notes_ibfk_1" pk-table-ref="TAB700" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP884" populated="true" UUID="ca326226-8d1e-4095-8f9d-9c58924b9772" fk-column-ref="COL718" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL701" />
    </relationship>
-   <relationship id="REL900" populated="true" UUID="f2e0f4d3-4e8c-440f-b08f-01853f938fec" deferrability="7" deleteRule="3" fk-table-ref="TAB725" fkCardinality="7" identifying="false" name="observations_ibfk_1" physicalName="observations_ibfk_1" pk-table-ref="TAB700" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP901" populated="true" UUID="a5bb6592-e288-4856-8304-ec2638302ed1" fk-column-ref="COL727" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL701" />
+   <relationship id="REL885" populated="true" UUID="f2e0f4d3-4e8c-440f-b08f-01853f938fec" deferrability="7" deleteRule="3" fk-table-ref="TAB726" fkCardinality="7" identifying="false" name="observations_ibfk_1" physicalName="observations_ibfk_1" pk-table-ref="TAB700" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP886" populated="true" UUID="a5bb6592-e288-4856-8304-ec2638302ed1" fk-column-ref="COL728" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL701" />
    </relationship>
-   <relationship id="REL902" populated="true" UUID="ad81b9ee-bc0d-4f77-b97f-adf9c959d94c" deferrability="7" deleteRule="3" fk-table-ref="TAB737" fkCardinality="7" identifying="true" name="observations_observations_have_refs_fk" physicalName="observations_observations_have_refs_fk" pk-table-ref="TAB725" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP903" populated="true" UUID="2780a695-09d4-4ee3-9744-857d618a3639" fk-column-ref="COL738" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL726" />
+   <relationship id="REL887" populated="true" UUID="ad81b9ee-bc0d-4f77-b97f-adf9c959d94c" deferrability="7" deleteRule="3" fk-table-ref="TAB739" fkCardinality="7" identifying="true" name="observations_observations_have_refs_fk" physicalName="observations_observations_have_refs_fk" pk-table-ref="TAB726" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP888" populated="true" UUID="2780a695-09d4-4ee3-9744-857d618a3639" fk-column-ref="COL740" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL727" />
    </relationship>
-   <relationship id="REL904" populated="true" UUID="4d4517f0-6d3f-4559-8ce8-153aa711e4f0" deferrability="7" deleteRule="3" fk-table-ref="TAB743" fkCardinality="7" identifying="false" name="observations_notes_ibfk_1" physicalName="observations_notes_ibfk_1" pk-table-ref="TAB725" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP905" populated="true" UUID="44035292-f72b-4870-9031-097bb460e215" fk-column-ref="COL745" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL726" />
+   <relationship id="REL889" populated="true" UUID="4d4517f0-6d3f-4559-8ce8-153aa711e4f0" deferrability="7" deleteRule="3" fk-table-ref="TAB745" fkCardinality="7" identifying="false" name="observations_notes_ibfk_1" physicalName="observations_notes_ibfk_1" pk-table-ref="TAB726" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP890" populated="true" UUID="44035292-f72b-4870-9031-097bb460e215" fk-column-ref="COL747" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL727" />
    </relationship>
-   <relationship id="REL906" populated="true" UUID="ec0945ed-3591-4370-b43f-b3a03fc6e690" deferrability="7" deleteRule="3" fk-table-ref="TAB847" fkCardinality="7" identifying="false" name="radio_obs_params_ibfk_1" physicalName="radio_obs_params_ibfk_1" pk-table-ref="TAB725" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP907" populated="true" UUID="1b8d88b4-24e6-4635-b4e7-5d8de5008f48" fk-column-ref="COL849" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL726" />
+   <relationship id="REL891" populated="true" UUID="ec0945ed-3591-4370-b43f-b3a03fc6e690" deferrability="7" deleteRule="3" fk-table-ref="TAB817" fkCardinality="7" identifying="false" name="radio_obs_params_ibfk_1" physicalName="radio_obs_params_ibfk_1" pk-table-ref="TAB726" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP892" populated="true" UUID="1b8d88b4-24e6-4635-b4e7-5d8de5008f48" fk-column-ref="COL819" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL727" />
    </relationship>
-   <relationship id="REL908" populated="true" UUID="998dd7f4-0062-4d89-bad3-fe7ba681e1d4" deferrability="7" deleteRule="3" fk-table-ref="TAB831" fkCardinality="7" identifying="true" name="radio_measured_params_radio_measured_params_have_refs_fk" physicalName="radio_measured_params_radio_measured_params_have_refs_fk" pk-table-ref="TAB796" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP909" populated="true" UUID="3e601fe1-3b3f-4fd3-85fa-8f759579a41a" fk-column-ref="COL832" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL797" />
+   <relationship id="REL893" populated="true" UUID="998dd7f4-0062-4d89-bad3-fe7ba681e1d4" deferrability="7" deleteRule="3" fk-table-ref="TAB801" fkCardinality="7" identifying="true" name="radio_measured_params_radio_measured_params_have_refs_fk" physicalName="radio_measured_params_radio_measured_params_have_refs_fk" pk-table-ref="TAB763" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP894" populated="true" UUID="3e601fe1-3b3f-4fd3-85fa-8f759579a41a" fk-column-ref="COL802" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL764" />
    </relationship>
-   <relationship id="REL910" populated="true" UUID="86695e45-edf7-4b5e-b85c-5bfdda115e85" deferrability="7" deleteRule="3" fk-table-ref="TAB837" fkCardinality="7" identifying="false" name="radio_measured_params_notes_ibfk_1" physicalName="radio_measured_params_notes_ibfk_1" pk-table-ref="TAB796" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP911" populated="true" UUID="ce625035-6503-4c29-aeb8-b86bd4ffef18" fk-column-ref="COL839" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL797" />
+   <relationship id="REL895" populated="true" UUID="86695e45-edf7-4b5e-b85c-5bfdda115e85" deferrability="7" deleteRule="3" fk-table-ref="TAB807" fkCardinality="7" identifying="false" name="radio_measured_params_notes_ibfk_1" physicalName="radio_measured_params_notes_ibfk_1" pk-table-ref="TAB763" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP896" populated="true" UUID="ce625035-6503-4c29-aeb8-b86bd4ffef18" fk-column-ref="COL809" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL764" />
    </relationship>
-   <relationship id="REL912" populated="true" UUID="9aab998d-e10a-4ec6-8494-056df78c1ec3" deferrability="7" deleteRule="3" fk-table-ref="TAB786" fkCardinality="7" identifying="false" name="radio_images_fk" physicalName="radio_images_fk" pk-table-ref="TAB847" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP913" populated="true" UUID="fc4e6411-533b-4517-863f-54cacb9b8d0a" fk-column-ref="COL788" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL848" />
+   <relationship id="REL897" populated="true" UUID="05309978-6566-4bb6-bee0-8781c5f136e2" deferrability="7" deleteRule="3" fk-table-ref="TAB755" fkCardinality="7" identifying="true" name="radio_measured_params_radio_images_fk" physicalName="radio_measured_params_radio_images_fk" pk-table-ref="TAB763" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP898" populated="true" UUID="200438ef-f926-4887-8796-150eb4d16182" fk-column-ref="COL757" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL764" />
    </relationship>
-   <relationship id="REL914" populated="true" UUID="e9c74203-8c4a-4801-b04a-a70ecec9b47b" deferrability="7" deleteRule="3" fk-table-ref="TAB796" fkCardinality="7" identifying="false" name="radio_obs_params_radio_measured_params_fk" physicalName="radio_obs_params_radio_measured_params_fk" pk-table-ref="TAB847" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP915" populated="true" UUID="d17a8317-a823-4c60-98ce-1997bf0462fe" fk-column-ref="COL798" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL848" />
+   <relationship id="REL899" populated="true" UUID="e9c74203-8c4a-4801-b04a-a70ecec9b47b" deferrability="7" deleteRule="3" fk-table-ref="TAB763" fkCardinality="7" identifying="false" name="radio_obs_params_radio_measured_params_fk" physicalName="radio_obs_params_radio_measured_params_fk" pk-table-ref="TAB817" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP900" populated="true" UUID="d17a8317-a823-4c60-98ce-1997bf0462fe" fk-column-ref="COL765" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL818" />
    </relationship>
-   <relationship id="REL916" populated="true" UUID="2504ac14-0c15-47f4-8f79-7c744ca3687a" deferrability="7" deleteRule="3" fk-table-ref="TAB878" fkCardinality="7" identifying="false" name="radio_obs_params_radio_obs_params_notes_fk" physicalName="radio_obs_params_radio_obs_params_notes_fk" pk-table-ref="TAB847" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP917" populated="true" UUID="55e9c787-7fb1-4220-892d-98b9ce95e591" fk-column-ref="COL880" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL848" />
+   <relationship id="REL901" populated="true" UUID="2504ac14-0c15-47f4-8f79-7c744ca3687a" deferrability="7" deleteRule="3" fk-table-ref="TAB849" fkCardinality="7" identifying="false" name="radio_obs_params_radio_obs_params_notes_fk" physicalName="radio_obs_params_radio_obs_params_notes_fk" pk-table-ref="TAB817" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP902" populated="true" UUID="55e9c787-7fb1-4220-892d-98b9ce95e591" fk-column-ref="COL851" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL818" />
    </relationship>
-   <relationship id="REL918" populated="true" UUID="dd559c14-3c5f-48ed-8e44-83eaed8b89af" deferrability="7" deleteRule="3" fk-table-ref="TAB872" fkCardinality="7" identifying="true" name="radio_obs_params_radio_obs_params_have_refs_fk" physicalName="radio_obs_params_radio_obs_params_have_refs_fk" pk-table-ref="TAB847" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP919" populated="true" UUID="6adb6461-91ab-4460-9cbd-0804b250e669" fk-column-ref="COL873" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL848" />
+   <relationship id="REL903" populated="true" UUID="dd559c14-3c5f-48ed-8e44-83eaed8b89af" deferrability="7" deleteRule="3" fk-table-ref="TAB843" fkCardinality="7" identifying="true" name="radio_obs_params_radio_obs_params_have_refs_fk" physicalName="radio_obs_params_radio_obs_params_have_refs_fk" pk-table-ref="TAB817" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP904" populated="true" UUID="6adb6461-91ab-4460-9cbd-0804b250e669" fk-column-ref="COL844" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL818" />
    </relationship>
-   <relationship id="REL920" populated="true" UUID="d5c7ec11-7cc9-427b-9a03-69bb740c1a98" deferrability="7" deleteRule="3" fk-table-ref="TAB709" fkCardinality="7" identifying="true" name="refs_frbs_have_refs_fk" physicalName="refs_frbs_have_refs_fk" pk-table-ref="TAB888" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP921" populated="true" UUID="15f94fbc-4667-482b-8f31-82c77d3ade3d" fk-column-ref="COL711" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL889" />
+   <relationship id="REL905" populated="true" UUID="d5c7ec11-7cc9-427b-9a03-69bb740c1a98" deferrability="7" deleteRule="3" fk-table-ref="TAB710" fkCardinality="7" identifying="true" name="refs_frbs_have_refs_fk" physicalName="refs_frbs_have_refs_fk" pk-table-ref="TAB859" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP906" populated="true" UUID="15f94fbc-4667-482b-8f31-82c77d3ade3d" fk-column-ref="COL712" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL860" />
    </relationship>
-   <relationship id="REL922" populated="true" UUID="c481d8fb-edab-4c38-b3f0-255207ddd2d9" deferrability="7" deleteRule="3" fk-table-ref="TAB737" fkCardinality="7" identifying="true" name="refs_observations_have_refs_fk" physicalName="refs_observations_have_refs_fk" pk-table-ref="TAB888" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP923" populated="true" UUID="e2048303-6bba-4330-b175-aaef04749a38" fk-column-ref="COL739" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL889" />
+   <relationship id="REL907" populated="true" UUID="c481d8fb-edab-4c38-b3f0-255207ddd2d9" deferrability="7" deleteRule="3" fk-table-ref="TAB739" fkCardinality="7" identifying="true" name="refs_observations_have_refs_fk" physicalName="refs_observations_have_refs_fk" pk-table-ref="TAB859" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP908" populated="true" UUID="e2048303-6bba-4330-b175-aaef04749a38" fk-column-ref="COL741" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL860" />
    </relationship>
-   <relationship id="REL924" populated="true" UUID="521d3075-e82c-47f5-9bdc-e17d6829e866" deferrability="7" deleteRule="3" fk-table-ref="TAB831" fkCardinality="7" identifying="true" name="refs_radio_measured_params_have_refs_fk" physicalName="refs_radio_measured_params_have_refs_fk" pk-table-ref="TAB888" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP925" populated="true" UUID="1e420f7a-8c25-4638-88f4-2f74d88cb198" fk-column-ref="COL833" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL889" />
+   <relationship id="REL909" populated="true" UUID="521d3075-e82c-47f5-9bdc-e17d6829e866" deferrability="7" deleteRule="3" fk-table-ref="TAB801" fkCardinality="7" identifying="true" name="refs_radio_measured_params_have_refs_fk" physicalName="refs_radio_measured_params_have_refs_fk" pk-table-ref="TAB859" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP910" populated="true" UUID="1e420f7a-8c25-4638-88f4-2f74d88cb198" fk-column-ref="COL803" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL860" />
    </relationship>
-   <relationship id="REL926" populated="true" UUID="ac637ceb-8ca8-4413-9431-d2bf61f4277a" deferrability="7" deleteRule="3" fk-table-ref="TAB872" fkCardinality="7" identifying="true" name="refs_radio_obs_params_have_refs_fk" physicalName="refs_radio_obs_params_have_refs_fk" pk-table-ref="TAB888" pkCardinality="2" updateRule="3" >
-    <column-mapping id="CMP927" populated="true" UUID="d092dba3-453f-4bed-9f44-b5eb609b25ab" fk-column-ref="COL874" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL889" />
+   <relationship id="REL911" populated="true" UUID="ac637ceb-8ca8-4413-9431-d2bf61f4277a" deferrability="7" deleteRule="3" fk-table-ref="TAB843" fkCardinality="7" identifying="true" name="refs_radio_obs_params_have_refs_fk" physicalName="refs_radio_obs_params_have_refs_fk" pk-table-ref="TAB859" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP912" populated="true" UUID="d092dba3-453f-4bed-9f44-b5eb609b25ab" fk-column-ref="COL845" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL860" />
+   </relationship>
+   <relationship id="REL913" populated="true" UUID="73984b7a-dbdd-41b7-ac15-2f23e37b3754" deferrability="7" deleteRule="3" fk-table-ref="TAB700" fkCardinality="7" identifying="false" name="authors_frbs_fk" physicalName="authors_frbs_fk" pk-table-ref="TAB867" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP914" populated="true" UUID="cdb62c8d-b215-42dd-8426-b73800de53fd" fk-column-ref="COL702" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL868" />
+   </relationship>
+   <relationship id="REL915" populated="true" UUID="5981b94f-20eb-46ee-aa3d-516cb659b307" deferrability="7" deleteRule="3" fk-table-ref="TAB726" fkCardinality="7" identifying="false" name="authors_observations_fk" physicalName="authors_observations_fk" pk-table-ref="TAB867" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP916" populated="true" UUID="8618f249-463b-4746-8f30-578b05e16612" fk-column-ref="COL729" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL868" />
+   </relationship>
+   <relationship id="REL917" populated="true" UUID="e6435abb-e0f7-411f-9a1c-9f3c258a29f4" deferrability="7" deleteRule="3" fk-table-ref="TAB817" fkCardinality="7" identifying="false" name="authors_radio_obs_params_fk" physicalName="authors_radio_obs_params_fk" pk-table-ref="TAB867" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP918" populated="true" UUID="3561bf35-7d9f-4fb8-a160-35f475f1adc3" fk-column-ref="COL820" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL868" />
+   </relationship>
+   <relationship id="REL919" populated="true" UUID="41d562ef-9f3e-49f2-b003-e7f5d90b1452" deferrability="7" deleteRule="3" fk-table-ref="TAB763" fkCardinality="7" identifying="false" name="authors_radio_measured_params_fk" physicalName="authors_radio_measured_params_fk" pk-table-ref="TAB867" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP920" populated="true" UUID="93ac59b6-6c28-46af-b31a-b606fd1e34fc" fk-column-ref="COL766" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL868" />
    </relationship>
   </relationships>
  </target-database>
  <ddl-generator type="ca.sqlpower.architect.ddl.MySqlDDLGenerator" allow-connection="true"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.9999999999999994" viewportX="186" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
-  <table-pane table-ref="TAB700" x="288" y="51" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB709" x="253" y="201" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB715" x="40" y="36" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB725" x="559" y="36" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB737" x="507" y="203" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB743" x="808" y="42" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB753" x="36" y="171" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB786" x="1315" y="35" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB796" x="1320" y="264" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB831" x="661" y="395" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB837" x="971" y="446" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB847" x="1051" y="32" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB872" x="741" y="204" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB878" x="1318" y="149" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB888" x="432" y="338" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-link relationship-ref="REL896" pkConnection="0.45454545454545453" fkConnection="0.17592592592592593" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
-  <table-link relationship-ref="REL898" pkConnection="0.5058823529411764" fkConnection="0.6565656565656566" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL900" pkConnection="0.5294117647058824" fkConnection="0.47244094488188976" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL902" pkConnection="0.4975124378109453" fkConnection="0.5092592592592593" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
-  <table-link relationship-ref="REL904" pkConnection="0.3937007874015748" fkConnection="0.6363636363636364" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL908" pkConnection="0.24721603563474387" fkConnection="0.3508771929824561" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL910" pkConnection="0.5679287305122495" fkConnection="0.6161616161616161" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
-  <table-link relationship-ref="REL912" pkConnection="0.22653721682847897" fkConnection="0.7070707070707071" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL906" pkConnection="0.8976377952755905" fkConnection="0.48220064724919093" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL920" pkConnection="0.3291139240506329" fkConnection="0.37244897959183676" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="72"/>
-  <table-link relationship-ref="REL922" pkConnection="0.6835443037974683" fkConnection="0.4" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="72"/>
-  <table-link relationship-ref="REL924" pkConnection="0.7070707070707071" fkConnection="0.6491228070175439" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL926" pkConnection="0.40404040404040403" fkConnection="0.5447154471544715" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="65"/>
-  <table-link relationship-ref="REL914" pkConnection="0.8543689320388349" fkConnection="0.12694877505567928" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL916" pkConnection="0.5080906148867314" fkConnection="0.45454545454545453" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
-  <table-link relationship-ref="REL918" pkConnection="0.5663430420711975" fkConnection="0.5964912280701754" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
+ <play-pen zoom="0.7071067811865467" viewportX="48" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+  <table-pane table-ref="TAB700" x="80" y="210" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB710" x="312" y="408" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB716" x="80" y="408" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB726" x="398" y="210" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB739" x="566" y="410" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB745" x="694" y="282" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB755" x="1121" y="765" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB763" x="1187" y="216" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB801" x="516" y="643" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB807" x="804" y="762" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB817" x="931" y="212" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB843" x="558" y="516" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB849" x="852" y="564" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB859" x="311" y="538" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB867" x="787" y="21" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-link relationship-ref="REL881" pkConnection="0.6727272727272727" fkConnection="0.5714285714285714" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL883" pkConnection="0.21363636363636362" fkConnection="0.6617647058823529" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL885" pkConnection="0.5294117647058824" fkConnection="0.47244094488188976" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL887" pkConnection="0.4975124378109453" fkConnection="0.5092592592592593" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL889" pkConnection="0.3937007874015748" fkConnection="0.6363636363636364" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL893" pkConnection="0.9755011135857461" fkConnection="0.5789473684210527" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL895" pkConnection="0.34210526315789475" fkConnection="0.7854671280276817" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL891" pkConnection="0.2204724409448819" fkConnection="0.12944983818770225" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL905" pkConnection="0.3291139240506329" fkConnection="0.37244897959183676" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL907" pkConnection="0.6835443037974683" fkConnection="0.04608294930875576" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL909" pkConnection="0.7070707070707071" fkConnection="0.6491228070175439" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL911" pkConnection="0.5757575757575758" fkConnection="0.5447154471544715" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="65"/>
+  <table-link relationship-ref="REL899" pkConnection="0.3818770226537217" fkConnection="0.12694877505567928" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL901" pkConnection="0.34782608695652173" fkConnection="0.39473684210526316" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL903" pkConnection="0.5663430420711975" fkConnection="0.9007633587786259" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="130"/>
+  <table-link relationship-ref="REL897" pkConnection="0.6037735849056604" fkConnection="0.6193771626297578" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL913" pkConnection="0.6580645161290323" fkConnection="0.5136363636363637" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="130"/>
+  <table-link relationship-ref="REL915" pkConnection="0.8193548387096774" fkConnection="0.4482758620689655" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="130"/>
+  <table-link relationship-ref="REL917" pkConnection="0.8258064516129032" fkConnection="0.6231884057971014" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="129"/>
+  <table-link relationship-ref="REL919" pkConnection="0.6580645161290323" fkConnection="0.5" rLineColor="0x4c4c4c" pkLabelText="" fkLabelText="" orientation="129"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">
