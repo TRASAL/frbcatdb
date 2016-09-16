@@ -124,8 +124,8 @@ REFERENCES observations (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
-# Radio observed parameters
-CREATE TABLE radio_observed_params (
+# Radio observations parameters
+CREATE TABLE radio_observations_params (
   id INT UNSIGNED AUTO_INCREMENT NOT NULL,
   obs_id INT UNSIGNED NOT NULL,
   author_id INT UNSIGNED NOT NULL,
@@ -149,25 +149,25 @@ CREATE TABLE radio_observed_params (
   ne2001_dm_limit FLOAT NOT NULL,
   PRIMARY KEY (id)
 );
-ALTER TABLE radio_observed_params MODIFY COLUMN pointing_error FLOAT COMMENT 'pointing accuracy in arcsec';
-ALTER TABLE radio_observed_params MODIFY COLUMN FWHM FLOAT COMMENT 'FWHM of beam in arcmin';
-ALTER TABLE radio_observed_params MODIFY COLUMN bandwidth FLOAT COMMENT 'in MHz';
-ALTER TABLE radio_observed_params MODIFY COLUMN centre_frequency FLOAT COMMENT 'in MHz';
-ALTER TABLE radio_observed_params MODIFY COLUMN channel_bandwidth FLOAT COMMENT 'in MHz';
-ALTER TABLE radio_observed_params MODIFY COLUMN gain FLOAT COMMENT 'K/Jy';
-ALTER TABLE radio_observed_params MODIFY COLUMN tsys FLOAT COMMENT 'K';
-ALTER TABLE radio_observed_params ADD CONSTRAINT radio_observed_params_author_id_fk
+ALTER TABLE radio_observations_params MODIFY COLUMN pointing_error FLOAT COMMENT 'pointing accuracy in arcsec';
+ALTER TABLE radio_observations_params MODIFY COLUMN FWHM FLOAT COMMENT 'FWHM of beam in arcmin';
+ALTER TABLE radio_observations_params MODIFY COLUMN bandwidth FLOAT COMMENT 'in MHz';
+ALTER TABLE radio_observations_params MODIFY COLUMN centre_frequency FLOAT COMMENT 'in MHz';
+ALTER TABLE radio_observations_params MODIFY COLUMN channel_bandwidth FLOAT COMMENT 'in MHz';
+ALTER TABLE radio_observations_params MODIFY COLUMN gain FLOAT COMMENT 'K/Jy';
+ALTER TABLE radio_observations_params MODIFY COLUMN tsys FLOAT COMMENT 'K';
+ALTER TABLE radio_observations_params ADD CONSTRAINT radio_observations_params_author_id_fk
 FOREIGN KEY (author_id)
 REFERENCES authors (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE radio_observed_params ADD CONSTRAINT radio_observed_params_obs_id_fk
+ALTER TABLE radio_observations_params ADD CONSTRAINT radio_observations_params_obs_id_fk
 FOREIGN KEY (obs_id)
 REFERENCES observations (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
-CREATE TABLE radio_observed_params_notes (
+CREATE TABLE radio_observations_params_notes (
   id INT UNSIGNED AUTO_INCREMENT NOT NULL,
   rop_id INT UNSIGNED NOT NULL,
   last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -175,25 +175,25 @@ CREATE TABLE radio_observed_params_notes (
   note LONGTEXT NOT NULL,
   PRIMARY KEY (id)
 );
-ALTER TABLE radio_observed_params_notes ADD CONSTRAINT radio_observed_params_notes_rop_id_fk
+ALTER TABLE radio_observations_params_notes ADD CONSTRAINT radio_observations_params_notes_rop_id_fk
 FOREIGN KEY (rop_id)
-REFERENCES radio_observed_params (id)
+REFERENCES radio_observations_params (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
-CREATE TABLE radio_observed_params_have_publications (
+CREATE TABLE radio_observations_params_have_publications (
   rop_id INT UNSIGNED NOT NULL,
   pub_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (rop_id, pub_id)
 );
-ALTER TABLE radio_observed_params_have_publications ADD CONSTRAINT radio_observed_params_have_publications_pub_id_fk
+ALTER TABLE radio_observations_params_have_publications ADD CONSTRAINT radio_observations_params_have_publications_pub_id_fk
 FOREIGN KEY (pub_id)
 REFERENCES publications (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE radio_observed_params_have_publications ADD CONSTRAINT radio_observed_params_have_publications_rop_id_fk
+ALTER TABLE radio_observations_params_have_publications ADD CONSTRAINT radio_observations_params_have_publications_rop_id_fk
 FOREIGN KEY (rop_id)
-REFERENCES radio_observed_params (id)
+REFERENCES radio_observations_params (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 
@@ -237,7 +237,7 @@ CREATE TABLE radio_measured_params (
 ALTER TABLE radio_measured_params MODIFY COLUMN scattering_time FLOAT COMMENT 'At 1 GHz';
 ALTER TABLE radio_measured_params ADD CONSTRAINT radio_measured_params_rop_id_fk
 FOREIGN KEY (rop_id)
-REFERENCES radio_observed_params (id)
+REFERENCES radio_observations_params (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
 ALTER TABLE radio_measured_params ADD CONSTRAINT radio_measured_params_author_id_fk
@@ -279,13 +279,23 @@ ON UPDATE NO ACTION;
 # Images
 CREATE TABLE radio_images (
   id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  rmp_id INT UNSIGNED  NOT NULL,
   title TEXT,
   caption LONGTEXT,
   image LONGBLOB,
   PRIMARY KEY (id)
 );
-ALTER TABLE radio_images ADD CONSTRAINT radio_images_rmp_id_fk
+
+CREATE TABLE radio_images_have_radio_measured_params (
+  radio_image_id INT UNSIGNED NOT NULL,
+  rmp_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (radio_image_id, rmp_id)
+);
+ALTER TABLE radio_images_have_radio_measured_params ADD CONSTRAINT radio_images_have_radio_measured_params_radio_image_id_fk
+FOREIGN KEY (radio_image_id)
+REFERENCES radio_images (id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+ALTER TABLE radio_images_have_radio_measured_params ADD CONSTRAINT radio_measured_params_have_publications_rmp_id_fk
 FOREIGN KEY (rmp_id)
 REFERENCES radio_measured_params (id)
 ON DELETE NO ACTION
