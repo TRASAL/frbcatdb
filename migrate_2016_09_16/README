@@ -1,0 +1,11 @@
+This migration / update is to make frbcat ready to handle voevents.
+we need ivorn handling. This is done adding a ivorn to the radio_measured_params and an authors table
+we add a column in radio_measured_params as well to store a copy of the xml
+we also make table and column names consistent
+
+for the migration:
+
+1- we run the create_db_new_tables to create the new tables in the same DB. The tables which have the same name as before have a "new_" prefix
+2- insert into the new tables the old data with the fill_db_new_table script
+3- drop the old tables with drop_db_old_tables
+4- rename the tables with "new_" to the old names with rename_db_tables

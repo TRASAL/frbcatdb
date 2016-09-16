@@ -1,4 +1,0 @@
-This migration / update is to make frbcat ready to handle voevents.
-we need ivorn handling. This is done adding a ivorn to the radio_measured_params and an authors table
-we add a column in radio_measured_params as well to store a copy of the xml
-a new voevent (that is not correction/retraction) means for sure new line in radio_measured_params and possible new lines in rest of main tables
