@@ -1,6 +1,0 @@
-To migrate the frbcat DB to the new schema (as of 20160804) there are two options:
-
-1 - Run ./alter_db.csh . This will make the changes necessary in the DB with schema prior to 20160804
-
-2 - Drop the old DB and create a new one and load the new data and schema with the ../load_db.csh
-    Note the ../dump_db.dat has been updated to contain a dump of the Db with the new schema
