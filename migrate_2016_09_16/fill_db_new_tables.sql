@@ -15,7 +15,7 @@ insert into new_observations_notes (id, obs_id, last_modified, author, note) sel
 
 insert into observations_have_publications (obs_id,pub_id) select obs_id, reference_id from observations_have_refs;
 
-insert into radio_observed_params (id, obs_id, author_id, receiver, backend, beam, raj, decj, gl, gb, pointing_error, FWHM, sampling_time, bandwidth, centre_frequency, bits_per_sample, gain, tsys, ne2001_dm_limit) select id, obs_id, 1, receiver, backend, beam, raj, decj, gl, gb, pointing_error, FWHM, sampling_time, bandwidth, centre_frequency, bits_per_sample, gain, tsys, ne2001_dm_limit from radio_obs_params;
+insert into radio_observed_params (id, obs_id, author_id, receiver, backend, beam, raj, decj, gl, gb, pointing_error, FWHM, sampling_time, bandwidth, centre_frequency, npol, channel_bandwidth, bits_per_sample, gain, tsys, ne2001_dm_limit) select id, obs_id, 1, receiver, backend, beam, raj, decj, gl, gb, pointing_error, FWHM, sampling_time, bandwidth, centre_frequency, npol, channel_bandwidth, bits_per_sample, gain, tsys, ne2001_dm_limit from radio_obs_params;
 
 insert into radio_observed_params_notes (id, rop_id, last_modified, author, note) select id, radio_obs_param_id, last_modified, author, note from radio_obs_params_notes;
 
