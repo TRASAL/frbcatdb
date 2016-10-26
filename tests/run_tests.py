@@ -11,7 +11,7 @@ c = MySQLdb.connect('localhost','travis_pymysql','password',dbName)
 cursor = c.cursor()
 n = cursor.execute('SELECT * from frbs')
 if n != 3:
-    print 'expected 3!'
+    print('expected 3!')
     sys.exit(1)
 
 c.close()
