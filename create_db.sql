@@ -59,12 +59,12 @@ CREATE TABLE frbs_have_publications (
   pub_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (frb_id, pub_id)
 );
-ALTER TABLE frbs_have_publications ADD CONSTRAINT frbs_have_publications_pub_id_fk
+ALTER TABLE frbs_have_publications ADD CONSTRAINT frbs_have_pubs_pub_id_fk
 FOREIGN KEY (pub_id)
 REFERENCES publications (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE frbs_have_publications ADD CONSTRAINT frbs_have_publications_frb_id_fk
+ALTER TABLE frbs_have_publications ADD CONSTRAINT frbs_have_pubs_frb_id_fk
 FOREIGN KEY (frb_id)
 REFERENCES frbs (id)
 ON DELETE NO ACTION
@@ -83,12 +83,12 @@ CREATE TABLE observations (
   PRIMARY KEY (id)
 );
 ALTER TABLE observations MODIFY COLUMN utc DATETIME COMMENT 'start_utc';
-ALTER TABLE observations ADD CONSTRAINT observations_author_id_fk
+ALTER TABLE observations ADD CONSTRAINT obs_author_id_fk
 FOREIGN KEY (author_id)
 REFERENCES authors (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE observations ADD CONSTRAINT observations_frb_id_fk
+ALTER TABLE observations ADD CONSTRAINT obs_frb_id_fk
 FOREIGN KEY (frb_id)
 REFERENCES frbs (id)
 ON DELETE NO ACTION
@@ -102,7 +102,7 @@ CREATE TABLE observations_notes (
   note LONGTEXT NOT NULL,
   PRIMARY KEY (id)
 );
-ALTER TABLE observations_notes ADD CONSTRAINT observations_notes_obs_id_fk
+ALTER TABLE observations_notes ADD CONSTRAINT obs_notes_obs_id_fk
 FOREIGN KEY (obs_id)
 REFERENCES observations (id)
 ON DELETE NO ACTION
@@ -113,12 +113,12 @@ CREATE TABLE observations_have_publications (
   pub_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (obs_id, pub_id)
 );
-ALTER TABLE observations_have_publications ADD CONSTRAINT observations_have_publications_pub_id_fk
+ALTER TABLE observations_have_publications ADD CONSTRAINT obs_have_pubs_pub_id_fk
 FOREIGN KEY (pub_id)
 REFERENCES publications (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE observations_have_publications ADD CONSTRAINT observations_have_publications_obs_id_fk
+ALTER TABLE observations_have_publications ADD CONSTRAINT obs_have_pubs_obs_id_fk
 FOREIGN KEY (obs_id)
 REFERENCES observations (id)
 ON DELETE NO ACTION
@@ -156,12 +156,12 @@ ALTER TABLE radio_observations_params MODIFY COLUMN centre_frequency FLOAT COMME
 ALTER TABLE radio_observations_params MODIFY COLUMN channel_bandwidth FLOAT COMMENT 'in MHz';
 ALTER TABLE radio_observations_params MODIFY COLUMN gain FLOAT COMMENT 'K/Jy';
 ALTER TABLE radio_observations_params MODIFY COLUMN tsys FLOAT COMMENT 'K';
-ALTER TABLE radio_observations_params ADD CONSTRAINT radio_observations_params_author_id_fk
+ALTER TABLE radio_observations_params ADD CONSTRAINT radio_obs_params_author_id_fk
 FOREIGN KEY (author_id)
 REFERENCES authors (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE radio_observations_params ADD CONSTRAINT radio_observations_params_obs_id_fk
+ALTER TABLE radio_observations_params ADD CONSTRAINT radio_obs_params_obs_id_fk
 FOREIGN KEY (obs_id)
 REFERENCES observations (id)
 ON DELETE NO ACTION
@@ -175,7 +175,7 @@ CREATE TABLE radio_observations_params_notes (
   note LONGTEXT NOT NULL,
   PRIMARY KEY (id)
 );
-ALTER TABLE radio_observations_params_notes ADD CONSTRAINT radio_observations_params_notes_rop_id_fk
+ALTER TABLE radio_observations_params_notes ADD CONSTRAINT radio_obs_params_notes_rop_id_fk
 FOREIGN KEY (rop_id)
 REFERENCES radio_observations_params (id)
 ON DELETE NO ACTION
@@ -186,12 +186,12 @@ CREATE TABLE radio_observations_params_have_publications (
   pub_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (rop_id, pub_id)
 );
-ALTER TABLE radio_observations_params_have_publications ADD CONSTRAINT radio_observations_params_have_publications_pub_id_fk
+ALTER TABLE radio_observations_params_have_publications ADD CONSTRAINT radio_obs_params_have_pubs_pub_id_fk
 FOREIGN KEY (pub_id)
 REFERENCES publications (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE radio_observations_params_have_publications ADD CONSTRAINT radio_observations_params_have_publications_rop_id_fk
+ALTER TABLE radio_observations_params_have_publications ADD CONSTRAINT radio_obs_params_have_pubs_rop_id_fk
 FOREIGN KEY (rop_id)
 REFERENCES radio_observations_params (id)
 ON DELETE NO ACTION
@@ -235,12 +235,12 @@ CREATE TABLE radio_measured_params (
   PRIMARY KEY (id)
 );
 ALTER TABLE radio_measured_params MODIFY COLUMN scattering_time FLOAT COMMENT 'At 1 GHz';
-ALTER TABLE radio_measured_params ADD CONSTRAINT radio_measured_params_rop_id_fk
+ALTER TABLE radio_measured_params ADD CONSTRAINT radio_meas_params_rop_id_fk
 FOREIGN KEY (rop_id)
 REFERENCES radio_observations_params (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE radio_measured_params ADD CONSTRAINT radio_measured_params_author_id_fk
+ALTER TABLE radio_measured_params ADD CONSTRAINT radio_meas_params_author_id_fk
 FOREIGN KEY (author_id)
 REFERENCES authors (id)
 ON DELETE NO ACTION
@@ -254,7 +254,7 @@ CREATE TABLE radio_measured_params_notes (
   note LONGTEXT NOT NULL,
   PRIMARY KEY (id)
 );
-ALTER TABLE radio_measured_params_notes ADD CONSTRAINT radio_measured_params_notes_rmp_id_fk
+ALTER TABLE radio_measured_params_notes ADD CONSTRAINT radio_meas_params_notes_rmp_id_fk
 FOREIGN KEY (rmp_id)
 REFERENCES radio_measured_params (id)
 ON DELETE NO ACTION
@@ -265,12 +265,12 @@ CREATE TABLE radio_measured_params_have_publications (
   pub_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (rmp_id, pub_id)
 );
-ALTER TABLE radio_measured_params_have_publications ADD CONSTRAINT radio_measured_params_have_publications_rmp_id_fk
+ALTER TABLE radio_measured_params_have_publications ADD CONSTRAINT radio_meas_params_have_pubs_rmp_id_fk
 FOREIGN KEY (rmp_id)
 REFERENCES radio_measured_params (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE radio_measured_params_have_publications ADD CONSTRAINT radio_measured_params_have_publications_pub_id_fk
+ALTER TABLE radio_measured_params_have_publications ADD CONSTRAINT radio_meas_params_have_pubs_pub_id_fk
 FOREIGN KEY (pub_id)
 REFERENCES publications (id)
 ON DELETE NO ACTION
@@ -290,12 +290,14 @@ CREATE TABLE radio_images_have_radio_measured_params (
   rmp_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (radio_image_id, rmp_id)
 );
-ALTER TABLE radio_images_have_radio_measured_params ADD CONSTRAINT radio_images_have_radio_measured_params_radio_image_id_fk
+
+ALTER TABLE radio_images_have_radio_measured_params ADD CONSTRAINT radio_images_have_radio_meas_params_radio_image_id_fk
 FOREIGN KEY (radio_image_id)
 REFERENCES radio_images (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
-ALTER TABLE radio_images_have_radio_measured_params ADD CONSTRAINT radio_measured_params_have_publications_rmp_id_fk
+
+ALTER TABLE radio_images_have_radio_measured_params ADD CONSTRAINT radio_images_have_radio_meas_params_rmp_id_fk
 FOREIGN KEY (rmp_id)
 REFERENCES radio_measured_params (id)
 ON DELETE NO ACTION

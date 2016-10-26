@@ -1,0 +1,8 @@
+language: bash
+services:
+  - mysql
+before_script:
+  - mysql -e 'create database myapp_test;'
+script:
+  - cd tests
+  - ./test_create_db.sh
