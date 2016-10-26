@@ -1,8 +1,12 @@
-language: bash
-services:
-  - mysql
+language: python
+python:
+  - "3.5"
+services: mysql
+install:
+  - pip install mysqlclient
 before_script:
-  - mysql -e 'create database myapp_test;'
+  - mysql -e 'create database frbcatdb_test;'
+  - mysql -u root -e "create user travis_pymysql identified by 'password'; grant all on frbcatdb_test.* to travis_pymysql;"
 script:
   - cd tests
-  - ./test_create_db.sh
+  - python run_tests.py

@@ -1,5 +1,7 @@
 # frbcatdb
 
+[![Build Status](https://travis-ci.org/AA-ALERT/frbcatdb.svg?branch=master)](https://travis-ci.org/AA-ALERT/frbcatdb)
+
 Database for storing the FRB catalogue. This DB contains old FRB events and will
 also contain new FRBs as detected by the AA-ALERT FRB detection pipeline from Apertif
 observations.
