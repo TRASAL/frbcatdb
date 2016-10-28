@@ -1,0 +1,1 @@
+from pyfrbcatdb import FRBCat

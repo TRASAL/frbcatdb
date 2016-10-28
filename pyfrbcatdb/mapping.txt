@@ -1,0 +1,131 @@
+-----------------------------------------------------------------------------------------------------
+FRBCAT TABLE/                FRBCAT COLUMN/             FRBCAT TYPE/   VOEvent TYPE/  VOEvent/      VOEvent_alt
+-----------------------------------------------------------------------------------------------------
+authors/                      ivorn/                    INT UNSIGNED/   /             Who.AuthorIVORN/
+authors/                      title/                    INT UNSIGNED/
+authors/                      logo_url/                 INT UNSIGNED/
+authors/                      short_name/               INT UNSIGNED/   /             Who.Author.shortName
+authors/                      contact_name/             INT UNSIGNED/   /             Who.Author.contactName
+authors/                      contact_email/             INT UNSIGNED/  /             Who.Author.contactEmail
+authors/                      contact_phone/            INT UNSIGNED/   /             Who.Author.contactPhone
+authors/                      other_information/        INT UNSIGNED/
+
+frbs/                         id/                        INT UNSIGNED/  /             /
+frbs/                         name/                      VARCHAR/       /             Why.Name/     Why.Inference.Name
+frbs/                         utc/                       TIMESTAMP/     /             /             WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Time.TimeInstant.ISOTime
+frbs/                         private/                   TINYINT/       Param/        /             What.Param
+frbs/                         author_id/                 INT UNSIGNED/
+
+frbs_notes/                   id/                        INT UNSIGNED/  /
+frbs_notes/                   frb_id/                    INT UNSIGNED/  /
+frbs_notes/                   last_modified/             TIMESTAMP/     /             Who.Date/
+frbs_notes/                   author/                    VARCHAR/       /             Who.AUthorIVORN/
+frbs_notes/                   note/                      LONGTEXT/      Param/        /
+
+frbs_have_publications/       frb_id/                    INT_UNSIGNED/  /
+frbs_have_publications/       pub_id/                    INT UNSIGNED/  /
+
+observations/                 id/                        INT UNSIGNED/  /
+observations/                 frb_id/                    INT UNSIGNED/  /
+observations/                 author_id/                 INT UNSIGNED/
+observations/                 type/                      TEXT/          Param/        /
+observations/                 telescope/                 TEXT/          /             WhereWhen.ObsDataLocation.ObservatoryLocation.@id/
+observations/                 utc/                       TIMESTAMP/     ISOTime/      WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Time.TimeInstant.ISOTime/
+observations/                 data_link/                 TEXT/          Param/        /
+observations/                 detected/                  TINYINT/       Param/        /
+
+observations_notes/           id/                        INT UNSIGNED/  /
+observations_notes/           obs_id/                    INT UNSIGNED/  /
+observations_notes/           last_modified/             TIMESTAMP/     /             Who.Date/
+observations_notes/           author/                    VARCHAR/       /             Who.AuthorIVORN/
+observations_notes/           note/                      LONGTEXT/      /             /
+
+radio_observations_params/             id/                        INT UNSIGNED/  /
+radio_observations_params/             obs_id/                    INT UNSIGNED/  /
+radio_observations_params/             author_id/                 INT UNSIGNED/
+radio_observations_params/             receiver/                  TEXT/          Param/        Obs_Params/
+radio_observations_params/             backend/                   TEXT/          Param/        Obs_Params/
+radio_observations_params/             beam/                      VARCHAR/       Param/        Obs_Params/
+radio_observations_params/             raj/                       VARCHAR/       Coord/        WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Position2D/
+radio_observations_params/             decj/                      VARCHAR/       Coord/        WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Position2D/
+radio_observations_params/             gl/                        FLOAT/         Coord/        WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Position2D/
+radio_observations_params/             gb/                        FLOAT/         Coord/        WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Position2D/
+radio_observations_params/             pointing_error/            FLOAT/         Coord/        WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Position2D.Error2Radius/
+radio_observations_params/             FWHM/                      FLOAT/         Param/        Obs_Params/
+radio_observations_params/             sampling_time/             FLOAT/         Param/        Obs_Params/
+radio_observations_params/             bandwidth/                 FLOAT/         Param/        Obs_Params/
+radio_observations_params/             centre_frequency/          FLOAT/         Param/        Obs_Params/
+radio_observations_params/             npol/                      INT/           Param/        Obs_Params/
+radio_observations_params/             channel_bandwidth/         FLOAT/         Param/        Obs_Params/
+radio_observations_params/             bits_per_sample/           TINYINT/       Param/        Obs_Params/
+radio_observations_params/             gain/                      FLOAT/         Param/        Obs_Params/
+radio_observations_params/             tsys/                      FLOAT/         Param/        Obs_Params/
+radio_observations_params/             ne2001_dm_limit/           FLOAT/         Param/        Obs_Params/
+
+radio_observations_params_notes/       id/                        INT UNSIGNED/  /
+radio_observations_params_notes/       rop_id/                    INT UNSIGNED/  /
+radio_observations_params_notes/       last_modified/             TIMESTAMP/     /             Who.Date/
+radio_observations_params_notes/       author/                    VARCHAR/       /             Who.AuthorIVORN/
+radio_observations_params_notes/       note/                      LONGTEXT/      Param/        /              How
+
+radio_measured_params/        id/                        INT UNSIGNED/  /
+radio_measured_params/        rop_id/                    INT UNSIGNED/  /
+radio_measured_params/        author_id/                 INT UNSIGNED/  /             /
+radio_measured_params/        voevent_ivorn/             VARCHAR/       attrib/       ivorn/
+radio_measured_params/        voevent_xml/               CLOB/          XML/          /
+radio_measured_params/        dm/                        FLOAT/         Param/        Meas_Params/
+radio_measured_params/        dm_error/                  FLOAT/         Param/        Meas_Params/
+radio_measured_params/        snr/                       FLOAT/         Param/        Meas_Params/
+radio_measured_params/        width/                     FLOAT/         Param/        Meas_Params/
+radio_measured_params/        width_error_upper/         FLOAT/         Param/        Meas_Params/
+radio_measured_params/        width_error_lower/         FLOAT/         Param/        Meas_Params/
+radio_measured_params/        flux/                      FLOAT/         Param/        Meas_Params/
+radio_measured_params/        flux_prefix/               VARCHAR/       Param/        Meas_Params/
+radio_measured_params/        flux_error_upper/          FLOAT/         Param/        Meas_Params/
+radio_measured_params/        flux_error_lower/          FLOAT/         Param/        Meas_Params/
+radio_measured_params/        flux_calibrated/           TINYINT/       Param/        Meas_Params/
+radio_measured_params/        dm_index/                  FLOAT/         Param/        Meas_Params/
+radio_measured_params/        dm_index_error/            FLOAT/         Param/        Meas_Params/
+radio_measured_params/        scattering_index/          FLOAT/         Param/        Meas_Params/
+radio_measured_params/        scattering_index_error/    FLOAT/         Param/        Meas_Params/
+radio_measured_params/        scattering_time/           FLOAT/         Param/        Meas_Params/
+radio_measured_params/        scattering_time_error/     FLOAT/         Param/        Meas_Params/
+radio_measured_params/        linear_poln_frac/          FLOAT/         Param/        Meas_Params/
+radio_measured_params/        linear_poln_frac_error/    FLOAT/         Param/        Meas_Params/
+radio_measured_params/        circular_poln_frac/        FLOAT/         Param/        Meas_Params/
+radio_measured_params/        circular_poln_frac_error/  FLOAT/         Param/        Meas_Params/
+radio_measured_params/        spectral_index/            FLOAT/         Param/        Meas_Params/
+radio_measured_params/        spectral_index_error/      FLOAT/         Param/        Meas_Params/
+radio_measured_params/        z_phot/                    FLOAT/         Param/        Meas_Params/
+radio_measured_params/        z_phot_error/              FLOAT/         Param/        Meas_Params/
+radio_measured_params/        z_spec/                    FLOAT/         Param/        Meas_Params/
+radio_measured_params/        z_spec_error/              FLOAT/         Param/        Meas_Params/
+radio_measured_params/        rank/                      INT/           Param/        Meas_Params/
+
+radio_measured_params_notes/  id/                        INT UNSIGNED/  /
+radio_measured_params_notes/  rmp_id/   INT UNSIGNED/  /
+radio_measured_params_notes/  last_modified/             TIMESTAMP/     /             Who.Date/
+radio_measured_params_notes/  author/                    VARCHAR/       /             Who.AuthorIVORN/
+radio_measured_params_notes/  note/                      LONGTEXT/      Param/        What.Param/
+
+radio_measured_params_have_publications/    rmp_id/     INT_UNSIGNED/   /
+radio_measured_params_have_publications/    pub_id/     INT UNSIGNED/   /
+
+radio_observations_params_have_publications/    rop_id/     INT_UNSIGNED/   /
+radio_observations_params_have_publications/    pub_id/     INT UNSIGNED/   /
+
+radio_images/                 id/                        INT UNSIGNED/  /
+radio_images/                 title/                     TEXT/          Param/        image_name_type=image/
+radio_images/                 caption/                   LONGTEXT/      Param/        image_name_type=image/
+radio_images/                 image/                     LONGBLOB/      Param/        image_name_type=image/
+
+radio_images_have_radio_measured_params/    radio_image_id/   INT UNSIGNED/   /
+radio_images_have_radio_measured_params/    rmp_id/           INT UNSIGNED/   /
+
+publications                  id/                        INT UNSIGNED/  /
+publications/                 type/                      TEXT/          Param/        reference_name_type=reference/
+publications/                 reference/                 TEXT/          Param/        reference_name_type=reference/
+publications/                 link/                      TEXT/          Param/        reference_name_type=reference/
+publications/                 description/               TEXT/          Param/        reference_name_type=reference/
+
+

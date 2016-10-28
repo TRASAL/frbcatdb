@@ -1,4 +1,4 @@
 db_secrets.txt
-setenv.sh
 .htaccess
 .htpasswd
+*.pyc

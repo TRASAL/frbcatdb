@@ -3,10 +3,15 @@ python:
   - "3.5"
 services: mysql
 install:
-  - pip install mysqlclient
+  - pip install .
+  - pip install -r requirements.txt
+  - pip install coverage
 before_script:
-  - mysql -e 'create database frbcatdb_test;'
-  - mysql -u root -e "create user travis_pymysql identified by 'password'; grant all on frbcatdb_test.* to travis_pymysql;"
+  - mysql -e 'create database frbcat_test;'
+  - mysql -u root -e "create user travis_pymysql identified by 'password'; grant all on frbcat_test.* to travis_pymysql;"
+  - mysql -utravis_pymysql -ppassword frbcat_test < db/create_db_tables.sql
+  - mysql -utravis_pymysql -ppassword frbcat_test < tests/fill_db_test_data.sql
 script:
-  - cd tests
-  - python run_tests.py
+  - nosetests tests --with-coverage --cover-tests --cover-package=pyfrbcatdb
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

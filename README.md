@@ -1,22 +1,16 @@
 # frbcatdb
 
-[![Build Status](https://travis-ci.org/AA-ALERT/frbcatdb.svg?branch=master)](https://travis-ci.org/AA-ALERT/frbcatdb)
+[![Build Status](https://travis-ci.org/AA-ALERT/frbcatdb.svg?branch=master)](https://travis-ci.org/AA-ALERT/frbcatdb)[![codecov](https://codecov.io/gh/AA-ALERT/frbcatdb/branch/master/graph/badge.svg)](https://codecov.io/gh/AA-ALERT/frbcatdb)
 
-Database for storing the FRB catalogue. This DB contains old FRB events and will
-also contain new FRBs as detected by the AA-ALERT FRB detection pipeline from Apertif
-observations.
+The frbcatdb is a database to store a catalog of Fast Radio Bursts (FRBs).
+The DB is intended to contain old FRB events as well as new FRBs detected by the
+AA-ALERT FRB detection pipeline from Apertif observations and also possible follow-up observations or others FRBs detected by other telescopes.
+The frbcatdb is attached to the VOEvent backbone and uses this infrastructure as its source.
 
-create_db.sql can be used to create an empty DB with the schema tables.
+The `db` folder contains scripts to create an empty frbcat DB (`create_db.csh`),
+to import it from an existing dump file (`import_db.sh`) and
+to dump an existing DB to a dump file (`dump_db.csh`).
+It also contains the model (Entity-Relationship diagram) to be opened with mysql-workbench. ![frbcatdb ER diagram](db/frbcatdb.png)
 
-load_db.csh (which uses dump_db.dat) loads a backup of the DB. For this, first create a empty DB (without the schema tables), i.e.:
-
-```
-$bash>  mysql -u <user> --password=<password>
-$mysql> create database frbcat;
-$mysql> exit;
-$bash>  ./load_db.csh
-```
-
-db.architect contains a Entity-Relationship diagram of the DB and can be opened and edited with SQL Power Architect (http://www.sqlpower.ca/page/architect).
-
-![FRB Catalogue ER diagram](db.architect.pdf)
+The `pyfrbcatdb` is Python package for manipulating the frbcatdb and its linking
+with the VOEvent backbone.

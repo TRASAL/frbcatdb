@@ -1,3 +1,0 @@
-RENAME TABLE radio_observed_params TO radio_observations_params;
-RENAME TABLE radio_observed_params_notes TO radio_observations_params_notes;
-RENAME TABLE radio_observed_params_have_publications TO radio_observations_params_have_publications;

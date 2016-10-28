@@ -1,9 +1,0 @@
-This migration / update is to fix a confusing table Name
-and to add the radio_images_have_rmp
-So, a radio image can be linked to one or more radio_measured_params
-
-For this migration
-
-1 - rename the tables with rename.sql
-2 - create the radio_images_have_radio_measured_params with create.sql
-3 - fill the new table with fill.db
