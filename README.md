@@ -1,6 +1,6 @@
 # frbcatdb
 
-[![Build Status](https://travis-ci.org/AA-ALERT/frbcatdb.svg?branch=master)](https://travis-ci.org/AA-ALERT/frbcatdb)[![codecov](https://codecov.io/gh/AA-ALERT/frbcatdb/branch/master/graph/badge.svg)](https://codecov.io/gh/AA-ALERT/frbcatdb)
+[![Build Status](https://travis-ci.org/AA-ALERT/frbcatdb.svg?branch=master)](https://travis-ci.org/AA-ALERT/frbcatdb)[![codecov](https://codecov.io/gh/AA-ALERT/frbcatdb/branch/master/graph/badge.svg)](https://codecov.io/gh/AA-ALERT/frbcatdb)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/de13488f778e4843a8922ee2417a3416)](https://www.codacy.com/app/omrubi/frbcatdb?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AA-ALERT/frbcatdb&amp;utm_campaign=Badge_Grade)
 
 The frbcatdb is a database to store a catalog of Fast Radio Bursts (FRBs).
 The DB is intended to contain old FRB events as well as new FRBs detected by the
