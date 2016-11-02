@@ -2,3 +2,4 @@ db_secrets.txt
 .htaccess
 .htpasswd
 *.pyc
+.coverage

@@ -10,7 +10,7 @@ import pymysql.cursors
 
 
 def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
-                dbPort=None):
+                dbPort=None, dbCursor=pymysql.cursors.DictCursor):
     '''
     Connect to a specified MySQL DB and return connection and cursor objects.
     '''
@@ -21,12 +21,12 @@ def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
                                      user=userName,
                                      password=dbPassword,
                                      db=dbName,
-                                     cursorclass=pymysql.cursors.DictCursor)
-    except Exception as E:
-        err_msg = 'Unable to connect to {} DB.'.format(dbName)
+                                     cursorclass=dbCursor)
+    except:
+        # err_msg = 'Unable to connect to {} DB.'.format(dbName)
         # logging.error((err_msg, "; %s: %s" % (E.__class__.__name__, E)))
         raise
-    msg = 'Successful connected to {} DB.'.format(dbName)
+    # msg = 'Successful connected to {} DB.'.format(dbName)
     # logging.debug(msg)
     # if the connection succeeded get a cursor
     cursor = connection.cursor()
@@ -39,7 +39,7 @@ def closeDBConnection(connection, cursor):
     '''
     cursor.close()
     connection.close()
-    msg = 'Connection to the DB is closed.'
+    # msg = 'Connection to the DB is closed.'
     # logging.debug(msg)
     return
 

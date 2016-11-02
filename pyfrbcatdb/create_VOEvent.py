@@ -3,8 +3,6 @@ description:    Create a db entry for a VOEvent
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
-
-import argparse
 import voeventparse as vp
 import pandas
 from pyfrbcatdb import dbase
@@ -17,7 +15,7 @@ def get_param(param_data, mapping, idx):
     '''
     Get param data for a given attribute
     '''
-    mapping['VOEvent TYPE'][idx] not in ['Param', 'Coord', 'ISOTime']
+    # mapping['VOEvent TYPE'][idx] not in ['Param', 'Coord', 'ISOTime']
     try:
         return (param_data[mapping['VOEvent'].iloc[idx]]
                 [mapping['FRBCAT COLUMN'].iloc[idx]])

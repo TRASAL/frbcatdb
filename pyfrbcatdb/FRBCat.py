@@ -3,8 +3,6 @@ description:    FRBCat functionality for pyAccess
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
-
-import pymysql.cursors
 import pandas as pd
 from pyfrbcatdb import dbase as dbase
 from pyfrbcatdb import utils as utils
@@ -12,7 +10,6 @@ import os
 import sys
 from numpy import append as npappend
 from numpy import array as nparray
-from pyfrbcatdb import dbase
 from numpy import where as npwhere
 from numpy import ravel as npravel
 import voeventparse as vp
@@ -80,7 +77,7 @@ class FRBCat_add:
         '''
         rows = npappend(rows, ('frb_id'))
         value = npappend(value, (self.frb_id))
-        frb_notes_id = self.insert_into_database(table, rows, value)
+        self.insert_into_database(table, rows, value)
 
     def add_frbs_have_publications(self, table, rows, value):
         '''
@@ -128,7 +125,7 @@ class FRBCat_add:
         '''
         rows = npappend(rows, ('rop_id'))
         value = npappend(value, (self.rop_id))
-        rop_notes_id = self.insert_into_database(table, rows, value)
+        self.insert_into_database(table, rows, value)
 
     def add_radio_observations_params_have_publications(
       self, table, rows, value):
@@ -224,7 +221,7 @@ class FRBCat_add:
             for row in rows:
                 # extract value from pandas dataframe
                 try:
-                    value
+                    # value
                     value.append(to_add.loc[to_add['FRBCAT COLUMN'] == row][
                         'value'].values[0])
                 except UnboundLocalError:
