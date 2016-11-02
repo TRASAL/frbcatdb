@@ -6,7 +6,7 @@ from pyfrbcatdb import dbase as dbase
 class BasicDBTest(unittest.TestCase):
     def setUp(self):
         self.connection, self.cursor = dbase.connectToDB(dbHost='localhost',
-                                            dbName='frbcat_test',
+                                            dbName='frbcat',
                                             userName='travis_pymysql',
                                             dbPassword='password',
                                             dbCursor=pymysql.cursors.Cursor)
@@ -19,7 +19,7 @@ class BasicDBTest(unittest.TestCase):
         'observations': 'id,frb_id,author_id,type,telescope,utc,data_link,detected',
         'observations_have_publications': 'obs_id,pub_id',
         'observations_notes': 'id,obs_id,last_modified,author,note',
-        'radio_observations_params': 'id,obs_id,author_id,receiver,backend,beam,raj,decj,gl,gb,pointing_error,FWHM,sampling_time,bandwidth,centre_frequency,npol,channel_bandwidth,bits_per_sample,gain,tsys,ne2001_dm_limit',
+        'radio_observations_params': 'id,obs_id,author_id,settings_id,receiver,backend,beam,raj,decj,gl,gb,pointing_error,FWHM,sampling_time,bandwidth,centre_frequency,npol,channel_bandwidth,bits_per_sample,gain,tsys,ne2001_dm_limit',
         'radio_observations_params_have_publications': 'rop_id,pub_id',
         'radio_observations_params_notes': 'id,rop_id,last_modified,author,note',
         'radio_measured_params': 'id,rop_id,author_id,voevent_ivorn,voevent_xml,dm,dm_error,snr,width,width_error_upper,width_error_lower,flux,flux_prefix,flux_error_upper,flux_error_lower,flux_calibrated,dm_index,dm_index_error,scattering_index,scattering_index_error,scattering_time,scattering_time_error,linear_poln_frac,linear_poln_frac_error,circular_poln_frac,circular_poln_frac_error,spectral_index,spectral_index_error,z_phot,z_phot_error,z_spec,z_spec_error,rank',
@@ -48,7 +48,7 @@ class BasicDBTest(unittest.TestCase):
         'observations': (1,1,1,'type 1','telescope 1',datetime.datetime(2001, 1, 24, 23, 29, 14),'http://data111/',1),
         'observations_have_publications': (1,1),
         'observations_notes': (1,4,datetime.datetime(2016, 3, 13, 5, 45, 12),'J. Doe','some note'),
-        'radio_observations_params': (1,1,1,'receiver 1','backend 1','beam 1','19:06:53','-40:37:14',356.641,-20.0206,11,15,0.125,288,1372.5,2,None,1,0.69,28,110),
+        'radio_observations_params': (1,1,1,None,'receiver 1','backend 1','beam 1','19:06:53','-40:37:14',356.641,-20.0206,11,15,0.125,288,1372.5,2,None,1,0.69,28,110),
         'radio_observations_params_have_publications': (1,1),
         'radio_observations_params_notes': (1,2,datetime.datetime(2016, 3, 13, 5, 45, 12),'J. Doe','some note'),
         'radio_measured_params': (1,1,1,'ivo://unknown','',790,3,17,9.4,0.2,0.2,0.3,'',None,None,0,2,0.01,-4.2,1.2,None,None,None,None,None,None,None,None,None,None,None,None,1),

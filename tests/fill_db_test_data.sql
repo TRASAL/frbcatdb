@@ -9,10 +9,10 @@ INSERT INTO `observations` VALUES (1,1,1,'type 1','telescope 1','2001-01-24 23:2
 INSERT INTO `observations_have_publications` VALUES (1,1),(2,1),(1,2),(2,2),(1,3),(2,3),(3,3),(4,3);
 INSERT INTO `observations_notes` VALUES (1,4,'2016-03-13 05:45:12','J. Doe','some note');
 
-INSERT INTO `radio_observations_params` VALUES (1,1,1,'receiver 1','backend 1','beam 1','19:06:53','-40:37:14',356.641,-20.0206,11,15,0.125,288,1372.5,2,NULL,1,0.69,28,110);
-INSERT INTO `radio_observations_params` VALUES (2,2,1,'receiver 1','backend 2','beam 2','19:06:53','-40:37:14',356.641,-20.0206,NULL,NULL,0.25, NULL,NULL, 2,NULL,2,NULL,NULL,523.5);
-INSERT INTO `radio_observations_params` VALUES (3,3,1,'receiver 2','backend 1','beam 1','05:07:55','-30:90:21',45.2,12.2,NULL,NULL,0.25, NULL,NULL, 1,NULL,2,NULL,NULL,523.5);
-INSERT INTO `radio_observations_params` VALUES (4,4,1,'receiver 3','backend 1','beam 1','21:21:43','22:32:43',31,-20.4,NULL,NULL,0.25, NULL,NULL, 2,NULL,2,NULL,NULL,523.5);
+INSERT INTO `radio_observations_params` VALUES (1,1,1,NULL,'receiver 1','backend 1','beam 1','19:06:53','-40:37:14',356.641,-20.0206,11,15,0.125,288,1372.5,2,NULL,1,0.69,28,110);
+INSERT INTO `radio_observations_params` VALUES (2,2,1,NULL,'receiver 1','backend 2','beam 2','19:06:53','-40:37:14',356.641,-20.0206,NULL,NULL,0.25, NULL,NULL, 2,NULL,2,NULL,NULL,523.5);
+INSERT INTO `radio_observations_params` VALUES (3,3,1,NULL,'receiver 2','backend 1','beam 1','05:07:55','-30:90:21',45.2,12.2,NULL,NULL,0.25, NULL,NULL, 1,NULL,2,NULL,NULL,523.5);
+INSERT INTO `radio_observations_params` VALUES (4,4,1,NULL,'receiver 3','backend 1','beam 1','21:21:43','22:32:43',31,-20.4,NULL,NULL,0.25, NULL,NULL, 2,NULL,2,NULL,NULL,523.5);
 INSERT INTO `radio_observations_params_have_publications` VALUES (1,1),(2,1),(1,2),(2,2),(1,3),(2,3),(3,3),(4,3);
 INSERT INTO `radio_observations_params_notes` VALUES (1,2,'2016-03-13 05:45:12','J. Doe','some note');
 
