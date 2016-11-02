@@ -274,6 +274,7 @@ CREATE TABLE IF NOT EXISTS `frbcat`.`radio_measured_params` (
   PRIMARY KEY (`id`),
   INDEX `radio_measured_params_rop_id_fk` (`rop_id` ASC),
   INDEX `radio_measured_params_author_id_fk` (`author_id` ASC),
+  UNIQUE INDEX `voevent_ivorn_UNIQUE` (`voevent_ivorn` ASC),
   CONSTRAINT `radio_measured_params_author_id_fk`
     FOREIGN KEY (`author_id`)
     REFERENCES `frbcat`.`authors` (`id`)
