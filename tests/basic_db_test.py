@@ -48,7 +48,7 @@ class BasicDBTest(unittest.TestCase):
         'observations': (1,1,1,'type 1','telescope 1',datetime.datetime(2001, 1, 24, 23, 29, 14),'http://data111/',1),
         'observations_have_publications': (1,1),
         'observations_notes': (1,4,datetime.datetime(2016, 3, 13, 5, 45, 12),'J. Doe','some note'),
-        'radio_observations_params': (1,1,1,None,'receiver 1','backend 1','beam 1','19:06:53','-40:37:14',356.641,-20.0206,11,15,0.125,288,1372.5,2,None,1,0.69,28,110),
+        'radio_observations_params': (1,1,1,'settings1','receiver 1','backend 1','beam 1','19:06:53','-40:37:14',356.641,-20.0206,11,15,0.125,288,1372.5,2,None,1,0.69,28,110),
         'radio_observations_params_have_publications': (1,1),
         'radio_observations_params_notes': (1,2,datetime.datetime(2016, 3, 13, 5, 45, 12),'J. Doe','some note'),
         'radio_measured_params': (1,1,1,'ivo://unknown:frb1','',790,3,17,9.4,0.2,0.2,0.3,'',None,None,0,2,0.01,-4.2,1.2,None,None,None,None,None,None,None,None,None,None,None,None,1),
@@ -134,14 +134,14 @@ class BasicDBTest(unittest.TestCase):
         self.assertEqual(1, self.cursor.execute(sql, 'ivo://unknown2'))
 
         sql = "INSERT INTO frbs (author_id,name,utc) VALUES (%s,%s,%s)"
-        self.assertEqual(1, self.cursor.execute(sql, (1,"NEW FRB",datetime.datetime(2016, 10, 30, 00, 00, 01))))
+        self.assertEqual(1, self.cursor.execute(sql, (1,"NEW FRB",datetime.datetime(2016, 10, 30, 0, 0, 1))))
         sql = "DELETE FROM frbs WHERE name = %s"
         self.assertEqual(1, self.cursor.execute(sql, "NEW FRB"))
 
         sql = "INSERT INTO observations (frb_id,author_id,telescope,utc) VALUES (%s,%s,%s,%s)"
-        self.assertEqual(1, self.cursor.execute(sql, (1,1,'eye',datetime.datetime(2016, 10, 30, 00, 00, 01))))
+        self.assertEqual(1, self.cursor.execute(sql, (1,1,'eye',datetime.datetime(2016, 10, 30, 0, 0, 1))))
         sql = "DELETE FROM observations WHERE frb_id = %s AND author_id = %s AND telescope = %s AND utc = %s"
-        self.assertEqual(1, self.cursor.execute(sql, (1,1,'eye',datetime.datetime(2016, 10, 30, 00, 00, 01))))
+        self.assertEqual(1, self.cursor.execute(sql, (1,1,'eye',datetime.datetime(2016, 10, 30, 0, 0, 1))))
 
         sql = "INSERT INTO radio_observations_params (obs_id,author_id,settings_id,raj,decj) VALUES (%s,%s,%s,%s,%s)"
         self.assertEqual(1, self.cursor.execute(sql, (1,1,'mycustomsettings','00:00:00','00:00:00')))
@@ -154,12 +154,19 @@ class BasicDBTest(unittest.TestCase):
         self.assertEqual(1, self.cursor.execute(sql, 'ivo://unknown_new'))
 
     def test_07_insert_check_unique_main(self):
+        # Test uniqueness of authors: ivorn must be unique
         sql = "INSERT INTO authors (ivorn) VALUES (%s)"
         self.assertRaises(pymysql.err.IntegrityError, self.cursor.execute, sql, 'ivo://unknown')
-
+        # Test uniquess of frb: name must be unique
         sql = "INSERT INTO frbs (author_id,name,utc) VALUES (%s,%s,%s)"
-        self.assertRaises(pymysql.err.IntegrityError, self.cursor.execute, sql, (1,"FRB010125",datetime.datetime(2016, 10, 30, 00, 00, 01)))
-
+        self.assertRaises(pymysql.err.IntegrityError, self.cursor.execute, sql, (1,"FRB010125",datetime.datetime(2016, 10, 30, 0, 0, 1)))
+        # Test uniquess of observation: frb_id,telescope,utc must be unique
+        sql = "INSERT INTO observations (frb_id,author_id,telescope,utc) VALUES (%s,%s,%s,%s)"
+        self.assertRaises(pymysql.err.IntegrityError, self.cursor.execute, sql, (1,1,'telescope 1',datetime.datetime(2001, 1, 24, 23, 29, 14)))
+        # Test uniquess of rop: obs_id,settings_id must be unique
+        sql = "INSERT INTO radio_observations_params (obs_id,author_id,settings_id,raj,decj) VALUES (%s,%s,%s,%s,%s)"
+        self.assertRaises(pymysql.err.IntegrityError, self.cursor.execute, sql, (1,1,'settings1','19:06:53','-40:37:14'))
+        # Test uniquess of rmp: voevent_ivorn must be unique
         sql = "INSERT INTO radio_measured_params (rop_id,author_id,voevent_ivorn,voevent_xml) VALUES (%s,%s,%s,%s)"
         self.assertRaises(pymysql.err.IntegrityError, self.cursor.execute, sql, (1,1,'ivo://unknown:frb4',''))
 

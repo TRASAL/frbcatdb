@@ -111,13 +111,14 @@ CREATE TABLE IF NOT EXISTS `frbcat`.`observations` (
   `frb_id` INT(10) UNSIGNED NOT NULL,
   `author_id` INT(10) UNSIGNED NOT NULL,
   `type` TEXT NULL DEFAULT NULL,
-  `telescope` TEXT NOT NULL,
+  `telescope` VARCHAR(128) NOT NULL,
   `utc` DATETIME NOT NULL,
   `data_link` TEXT NULL DEFAULT NULL,
   `detected` TINYINT(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   INDEX `observations_author_id_fk` (`author_id` ASC),
   INDEX `observations_frb_id_fk` (`frb_id` ASC),
+  UNIQUE INDEX `observations_unique` (`frb_id` ASC, `telescope` ASC, `utc` ASC),
   CONSTRAINT `observations_author_id_fk`
     FOREIGN KEY (`author_id`)
     REFERENCES `frbcat`.`authors` (`id`)
@@ -197,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `frbcat`.`radio_observations_params` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `obs_id` INT(10) UNSIGNED NOT NULL,
   `author_id` INT(10) UNSIGNED NOT NULL,
-  `settings_id` VARCHAR(255) NULL DEFAULT NULL,
+  `settings_id` VARCHAR(255) NOT NULL,
   `receiver` TEXT NULL DEFAULT NULL,
   `backend` TEXT NULL DEFAULT NULL,
   `beam` VARCHAR(8) NULL DEFAULT NULL,
@@ -217,8 +218,9 @@ CREATE TABLE IF NOT EXISTS `frbcat`.`radio_observations_params` (
   `tsys` FLOAT NULL DEFAULT NULL COMMENT 'K',
   `ne2001_dm_limit` FLOAT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `radio_observed_params_author_id_fk` (`author_id` ASC),
-  INDEX `radio_observed_params_obs_id_fk` (`obs_id` ASC),
+  INDEX `rop_author_id_fk` (`author_id` ASC),
+  INDEX `rop_obs_id_fk` (`obs_id` ASC),
+  UNIQUE INDEX `rop_unique` (`obs_id` ASC, `settings_id` ASC),
   CONSTRAINT `radio_observed_params_author_id_fk`
     FOREIGN KEY (`author_id`)
     REFERENCES `frbcat`.`authors` (`id`)
@@ -272,9 +274,9 @@ CREATE TABLE IF NOT EXISTS `frbcat`.`radio_measured_params` (
   `z_spec_error` FLOAT NULL DEFAULT NULL,
   `rank` INT(10) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `radio_measured_params_rop_id_fk` (`rop_id` ASC),
-  INDEX `radio_measured_params_author_id_fk` (`author_id` ASC),
-  UNIQUE INDEX `voevent_ivorn_UNIQUE` (`voevent_ivorn` ASC),
+  INDEX `rmp_rop_id_fk` (`rop_id` ASC),
+  INDEX `rmp_author_id_fk` (`author_id` ASC),
+  UNIQUE INDEX `rmp_unique` (`voevent_ivorn` ASC),
   CONSTRAINT `radio_measured_params_author_id_fk`
     FOREIGN KEY (`author_id`)
     REFERENCES `frbcat`.`authors` (`id`)
