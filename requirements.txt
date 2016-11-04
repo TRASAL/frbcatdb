@@ -1,4 +1,5 @@
 voevent-parse
 pandas
 pymysql
-
+coverage
+nose
