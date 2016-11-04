@@ -23,7 +23,7 @@ class FRBCat_add:
         self.cursor = cursor
         self.mapping = mapping
 
-    def author_exists(self, ivorn):
+    def check_author_exists(self, ivorn):
         '''
         Check if author already exists in database
         if author is found, set self.author_id
@@ -37,7 +37,7 @@ class FRBCat_add:
             self.author_id = author_id['id']
             return True
 
-    def event_exists(self, ivorn):
+    def check_event_exists(self, ivorn):
         '''
         Check if event ivorn already exists in database
         if event is found, set self.event_id
@@ -58,7 +58,7 @@ class FRBCat_add:
         # check if author already exists in database
         # TODO: try/except
         ivorn = value[npwhere(rows == 'ivorn')][0]
-        author_exists = self.author_exists(ivorn)
+        author_exists = self.check_author_exists(ivorn)
         # add author to database if author does not yet exist in db
         if not author_exists:
             self.author_id = self.insert_into_database(table, rows, value)
@@ -101,7 +101,7 @@ class FRBCat_add:
         '''
         rows = npappend(rows, ('obs_id'))
         value = npappend(value, (self.obs_id))
-        obs_notes_id = self.insert_into_database(table, rows, value)
+        self.insert_into_database(table, rows, value)
 
     def add_observations_have_publications(self, table, rows, value):
         '''
@@ -143,7 +143,7 @@ class FRBCat_add:
         rows = npappend(rows, ('rop_id', 'author_id'))
         value = npappend(value, (self.rop_id, self.author_id))
         ivorn = value[npwhere(rows == 'voevent_ivorn')][0]
-        self.event_exists = self.event_exists(ivorn)
+        self.event_exists = self.check_event_exists(ivorn)
         # add event to the database if it does not exist yet
         if not self.event_exists:
             self.rmp_id = self.insert_into_database(table, rows, value)
@@ -154,7 +154,7 @@ class FRBCat_add:
         '''
         rows = npappend(rows, ('rmp_id'))
         value = npappend(value, (self.rmp_id))
-        rmp_notes_id = self.insert_into_database(table, rows, value)
+        self.insert_into_database(table, rows, value)
 
     def add_radio_measured_params_have_publications(self, table, rows, value):
         '''
