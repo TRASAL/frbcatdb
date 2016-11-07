@@ -161,8 +161,6 @@ def new_FRBCat_entry(mapping):
     '''
     # connect to database
     # TODO: add connection details
-    connection, cursor = dbase.connectToDB(dbName='frbcat',
-                                           userName='aa-alert',
-                                           dbPassword='aa-alert')
+    connection, cursor = dbase.connectToDB()
     FRBCat = FRBCat_add(connection, cursor, mapping)
     FRBCat.add_VOEvent_to_FRBCat()

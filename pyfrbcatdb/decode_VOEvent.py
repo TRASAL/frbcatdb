@@ -14,9 +14,8 @@ def decode_FRBCat_entry(frb_ids):
     # load mapping VOEvent -> FRBCat
     # connect to database
     # TODO: add connection details
-    connection, cursor = dbase.connectToDB(dbName='frbcat',
-                                           userName='aa-alert',
-                                           dbPassword='aa-alert')
+    connection, cursor = dbase.connectToDB()
+
     for frb_id in frb_ids:
         FRBCat = FRBCat_decode(connection, cursor, frb_id)
         FRBCat.decode_VOEvent_from_FRBCat()

@@ -5,12 +5,12 @@ description:    Common database functionality for pyAccess
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
-
+import pymysql
 import pymysql.cursors
+from pyfrbcatdb import config
 
-
-def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
-                dbPort=None, dbCursor=pymysql.cursors.DictCursor):
+def connectToDB(dbName=config.DB_NAME, userName=config.USER_NAME, dbPassword=config.USER_PASSWORD, dbHost=config.DB_HOST,
+                dbPort=config.DB_PORT, dbCursor=pymysql.cursors.DictCursor):
     '''
     Connect to a specified MySQL DB and return connection and cursor objects.
     '''
