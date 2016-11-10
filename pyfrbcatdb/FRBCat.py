@@ -15,7 +15,7 @@ from numpy import ravel as npravel
 import voeventparse as vp
 import datetime
 import re
-
+import pymysql
 
 class FRBCat_add:
     def __init__(self, connection, cursor, mapping):
@@ -191,10 +191,54 @@ class FRBCat_add:
 
     def insert_into_database(self, table, rows, value):
         row_sql = ', '.join(map(str, rows))
-        self.cursor.execute("INSERT INTO {} ({}) VALUES {}".format(
-                            table, row_sql, tuple(value)))
-        return self.connection.insert_id()  # alternatively cursor.lastrowid
-
+        try:
+            print(table)
+            self.cursor.execute("INSERT INTO {} ({}) VALUES {}".format(
+                                table, row_sql, tuple(value)))
+            return self.connection.insert_id()  # alternatively cursor.lastrowid
+        except pymysql.err.IntegrityError:
+            # database IntegrityError
+            if table == 'authors':
+                # authors table should have unique ivorn
+                sql = "select id from {} WHERE id = '{}'".format(
+                    table, value[rows=='ivorn'][0])
+            elif table == 'frbs':
+                # frbs table should have unique name
+                sql = "select id from {} WHERE name = '{}'".format(
+                    table, value[rows=='name'][0])
+            elif table == 'observations':
+                # observation table should have an unique combination of
+                # frb_id, telescope, utc
+                sql = """select id from {} WHERE frb_id = '{}' AND
+                         telescope = '{}' AND utc = '{}'""".format(table,
+                             value[rows=='frb_id'][0],
+                             value[rows=='telescope'][0],
+                             value[rows=='utc'][0])
+            elif table == 'radio_observations_params':
+                # rop table should have an unique combination of 
+                # obs_id, settings_id
+                sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
+                         '{}'""".format(table,
+                                        value[rows=='obs_id'][0],
+                                        value[rows=='settings_id'][0])
+            elif table == 'radio_measured_params':
+                # voevent_ivorn must be unique
+                sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
+                    table, value[rows=='voevent_ivorn'][0])
+            else:
+                # re-raise IntegrityError
+                raise
+            # get the id
+            self.cursor.execute(sql)
+            return_id = self.cursor.fetchone()
+            if not return_id:
+                # Could not get the id from the database
+                # re-raise IntegrityError
+                raise
+            else:
+                print return_id['id']
+                return return_id['id']
+            
     def add_VOEvent_to_FRBCat(self):
         '''
         Add a VOEvent to the FRBCat database
@@ -262,8 +306,8 @@ class FRBCat_add:
             self.connection.rollback()
         else:
             # commit changes to db
-            self.connection.rollback()  # TODO: placeholder for next line
-            # dbase.commitToDB(self.connection, self.cursor)
+            #self.connection.rollback()  # TODO: placeholder for next line
+            dbase.commitToDB(self.connection, self.cursor)
         dbase.closeDBConnection(self.connection, self.cursor)
 
 
