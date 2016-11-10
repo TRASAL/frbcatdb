@@ -115,8 +115,13 @@ class FRBCat_add:
         '''
         Add event to the radio_observations_params table
         '''
-        rows = npappend(rows, ('obs_id', 'author_id'))
-        value = npappend(value, (self.obs_id, self.author_id))
+        # create settigns_id if we don't have one yet
+        if not 'settings_id' in rows:
+            settings_id2 = str(value[rows=='raj'][0]
+                               ) + ';' + str(value[rows=='decj'][0])
+            settings_id = self.settings_id1 + ';' + settings_id2
+        rows = npappend(rows, ('obs_id', 'author_id', 'settings_id'))
+        value = npappend(value, (self.obs_id, self.author_id, settings_id))
         self.rop_id = self.insert_into_database(table, rows, value)
 
     def add_radio_observations_params_notes(self, table, rows, value):
@@ -236,6 +241,9 @@ class FRBCat_add:
                 self.add_frbs_notes(table, rows, value)
             if table == 'observations':
                 self.add_observations(table, rows, value)
+                # create first part of settings_id
+                self.settings_id1 = str(value[rows=='telescope'][0]
+                                        ) + ';' + str(value[rows=='utc'][0]) 
             if table == 'observations_notes':
                 self.add_observations_notes(table, rows, value)
             if table == 'radio_observations_params':
