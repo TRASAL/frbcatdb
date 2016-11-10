@@ -192,7 +192,6 @@ class FRBCat_add:
     def insert_into_database(self, table, rows, value):
         row_sql = ', '.join(map(str, rows))
         try:
-            print(table)
             self.cursor.execute("INSERT INTO {} ({}) VALUES {}".format(
                                 table, row_sql, tuple(value)))
             return self.connection.insert_id()  # alternatively cursor.lastrowid
@@ -236,7 +235,6 @@ class FRBCat_add:
                 # re-raise IntegrityError
                 raise
             else:
-                print return_id['id']
                 return return_id['id']
             
     def add_VOEvent_to_FRBCat(self):
