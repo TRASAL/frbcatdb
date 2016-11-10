@@ -1,5 +1,5 @@
 '''
-description:    FRBCat functionality for pyAccess
+description:    FRBCat functionality for pyfrbcatdb
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
@@ -497,7 +497,7 @@ def VOEvent_FRBCAT_mapping(new_event=True):
     convert = {0: utils.strip, 1: utils.strip, 2: utils.strip,
                3: utils.strip, 4: utils.strip}
     # location of mapping.txt file
-    mapping = os.path.join(os.path.dirname(sys.modules['pyAccess'].__file__),
+    mapping = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
                            'mapping.txt')
     df = pd.read_table(mapping, sep='/', engine='c', header=0,
                        skiprows=[0], skip_blank_lines=True,
