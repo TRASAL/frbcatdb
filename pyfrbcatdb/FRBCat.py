@@ -1,5 +1,5 @@
 '''
-description:    FRBCat functionality for pyAccess
+description:    FRBCat functionality for pyfrbcatdb
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
@@ -15,7 +15,7 @@ from numpy import ravel as npravel
 import voeventparse as vp
 import datetime
 import re
-
+import pymysql
 
 class FRBCat_add:
     def __init__(self, connection, cursor, mapping):
@@ -115,8 +115,13 @@ class FRBCat_add:
         '''
         Add event to the radio_observations_params table
         '''
-        rows = npappend(rows, ('obs_id', 'author_id'))
-        value = npappend(value, (self.obs_id, self.author_id))
+        # create settigns_id if we don't have one yet
+        if not 'settings_id' in rows:
+            settings_id2 = str(value[rows=='raj'][0]
+                               ) + ';' + str(value[rows=='decj'][0])
+            settings_id = self.settings_id1 + ';' + settings_id2
+        rows = npappend(rows, ('obs_id', 'author_id', 'settings_id'))
+        value = npappend(value, (self.obs_id, self.author_id, settings_id))
         self.rop_id = self.insert_into_database(table, rows, value)
 
     def add_radio_observations_params_notes(self, table, rows, value):
@@ -186,10 +191,52 @@ class FRBCat_add:
 
     def insert_into_database(self, table, rows, value):
         row_sql = ', '.join(map(str, rows))
-        self.cursor.execute("INSERT INTO {} ({}) VALUES {}".format(
-                            table, row_sql, tuple(value)))
-        return self.connection.insert_id()  # alternatively cursor.lastrowid
-
+        try:
+            self.cursor.execute("INSERT INTO {} ({}) VALUES {}".format(
+                                table, row_sql, tuple(value)))
+            return self.connection.insert_id()  # alternatively cursor.lastrowid
+        except pymysql.err.IntegrityError:
+            # database IntegrityError
+            if table == 'authors':
+                # authors table should have unique ivorn
+                sql = "select id from {} WHERE id = '{}'".format(
+                    table, value[rows=='ivorn'][0])
+            elif table == 'frbs':
+                # frbs table should have unique name
+                sql = "select id from {} WHERE name = '{}'".format(
+                    table, value[rows=='name'][0])
+            elif table == 'observations':
+                # observation table should have an unique combination of
+                # frb_id, telescope, utc
+                sql = """select id from {} WHERE frb_id = '{}' AND
+                         telescope = '{}' AND utc = '{}'""".format(table,
+                             value[rows=='frb_id'][0],
+                             value[rows=='telescope'][0],
+                             value[rows=='utc'][0])
+            elif table == 'radio_observations_params':
+                # rop table should have an unique combination of 
+                # obs_id, settings_id
+                sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
+                         '{}'""".format(table,
+                                        value[rows=='obs_id'][0],
+                                        value[rows=='settings_id'][0])
+            elif table == 'radio_measured_params':
+                # voevent_ivorn must be unique
+                sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
+                    table, value[rows=='voevent_ivorn'][0])
+            else:
+                # re-raise IntegrityError
+                raise
+            # get the id
+            self.cursor.execute(sql)
+            return_id = self.cursor.fetchone()
+            if not return_id:
+                # Could not get the id from the database
+                # re-raise IntegrityError
+                raise
+            else:
+                return return_id['id']
+            
     def add_VOEvent_to_FRBCat(self):
         '''
         Add a VOEvent to the FRBCat database
@@ -236,6 +283,9 @@ class FRBCat_add:
                 self.add_frbs_notes(table, rows, value)
             if table == 'observations':
                 self.add_observations(table, rows, value)
+                # create first part of settings_id
+                self.settings_id1 = str(value[rows=='telescope'][0]
+                                        ) + ';' + str(value[rows=='utc'][0]) 
             if table == 'observations_notes':
                 self.add_observations_notes(table, rows, value)
             if table == 'radio_observations_params':
@@ -254,8 +304,8 @@ class FRBCat_add:
             self.connection.rollback()
         else:
             # commit changes to db
-            self.connection.rollback()  # TODO: placeholder for next line
-            # dbase.commitToDB(self.connection, self.cursor)
+            #self.connection.rollback()  # TODO: placeholder for next line
+            dbase.commitToDB(self.connection, self.cursor)
         dbase.closeDBConnection(self.connection, self.cursor)
 
 
@@ -497,7 +547,7 @@ def VOEvent_FRBCAT_mapping(new_event=True):
     convert = {0: utils.strip, 1: utils.strip, 2: utils.strip,
                3: utils.strip, 4: utils.strip}
     # location of mapping.txt file
-    mapping = os.path.join(os.path.dirname(sys.modules['pyAccess'].__file__),
+    mapping = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
                            'mapping.txt')
     df = pd.read_table(mapping, sep='/', engine='c', header=0,
                        skiprows=[0], skip_blank_lines=True,

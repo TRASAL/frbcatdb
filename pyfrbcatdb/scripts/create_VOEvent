@@ -7,7 +7,7 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 
 import argparse
-from pyfrbcatdb import create_VOEvent as pAcreate
+from pyfrbcatdb import create_VOEvent as pFcreate
 
 
 def cli_parser():
@@ -27,4 +27,4 @@ def cli_parser():
 if __name__ == "__main__":
     voevents = cli_parser()
     for voevent in voevents:  # TODO: do we allow multiple xml files?
-        vo_data, mapping = pAcreate.process_VOEvent(voevent)
+        vo_data, mapping = pFcreate.process_VOEvent(voevent)

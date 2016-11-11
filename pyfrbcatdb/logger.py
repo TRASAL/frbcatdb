@@ -1,5 +1,5 @@
 '''
-description:    Logging functionality for pyAccess
+description:    Logging functionality for pyfrbcatdb
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''

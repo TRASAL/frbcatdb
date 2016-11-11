@@ -7,7 +7,7 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 
 import argparse
-from pyfrbcatdb import decode_VOEvent as pAdecode
+from pyfrbcatdb import decode_VOEvent as pFdecode
 
 
 def cli_parser():
@@ -24,4 +24,4 @@ def cli_parser():
 
 if __name__ == "__main__":
     frb_ids = cli_parser()
-    pAdecode.decode_FRBCat_entry(frb_ids)
+    pFdecode.decode_FRBCat_entry(frb_ids)
