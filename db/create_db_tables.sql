@@ -1,405 +1,222 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+-- -----------------------------------------------------
+-- Table authors
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS authors (
+  id SERIAL PRIMARY KEY,
+  ivorn VARCHAR(255) NOT NULL UNIQUE,
+  title VARCHAR(255),
+  logo_url VARCHAR(255),
+  short_name VARCHAR(255),
+  contact_name VARCHAR(255),
+  contact_email VARCHAR(255),
+  contact_phone VARCHAR(255),
+  other_information TEXT);
+
+-- -----------------------------------------------------
+-- Table publications
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS publications (
+  id SERIAL PRIMARY KEY,
+  type VARCHAR(128),
+  reference TEXT,
+  link TEXT,
+  description TEXT);
+
+-- -----------------------------------------------------
+-- Table frbs
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS frbs (
+  id SERIAL PRIMARY KEY,
+  author_id INTEGER NOT NULL REFERENCES authors(id),
+  name VARCHAR(255) NOT NULL UNIQUE,
+  utc TIMESTAMP NOT NULL,
+  private BOOLEAN NOT NULL DEFAULT FALSE);
+CREATE INDEX frbs_author_id_fk ON frbs (author_id);
+
+-- -----------------------------------------------------
+-- Table frbs_have_publications
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS frbs_have_publications (
+  frb_id INTEGER NOT NULL REFERENCES frbs (id),
+  pub_id INTEGER NOT NULL REFERENCES publications (id),
+  PRIMARY KEY (frb_id, pub_id));
+
+-- -----------------------------------------------------
+-- Table frbs_notes
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS frbs_notes (
+  id  SERIAL PRIMARY KEY,
+  frb_id INTEGER NOT NULL REFERENCES frbs (id),
+  last_modified TIMESTAMP NOT NULL,
+  author VARCHAR(32) NOT NULL,
+  note TEXT);
+CREATE INDEX frbs_notes_frb_id_fk ON frbs_notes (frb_id);
+
+-- -----------------------------------------------------
+-- Table observations
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS observations (
+  id  SERIAL PRIMARY KEY,
+  frb_id INTEGER NOT NULL REFERENCES frbs (id),
+  author_id INTEGER NOT NULL REFERENCES authors (id),
+  type TEXT,
+  telescope VARCHAR(128) NOT NULL,
+  utc TIMESTAMP NOT NULL,
+  data_link TEXT,
+  detected BOOLEAN NOT NULL DEFAULT FALSE,
+  UNIQUE (frb_id, telescope, utc));
+CREATE INDEX observations_author_id_fk ON observations (author_id);
+CREATE INDEX observations_frb_id_fk ON observations (frb_id);
+
+-- -----------------------------------------------------
+-- Table observations_have_publications
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS observations_have_publications (
+  obs_id INTEGER NOT NULL REFERENCES observations (id),
+  pub_id INTEGER NOT NULL REFERENCES publications (id),
+  PRIMARY KEY (obs_id, pub_id));
+
+-- -----------------------------------------------------
+-- Table observations_notes
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS observations_notes (
+  id  SERIAL PRIMARY KEY,
+  obs_id INTEGER NOT NULL REFERENCES observations (id),
+  last_modified TIMESTAMP NOT NULL,
+  author VARCHAR(32) NOT NULL,
+  note TEXT);
+CREATE INDEX observations_notes_obs_id_fk ON observations_notes (obs_id);
+
+-- -----------------------------------------------------
+-- Table radio_observations_params
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS radio_observations_params (
+  id  SERIAL PRIMARY KEY,
+  obs_id INTEGER NOT NULL REFERENCES observations (id),
+  author_id INTEGER NOT NULL REFERENCES authors (id),
+  settings_id VARCHAR(255) NOT NULL,
+  receiver VARCHAR(255),
+  backend VARCHAR(255),
+  beam VARCHAR(8),
+  raj VARCHAR(16) NOT NULL,
+  decj VARCHAR(16) NOT NULL,
+  gl DOUBLE PRECISION,
+  gb DOUBLE PRECISION,
+  pointing_error DOUBLE PRECISION,
+  FWHM DOUBLE PRECISION,
+  sampling_time DOUBLE PRECISION,
+  bandwidth DOUBLE PRECISION,
+  centre_frequency DOUBLE PRECISION,
+  npol INTEGER,
+  channel_bandwidth DOUBLE PRECISION,
+  bits_per_sample SMALLINT,
+  gain DOUBLE PRECISION,
+  tsys DOUBLE PRECISION,
+  ne2001_dm_limit DOUBLE PRECISION,
+  UNIQUE (obs_id, settings_id));
+CREATE INDEX radio_observations_params_author_id_fk ON radio_observations_params (author_id);
+CREATE INDEX radio_observations_params_obs_id_fk ON radio_observations_params (obs_id);
+COMMENT ON COLUMN radio_observations_params.pointing_error IS 'pointing accuracy in arcsec';
+COMMENT ON COLUMN radio_observations_params.FWHM IS 'FWHM of beam in arcmin';
+COMMENT ON COLUMN radio_observations_params.bandwidth IS 'in MHz';
+COMMENT ON COLUMN radio_observations_params.centre_frequency IS 'in MHz';
+COMMENT ON COLUMN radio_observations_params.channel_bandwidth IS 'in MHz';
+COMMENT ON COLUMN radio_observations_params.gain IS 'in K/Jy';
+COMMENT ON COLUMN radio_observations_params.tsys IS 'in K';
+
+-- -----------------------------------------------------
+-- Table radio_observations_params_have_publications
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS radio_observations_params_have_publications (
+  rop_id INTEGER NOT NULL REFERENCES radio_observations_params (id),
+  pub_id INTEGER NOT NULL REFERENCES publications (id),
+  PRIMARY KEY (rop_id, pub_id));
 
 
 -- -----------------------------------------------------
--- Table `frbcat`.`authors`
+-- Table radio_observations_params_notes
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`authors` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `ivorn` VARCHAR(255) NOT NULL,
-  `title` TINYTEXT NULL DEFAULT NULL,
-  `logo_url` TINYTEXT NULL DEFAULT NULL,
-  `short_name` TINYTEXT NULL DEFAULT NULL,
-  `contact_name` TINYTEXT NULL DEFAULT NULL,
-  `contact_email` TINYTEXT NULL DEFAULT NULL,
-  `contact_phone` TINYTEXT NULL DEFAULT NULL,
-  `other_information` TEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `authors_ivorn_idx` (`ivorn` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
+CREATE TABLE IF NOT EXISTS radio_observations_params_notes (
+  id  SERIAL PRIMARY KEY,
+  rop_id INTEGER NOT NULL REFERENCES radio_observations_params (id),
+  last_modified TIMESTAMP NOT NULL,
+  author VARCHAR(32) NOT NULL,
+  note TEXT);
+CREATE INDEX radio_observations_params_notes_rop_id_fk ON radio_observations_params_notes (rop_id);
 
 -- -----------------------------------------------------
--- Table `frbcat`.`frbs`
+-- Table radio_measured_params
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`frbs` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `author_id` INT(10) UNSIGNED NOT NULL,
-  `name` VARCHAR(255) NOT NULL,
-  `utc` DATETIME NOT NULL,
-  `private` TINYINT(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `frbs_name_idx` USING BTREE (`name` ASC),
-  INDEX `frbs_author_id_fk` (`author_id` ASC),
-  CONSTRAINT `frbs_author_id_fk`
-    FOREIGN KEY (`author_id`)
-    REFERENCES `frbcat`.`authors` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`publications`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`publications` (
-  `id` INT(10) UNSIGNED NOT NULL,
-  `type` TEXT NULL DEFAULT NULL,
-  `reference` TEXT NULL DEFAULT NULL,
-  `link` TEXT NULL DEFAULT NULL,
-  `description` TEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`frbs_have_publications`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`frbs_have_publications` (
-  `frb_id` INT(10) UNSIGNED NOT NULL,
-  `pub_id` INT(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`frb_id`, `pub_id`),
-  INDEX `frbs_have_publications_pub_id_fk` (`pub_id` ASC),
-  CONSTRAINT `frbs_have_publications_frb_id_fk`
-    FOREIGN KEY (`frb_id`)
-    REFERENCES `frbcat`.`frbs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `frbs_have_publications_pub_id_fk`
-    FOREIGN KEY (`pub_id`)
-    REFERENCES `frbcat`.`publications` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
+CREATE TABLE IF NOT EXISTS radio_measured_params (
+  id  SERIAL PRIMARY KEY,
+  rop_id INTEGER NOT NULL REFERENCES radio_observations_params (id),
+  author_id INTEGER NOT NULL REFERENCES authors (id),
+  voevent_ivorn VARCHAR(255) NOT NULL UNIQUE,
+  voevent_xml TEXT NOT NULL,
+  dm DOUBLE PRECISION NOT NULL,
+  dm_error DOUBLE PRECISION,
+  snr DOUBLE PRECISION NOT NULL,
+  width DOUBLE PRECISION NOT NULL,
+  width_error_upper DOUBLE PRECISION,
+  width_error_lower DOUBLE PRECISION,
+  flux DOUBLE PRECISION,
+  flux_prefix VARCHAR(255),
+  flux_error_upper DOUBLE PRECISION,
+  flux_error_lower DOUBLE PRECISION,
+  flux_calibrated BOOLEAN,
+  dm_index DOUBLE PRECISION,
+  dm_index_error DOUBLE PRECISION,
+  scattering_index DOUBLE PRECISION,
+  scattering_index_error DOUBLE PRECISION,
+  scattering_time DOUBLE PRECISION,
+  scattering_time_error DOUBLE PRECISION,
+  linear_poln_frac DOUBLE PRECISION,
+  linear_poln_frac_error DOUBLE PRECISION,
+  circular_poln_frac DOUBLE PRECISION,
+  circular_poln_frac_error DOUBLE PRECISION,
+  spectral_index DOUBLE PRECISION,
+  spectral_index_error DOUBLE PRECISION,
+  z_phot DOUBLE PRECISION,
+  z_phot_error DOUBLE PRECISION,
+  z_spec DOUBLE PRECISION,
+  z_spec_error DOUBLE PRECISION,
+  rank INTEGER);
+CREATE INDEX radio_measured_params_author_id_fk ON radio_measured_params (author_id);
+CREATE INDEX radio_measured_params_rop_id_fk ON radio_measured_params (rop_id);
+COMMENT ON COLUMN radio_measured_params.scattering_time IS 'At 1 GHz';
 
 -- -----------------------------------------------------
--- Table `frbcat`.`frbs_notes`
+-- Table radio_measured_params_have_publications
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`frbs_notes` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `frb_id` INT(10) UNSIGNED NOT NULL,
-  `last_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `author` VARCHAR(32) NOT NULL DEFAULT '',
-  `note` LONGTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `frbs_notes_frb_id_fk` (`frb_id` ASC),
-  CONSTRAINT `frbs_notes_frb_id_fk`
-    FOREIGN KEY (`frb_id`)
-    REFERENCES `frbcat`.`frbs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
+CREATE TABLE IF NOT EXISTS radio_measured_params_have_publications (
+  rmp_id INTEGER NOT NULL REFERENCES radio_measured_params (id),
+  pub_id INTEGER NOT NULL REFERENCES publications (id),
+  PRIMARY KEY (rmp_id, pub_id));
 
 -- -----------------------------------------------------
--- Table `frbcat`.`observations`
+-- Table radio_measured_params_notes
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`observations` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `frb_id` INT(10) UNSIGNED NOT NULL,
-  `author_id` INT(10) UNSIGNED NOT NULL,
-  `type` TEXT NULL DEFAULT NULL,
-  `telescope` VARCHAR(128) NOT NULL,
-  `utc` DATETIME NOT NULL,
-  `data_link` TEXT NULL DEFAULT NULL,
-  `detected` TINYINT(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  INDEX `observations_author_id_fk` (`author_id` ASC),
-  INDEX `observations_frb_id_fk` (`frb_id` ASC),
-  UNIQUE INDEX `observations_unique` (`frb_id` ASC, `telescope` ASC, `utc` ASC),
-  CONSTRAINT `observations_author_id_fk`
-    FOREIGN KEY (`author_id`)
-    REFERENCES `frbcat`.`authors` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `observations_frb_id_fk`
-    FOREIGN KEY (`frb_id`)
-    REFERENCES `frbcat`.`frbs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
+CREATE TABLE IF NOT EXISTS radio_measured_params_notes (
+  id  SERIAL PRIMARY KEY,
+  rmp_id INTEGER NOT NULL REFERENCES radio_measured_params (id),
+  last_modified TIMESTAMP NOT NULL,
+  author VARCHAR(32) NOT NULL,
+  note TEXT);
+CREATE INDEX radio_measured_params_notes_rmp_id_fk ON radio_measured_params_notes (rmp_id);
 
 -- -----------------------------------------------------
--- Table `frbcat`.`observations_have_publications`
+-- Table radio_images
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`observations_have_publications` (
-  `obs_id` INT(10) UNSIGNED NOT NULL,
-  `pub_id` INT(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`obs_id`, `pub_id`),
-  INDEX `observations_have_publications_pub_id_fk` (`pub_id` ASC),
-  CONSTRAINT `observations_have_publications_obs_id_fk`
-    FOREIGN KEY (`obs_id`)
-    REFERENCES `frbcat`.`observations` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `observations_have_publications_pub_id_fk`
-    FOREIGN KEY (`pub_id`)
-    REFERENCES `frbcat`.`publications` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
+CREATE TABLE IF NOT EXISTS radio_images (
+  id  SERIAL PRIMARY KEY,
+  title TEXT,
+  caption TEXT,
+  image BYTEA);
 
 -- -----------------------------------------------------
--- Table `frbcat`.`observations_notes`
+-- Table radio_images_have_radio_measured_params
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`observations_notes` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `obs_id` INT(10) UNSIGNED NOT NULL,
-  `last_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `author` VARCHAR(32) NOT NULL DEFAULT '',
-  `note` LONGTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `observations_notes_obs_id_fk` (`obs_id` ASC),
-  CONSTRAINT `observations_notes_obs_id_fk`
-    FOREIGN KEY (`obs_id`)
-    REFERENCES `frbcat`.`observations` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_images`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_images` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` TEXT NULL DEFAULT NULL,
-  `caption` LONGTEXT NULL DEFAULT NULL,
-  `image` LONGBLOB NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_observations_params`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_observations_params` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `obs_id` INT(10) UNSIGNED NOT NULL,
-  `author_id` INT(10) UNSIGNED NOT NULL,
-  `settings_id` VARCHAR(255) NOT NULL,
-  `receiver` TEXT NULL DEFAULT NULL,
-  `backend` TEXT NULL DEFAULT NULL,
-  `beam` VARCHAR(8) NULL DEFAULT NULL,
-  `raj` VARCHAR(16) NOT NULL DEFAULT '',
-  `decj` VARCHAR(16) NOT NULL DEFAULT '',
-  `gl` FLOAT NULL DEFAULT NULL,
-  `gb` FLOAT NULL DEFAULT NULL,
-  `pointing_error` FLOAT NULL DEFAULT NULL COMMENT 'pointing accuracy in arcsec',
-  `FWHM` FLOAT NULL DEFAULT NULL COMMENT 'FWHM of beam in arcmin',
-  `sampling_time` FLOAT NULL DEFAULT NULL,
-  `bandwidth` FLOAT NULL DEFAULT NULL COMMENT 'in MHz',
-  `centre_frequency` FLOAT NULL DEFAULT NULL COMMENT 'in MHz',
-  `npol` INT(10) NULL DEFAULT NULL,
-  `channel_bandwidth` FLOAT NULL DEFAULT NULL COMMENT 'in MHz',
-  `bits_per_sample` TINYINT(4) NULL DEFAULT NULL,
-  `gain` FLOAT NULL DEFAULT NULL COMMENT 'K/Jy',
-  `tsys` FLOAT NULL DEFAULT NULL COMMENT 'K',
-  `ne2001_dm_limit` FLOAT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `rop_author_id_fk` (`author_id` ASC),
-  INDEX `rop_obs_id_fk` (`obs_id` ASC),
-  UNIQUE INDEX `rop_unique` (`obs_id` ASC, `settings_id` ASC),
-  CONSTRAINT `radio_observed_params_author_id_fk`
-    FOREIGN KEY (`author_id`)
-    REFERENCES `frbcat`.`authors` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `radio_observed_params_obs_id_fk`
-    FOREIGN KEY (`obs_id`)
-    REFERENCES `frbcat`.`observations` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_measured_params`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_measured_params` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `rop_id` INT(10) UNSIGNED NOT NULL,
-  `author_id` INT(10) UNSIGNED NOT NULL,
-  `voevent_ivorn` VARCHAR(255) NOT NULL,
-  `voevent_xml` LONGTEXT NOT NULL,
-  `dm` FLOAT NOT NULL,
-  `dm_error` FLOAT NULL DEFAULT NULL,
-  `snr` FLOAT NOT NULL,
-  `width` FLOAT NOT NULL,
-  `width_error_upper` FLOAT NULL DEFAULT NULL,
-  `width_error_lower` FLOAT NULL DEFAULT NULL,
-  `flux` FLOAT NULL DEFAULT NULL,
-  `flux_prefix` VARCHAR(255) NULL DEFAULT NULL,
-  `flux_error_upper` FLOAT NULL DEFAULT NULL,
-  `flux_error_lower` FLOAT NULL DEFAULT NULL,
-  `flux_calibrated` TINYINT(4) NULL DEFAULT NULL,
-  `dm_index` FLOAT NULL DEFAULT NULL,
-  `dm_index_error` FLOAT NULL DEFAULT NULL,
-  `scattering_index` FLOAT NULL DEFAULT NULL,
-  `scattering_index_error` FLOAT NULL DEFAULT NULL,
-  `scattering_time` FLOAT NULL DEFAULT NULL COMMENT 'At 1 GHz',
-  `scattering_time_error` FLOAT NULL DEFAULT NULL,
-  `linear_poln_frac` FLOAT NULL DEFAULT NULL,
-  `linear_poln_frac_error` FLOAT NULL DEFAULT NULL,
-  `circular_poln_frac` FLOAT NULL DEFAULT NULL,
-  `circular_poln_frac_error` FLOAT NULL DEFAULT NULL,
-  `spectral_index` FLOAT NULL DEFAULT NULL,
-  `spectral_index_error` FLOAT NULL DEFAULT NULL,
-  `z_phot` FLOAT NULL DEFAULT NULL,
-  `z_phot_error` FLOAT NULL DEFAULT NULL,
-  `z_spec` FLOAT NULL DEFAULT NULL,
-  `z_spec_error` FLOAT NULL DEFAULT NULL,
-  `rank` INT(10) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `rmp_rop_id_fk` (`rop_id` ASC),
-  INDEX `rmp_author_id_fk` (`author_id` ASC),
-  UNIQUE INDEX `rmp_unique` (`voevent_ivorn` ASC),
-  CONSTRAINT `radio_measured_params_author_id_fk`
-    FOREIGN KEY (`author_id`)
-    REFERENCES `frbcat`.`authors` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `radio_measured_params_rop_id_fk`
-    FOREIGN KEY (`rop_id`)
-    REFERENCES `frbcat`.`radio_observations_params` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_images_have_radio_measured_params`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_images_have_radio_measured_params` (
-  `radio_image_id` INT(10) UNSIGNED NOT NULL,
-  `rmp_id` INT(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`radio_image_id`, `rmp_id`),
-  INDEX `radio_images_have_radio_measured_params_rmp_id_fk` (`rmp_id` ASC),
-  CONSTRAINT `radio_images_have_radio_measured_params_radio_image_id_fk`
-    FOREIGN KEY (`radio_image_id`)
-    REFERENCES `frbcat`.`radio_images` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `radio_images_have_radio_measured_params_rmp_id_fk`
-    FOREIGN KEY (`rmp_id`)
-    REFERENCES `frbcat`.`radio_measured_params` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_measured_params_have_publications`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_measured_params_have_publications` (
-  `rmp_id` INT(10) UNSIGNED NOT NULL,
-  `pub_id` INT(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`rmp_id`, `pub_id`),
-  INDEX `radio_measured_params_have_publications_pub_id_fk` (`pub_id` ASC),
-  CONSTRAINT `radio_measured_params_have_publications_pub_id_fk`
-    FOREIGN KEY (`pub_id`)
-    REFERENCES `frbcat`.`publications` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `radio_measured_params_have_publications_rmp_id_fk`
-    FOREIGN KEY (`rmp_id`)
-    REFERENCES `frbcat`.`radio_measured_params` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_measured_params_notes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_measured_params_notes` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `rmp_id` INT(10) UNSIGNED NOT NULL,
-  `last_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `author` VARCHAR(32) NOT NULL DEFAULT '',
-  `note` LONGTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `radio_measured_params_notes_rmp_id_fk` (`rmp_id` ASC),
-  CONSTRAINT `radio_measured_params_notes_rmp_id_fk`
-    FOREIGN KEY (`rmp_id`)
-    REFERENCES `frbcat`.`radio_measured_params` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_observations_params_have_publications`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_observations_params_have_publications` (
-  `rop_id` INT(10) UNSIGNED NOT NULL,
-  `pub_id` INT(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`rop_id`, `pub_id`),
-  INDEX `radio_observed_params_have_publications_pub_id_fk` (`pub_id` ASC),
-  CONSTRAINT `radio_observed_params_have_publications_pub_id_fk`
-    FOREIGN KEY (`pub_id`)
-    REFERENCES `frbcat`.`publications` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `radio_observed_params_have_publications_rop_id_fk`
-    FOREIGN KEY (`rop_id`)
-    REFERENCES `frbcat`.`radio_observations_params` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `frbcat`.`radio_observations_params_notes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `frbcat`.`radio_observations_params_notes` (
-  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `rop_id` INT(10) UNSIGNED NOT NULL,
-  `last_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `author` VARCHAR(32) NOT NULL DEFAULT '',
-  `note` LONGTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `radio_observed_params_notes_rop_id_fk` (`rop_id` ASC),
-  CONSTRAINT `radio_observed_params_notes_rop_id_fk`
-    FOREIGN KEY (`rop_id`)
-    REFERENCES `frbcat`.`radio_observations_params` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+CREATE TABLE IF NOT EXISTS radio_images_have_radio_measured_params (
+  radio_image_id INTEGER NOT NULL REFERENCES radio_images (id),
+  rmp_id INTEGER NOT NULL REFERENCES radio_measured_params (id),
+  PRIMARY KEY (radio_image_id, rmp_id));

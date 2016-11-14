@@ -15,7 +15,7 @@ from numpy import ravel as npravel
 import voeventparse as vp
 import datetime
 import re
-import pymysql
+import psycopg2
 
 class FRBCat_add:
     def __init__(self, connection, cursor, mapping):
@@ -195,7 +195,11 @@ class FRBCat_add:
             self.cursor.execute("INSERT INTO {} ({}) VALUES {}".format(
                                 table, row_sql, tuple(value)))
             return self.connection.insert_id()  # alternatively cursor.lastrowid
-        except pymysql.err.IntegrityError:
+            # BE CAREFULL: IN POSTGRES I DO NOT THINK THIS WAY OF GETING THE ID WORKS
+            # YOU MAY HAVE TO USE "INSERT ... RETURNING ..."
+        except psycopg2.IntegrityError:
+            self.connection.rollback()
+
             # database IntegrityError
             if table == 'authors':
                 # authors table should have unique ivorn
@@ -214,7 +218,7 @@ class FRBCat_add:
                              value[rows=='telescope'][0],
                              value[rows=='utc'][0])
             elif table == 'radio_observations_params':
-                # rop table should have an unique combination of 
+                # rop table should have an unique combination of
                 # obs_id, settings_id
                 sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
                          '{}'""".format(table,
@@ -236,7 +240,7 @@ class FRBCat_add:
                 raise
             else:
                 return return_id['id']
-            
+
     def add_VOEvent_to_FRBCat(self):
         '''
         Add a VOEvent to the FRBCat database
@@ -285,7 +289,7 @@ class FRBCat_add:
                 self.add_observations(table, rows, value)
                 # create first part of settings_id
                 self.settings_id1 = str(value[rows=='telescope'][0]
-                                        ) + ';' + str(value[rows=='utc'][0]) 
+                                        ) + ';' + str(value[rows=='utc'][0])
             if table == 'observations_notes':
                 self.add_observations_notes(table, rows, value)
             if table == 'radio_observations_params':

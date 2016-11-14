@@ -10,7 +10,7 @@ The frbcatdb is attached to the VOEvent backbone and uses this infrastructure as
 The `db` folder contains scripts to create an empty frbcat DB (`create_db.csh`),
 to import it from an existing dump file (`import_db.sh`) and
 to dump an existing DB to a dump file (`dump_db.csh`).
-It also contains the model (Entity-Relationship diagram) to be opened with mysql-workbench. ![frbcatdb ER diagram](db/frbcatdb.png)
+It also contains the model (Entity-Relationship diagram) to be opened with mysql-workbench. ![frbcatdb ER diagram](db/relationships.real.compact.png)
 
 The `pyfrbcatdb` is Python package for manipulating the frbcatdb and its linking
 with the VOEvent backbone.
