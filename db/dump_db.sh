@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/bash
 
 # $1 is the server
 # $2 is the user name
@@ -6,4 +6,5 @@
 # $4 is the database name
 # $5 must be the dump file
 
-mysqldump --host=$1 --user=$2 $4 -p$3 > $5
+export PGPASSWORD=$3
+pg_dump -h $1 -U $2 $4 > $5

@@ -1,15 +1,14 @@
 language: python
 python:
   - "3.5"
-services: mysql
+services: postgresql
 install:
   - pip install .
   - pip install -r requirements.txt
 before_script:
-  - mysql -e 'create database frbcat;'
-  - mysql -u root -e "create user travis_pymysql identified by 'password'; grant all on frbcat.* to travis_pymysql;"
-  - mysql -utravis_pymysql -ppassword frbcat < db/create_db_tables.sql
-  - mysql -utravis_pymysql -ppassword frbcat < tests/fill_db_test_data.sql
+  - psql -c 'create database frbcat;' -U postgres
+  - psql -U postgres frbcat < db/create_db_tables.sql
+  - psql -U postgres frbcat < tests/fill_db_test_data.sql
 script:
   - nosetests tests --with-coverage --cover-tests --cover-package=pyfrbcatdb --verbose
 after_success:

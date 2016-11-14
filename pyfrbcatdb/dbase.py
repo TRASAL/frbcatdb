@@ -5,31 +5,31 @@ description:    Common database functionality for pyfrbcatdb
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
-import pymysql
-import pymysql.cursors
+import psycopg2
+import psycopg2.extras
 from pyfrbcatdb import config
 
 def connectToDB(dbName=config.DB_NAME, userName=config.USER_NAME, dbPassword=config.USER_PASSWORD, dbHost=config.DB_HOST,
-                dbPort=config.DB_PORT, dbCursor=pymysql.cursors.DictCursor):
+                dbPort=config.DB_PORT, dbCursor=psycopg2.extras.DictCursor):
     '''
-    Connect to a specified MySQL DB and return connection and cursor objects.
+    Connect to a specified PostgreSQL DB and return connection and cursor objects.
     '''
     # Start DB connection
     try:
-        connection = pymysql.connect(host=dbHost,
-                                     port=dbPort,
-                                     user=userName,
-                                     password=dbPassword,
-                                     db=dbName,
-                                     cursorclass=dbCursor)
+        connectionString = "dbname='" + dbName + "'"
+        if userName != None and userName != '':
+            connectionString += " user='" + userName + "'"
+        if dbHost != None and dbHost != '':
+            connectionString += " host='" + dbHost + "'"
+        if dbPassword != None and dbPassword != '':
+            connectionString += " password='" + dbPassword + "'"
+        if dbPort != None:
+            connectionString += " port='" + str(dbPort) + "'"
+        connection  = psycopg2.connect(connectionString)
     except:
-        # err_msg = 'Unable to connect to {} DB.'.format(dbName)
-        # logging.error((err_msg, "; %s: %s" % (E.__class__.__name__, E)))
         raise
-    # msg = 'Successful connected to {} DB.'.format(dbName)
-    # logging.debug(msg)
     # if the connection succeeded get a cursor
-    cursor = connection.cursor()
+    cursor = connection.cursor(cursor_factory=dbCursor)
     return connection, cursor
 
 

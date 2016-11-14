@@ -1,5 +1,5 @@
 voevent-parse
 pandas
-pymysql
+psycopg2
 coverage
 nose
