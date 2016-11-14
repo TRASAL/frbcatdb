@@ -1,3 +1,4 @@
+import os
 import unittest
 import datetime
 import psycopg2
@@ -5,7 +6,10 @@ from pyfrbcatdb import dbase as dbase
 
 class BasicDBTest(unittest.TestCase):
     def setUp(self):
-        self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', dbCursor=psycopg2.extensions.cursor)
+        if 'TRAVIS' in os.environ:
+            self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', userName='root', dbPassword=None, dbHost='localhost',dbPort=None, dbCursor=psycopg2.extensions.cursor)
+        else:
+            self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', dbCursor=psycopg2.extensions.cursor)
         self.tableColumnsDict = {
         'authors': 'id,ivorn,title,logo_url,short_name,contact_name,contact_email,contact_phone,other_information',
         'publications': 'id,type,reference,link,description',

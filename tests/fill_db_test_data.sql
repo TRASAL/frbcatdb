@@ -26,7 +26,7 @@ INSERT INTO radio_measured_params_notes VALUES (1,3,'2016-03-13 05:45:12','J. Do
 INSERT INTO radio_images VALUES (1,'Radio Image 1', NULL, NULL), (2,'Radio Image 2', NULL, NULL), (3,'Radio Image 3', NULL, NULL), (4,'Radio Image 4', NULL, NULL);
 INSERT INTO radio_images_have_radio_measured_params VALUES (1,1),(1,2),(1,3),(1,4),(2,1),(2,2),(3,3),(4,4);
 
-#  Since we manually inserted IDs, we need to reset the serials
+-- Since we manually inserted IDs, we need to reset the serials
 SELECT setval('authors_id_seq', COALESCE((SELECT MAX(id)+1 FROM authors), 1), false);
 SELECT setval('publications_id_seq', COALESCE((SELECT MAX(id)+1 FROM publications), 1), false);
 SELECT setval('frbs_id_seq', COALESCE((SELECT MAX(id)+1 FROM frbs), 1), false);
