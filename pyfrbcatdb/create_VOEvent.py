@@ -102,11 +102,12 @@ def parse_VOEvent(voevent, mapping):
     vp.assert_valid_as_v2_0(v)
     # Check if the event is a new VOEvent
     # For a new VOEvent there should be no citations
-    if not v.xpath('Citations'):
-        # new VOEvent
-        mapping = VOEvent_FRBCAT_mapping(new_event=True)
-    else:
-        mapping = VOEvent_FRBCAT_mapping(new_event=False)
+    try:
+        event_type = (v.xpath('Citations')[0].EventIVORN.attrib['cite'],
+                      v.xpath('Citations')[0].EventIVORN.text)
+    except IndexError:
+        event_type = ('new', None)
+    mapping = VOEvent_FRBCAT_mapping()
     # use the mapping to get required data from VOEvent xml
     # if a path is not found in the xml it gets an empty list which is
     # removed in the next step
@@ -138,7 +139,7 @@ def parse_VOEvent(voevent, mapping):
     # add to pandas dataframe as a new column
     mapping.loc[:, 'value'] = pandas.Series(merged, index=mapping.index)
     # need to add xml file to database as well
-    return mapping
+    return mapping, event_type
 
 
 def process_VOEvent(voevent):
@@ -150,17 +151,23 @@ def process_VOEvent(voevent):
     # load mapping VOEvent -> FRBCAT
     mapping = VOEvent_FRBCAT_mapping()
     # parse VOEvent xml file
-    vo_dict = parse_VOEvent(voevent, mapping)
+    vo_dict, event_type = parse_VOEvent(voevent, mapping)
     # create a new FRBCat entry  # TODO: handle other types
-    new_FRBCat_entry(vo_dict)
+    update_FRBCat(vo_dict, event_type)
 
 
-def new_FRBCat_entry(mapping):
+def update_FRBCat(mapping, event_type):
     '''
     Add new FRBCat entry
     '''
     # connect to database
     # TODO: add connection details
     connection, cursor = dbase.connectToDB()
-    FRBCat = FRBCat_add(connection, cursor, mapping)
-    FRBCat.add_VOEvent_to_FRBCat()
+    if event_type[0] in ['retraction', 'supersedes']:
+        # for retraction or supersedes we need to remove the entry from FRBCat
+        FRBCat = FRBCat_remove(connection, cursor, mapping, event_type)
+        FRBCat = FRBCat.remove_entry()
+    if event_type[0] in ['new', 'followup', 'supersedes']:
+        # for new, followup, supersedes we need to add an entry to FRBCat
+        FRBCat = FRBCat_add(connection, cursor, mapping, event_type)
+        FRBCat.add_VOEvent_to_FRBCat()
