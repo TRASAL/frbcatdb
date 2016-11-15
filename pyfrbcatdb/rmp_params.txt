@@ -1,0 +1,28 @@
+name\                       unit\       description\                                    ucd
+
+DM\                         pc/cm^3\    Dispersion measure\                             phys.dispMeasure
+dm_error\                   pc/cm^3\    Uncertainty on dispersion measure\
+snr\                        \           Signal-to-noise ratio\                          stat.snr
+width\                      ms\         Pulse width in milliseconds\                    time.duration(;em.radio.750-1500MHz)
+width_error_upper\          ms\         Upper error on width\
+width_error_lower\          ms\         Lower error on width\
+flux\                       Jy\         Peak flux density of burst                      phot.flux.density(;em.radio.750-1500MHz)
+flux_error_upper\           Jy\         Upper error on peak flux\
+flux_error_lower\           Jy\         Lower error on peak flux\
+flux_calibrated\            \           Boolean value for whether flux has been calibrated\
+dm_index\                   \           Dispersion measure index\
+dm_index_error\             \           Uncertainty on dispersion measure index\
+scattering_index\           \           Index of frequency dependent pulse broadening\
+scattering_index_error\     \           Uncertainty on scattering index\
+scattering_time\            ms\         Scattering timescale, at 1 GHz\
+scattering_time_error\      ms\         Uncertainty on scattering timescale, at 1 GHz\
+linear_poln_frac\           \           Fractional linear polarization\
+linear_poln_frac_error\     \           Uncertainty on linear polarization fraction\
+circular_poln_frac\         \           Fractional circular polarization\
+circular_poln_frac_error\   \           Uncertainty on circular polarization fraction\
+spectral_index 	no_units\   \           Spectral index in the observing band\           spect.index(;em.radio.750-1500MHz)
+spectral_index_error\       \           Uncertainty on spectral index\
+z_phot\                     \           Photometric redshift of host galaxy\            src.redshift.phot
+z_phot_error\               \           Uncertainty on photometric redshift\
+z_spec\                     \           Spectroscopic redshift of host galaxy\          src.redshift
+z_spec_error\               \           Uncertainty on spectroscopic redshift\
