@@ -675,7 +675,7 @@ class FRBCat_decode:
         Add radio observations params section to voevent object
         '''
         # rop params in group 'radio observations params'
-        rop_params = ['backend', 'beam', 'gl', 'gb', 'FWHM', 'sampling_time',
+        rop_params = ['backend', 'beam', 'gl', 'gb', 'fwhm', 'sampling_time',
                       'bandwidth', 'centre_frequency', 'npol',
                       'channel_bandwidth', 'bits_per_sample', 'gain',
                       'tsys', 'ne2001_dm_limit', 'rop_note']
