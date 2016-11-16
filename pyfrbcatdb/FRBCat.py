@@ -30,8 +30,9 @@ class FRBCat_remove:
         '''
         Remove entry from FRBCat
         '''
-        self.remove_from_radio_measured_params()
-        cont = self.remove_from_radio_observations_params()
+        cont = self.remove_from_radio_measured_params()
+        if cont:
+            cont = self.remove_from_radio_observations_params()
         if cont:
             cont = self.remove_from_observations()
         if cont:
@@ -40,6 +41,8 @@ class FRBCat_remove:
             self.remove_from_frbs()
         self.remove_from_publications()
         self.remove_from_authors()
+        dbase.commitToDB(self.connection, self.cursor)
+        dbase.closeDBConnection(self.connection, self.cursor)
 
     def remove_from_publications(self):
         pass
@@ -106,7 +109,8 @@ class FRBCat_remove:
             # select frb_id, author_id from observations
             sql = """select frb_id, author_id from observations
                      where id='{}'""".format(self.obs_id)
-            sql_exec = self.cursor.execute(sql)
+            self.cursor.execute(sql)
+            sql_exec = self.cursor.fetchone()
             self.frb_id = sql_exec['frb_id']
             self.author_id_obs = sql_exec['author_id']
             # delete entry from observations
@@ -125,7 +129,7 @@ class FRBCat_remove:
             return False
         else:
             # delete from radio_observations_params_notes
-            sql = """delete from radio_observations_paramas_notes
+            sql = """delete from radio_observations_params_notes
                      where rop_id='{}'""".format(self.rop_id)
             self.cursor.execute(sql)
             # select pub_ids from rop_have_publications
@@ -139,13 +143,14 @@ class FRBCat_remove:
                      where rop_id='{}'""".format(self.rop_id)
             self.cursor.execute(sql)             
             # select obs_id, author_id from rop
-            sql = """select obs_id, author_id from radio_observation_params
+            sql = """select obs_id, author_id from radio_observations_params
                      where id='{}'""".format(self.rop_id)
-            sql_exec = self.cursor.execute(sql)
+            self.cursor.execute(sql)
+            sql_exec = self.cursor.fetchone()
             self.obs_id = sql_exec['obs_id']
             self.author_id = sql_exec['author_id']
             # delete entry from radio_observations_params
-            sql = """delete from radio_observation_params
+            sql = """delete from radio_observations_params
                      where id='{}'""".format(self.rop_id)
             return True
 
@@ -154,44 +159,48 @@ class FRBCat_remove:
                  where voevent_ivorn='{}'""".format(self.ivorn)
         self.cursor.execute(sql)
         sql_exec = self.cursor.fetchone()
-        self.rmp_id = sql_exec['rmp_id']
-        self.rop_id = sql_exec['rop_id']
-        # delete from radio_measured_params_notes
-        sql = """delete from radio_measured_params_notes
-                 where rmp_id='{}'""".format(self.rmp_id)
-        self.cursor.execute(sql)
-        # get all radio_images for the selected rmp_id
-        sql = """select radio_image_id
-                 from radio_images_have_radio_measured_params
-                 where rmp_id='{}'""".format(self.rmp_id)
-        self.cursor.execute(sql)
-        # delete all radio_images for the selected rmp_id
-        for radio_image_id in self.cursor:
-            sql = """delete from radio_images
-                    where id='{}'""".format(radio_image_id)
+        if sql_exec:  # there is an entry to remove
+            self.rmp_id = sql_exec['rmp_id']
+            self.rop_id = sql_exec['rop_id']
+            # delete from radio_measured_params_notes
+            sql = """delete from radio_measured_params_notes
+                    where rmp_id='{}'""".format(self.rmp_id)
             self.cursor.execute(sql)
-        # delete entry from radio_images_have_radio_measured_params
-        sql = """delete from radio_images_have_radio_measured_params
-                 where rmp_id='{}'""".format(self.rmp_id)
-        self.cursor.execute(sql)
-        # select all publication ids for the selected rmp_id
-        sql = """select pub_id
-                 from radio_measured_params_have_publications
-                 where rmp_id='{}'""".format(self.rmp_id)
-        self.cursor.execute(sql)
-        self.pub_ids_rmp = self.cursor.fetchall()
-        # delete entry from rmp_have_publications
-        sql = """delete from radio_measured_params_have_publications
-                 where rmp_id='{}'""".format(self.rmp_id)
-        self.cursor.execute(sql)
-        # delete all publications for the selected rmp_id
-        #for pub_id in self.cursor:
-        #    sql = """delete from publications where id
-        # delete entry from radio_observations_params
-        sql = """delete from radio_measured_params
-                 where voevent_ivorn='{}'""".format(self.ivorn)
-        self.cursor.execute(sql)
-
+            # get all radio_images for the selected rmp_id
+            sql = """select radio_image_id
+                    from radio_images_have_radio_measured_params
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            # delete all radio_images for the selected rmp_id
+            for radio_image_id in self.cursor:
+                sql = """delete from radio_images
+                        where id='{}'""".format(radio_image_id)
+                self.cursor.execute(sql)
+            # delete entry from radio_images_have_radio_measured_params
+            sql = """delete from radio_images_have_radio_measured_params
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            # select all publication ids for the selected rmp_id
+            sql = """select pub_id
+                    from radio_measured_params_have_publications
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            self.pub_ids_rmp = self.cursor.fetchall()
+            # delete entry from rmp_have_publications
+            sql = """delete from radio_measured_params_have_publications
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            # delete all publications for the selected rmp_id
+            #for pub_id in self.cursor:
+            #    sql = """delete from publications where id
+            # delete entry from radio_observations_params
+            sql = """delete from radio_measured_params
+                    where voevent_ivorn='{}'""".format(self.ivorn)
+            self.cursor.execute(sql)
+            return True
+        else:
+            # no entry found in database
+            return False
 
 class FRBCat_add:
     def __init__(self, connection, cursor, mapping, event_type):
