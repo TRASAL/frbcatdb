@@ -17,8 +17,8 @@ def get_param(param_data, mapping, idx):
     '''
     # mapping['VOEvent TYPE'][idx] not in ['Param', 'Coord', 'ISOTime']
     try:
-        return (param_data[mapping['VOEvent'].iloc[idx]]
-                [mapping['FRBCAT COLUMN'].iloc[idx]])
+        return (param_data[mapping['FRBCAT TABLE'].iloc[idx].replace('_',' ')]
+                [mapping['FRBCAT COLUMN'].iloc[idx]])['value']
     except KeyError:
         return None
 
