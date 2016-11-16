@@ -667,7 +667,7 @@ class FRBCat_decode:
         # check if the created event is a valid VOEvent v2.0 event
         if vp.valid_as_v2_0(self.v):
             # save to VOEvent xml
-            with open(xmlname, 'w') as f:
+            with open(xmlname, 'wb') as f:
                 vp.dump(self.v, f, pretty_print=True)
 
     def rop_params(self):
