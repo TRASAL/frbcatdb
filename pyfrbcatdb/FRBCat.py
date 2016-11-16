@@ -380,7 +380,8 @@ class FRBCat_add:
             row_sql = ', '.join(map(str, rows))
             parameters = '(' + ','.join(['%s' for i in value]) + ')'
             value = [x.text if isinstance(
-                     x, lxml.objectify.StringElement) else x for x in value]            
+                     x, lxml.objectify.StringElement) else x for x in value]
+            value = nparray(value)
             sql = """INSERT INTO {} ({}) VALUES {} RETURNING id
                   """.format(table, row_sql, parameters)
             self.cursor.execute(sql, tuple(value))
