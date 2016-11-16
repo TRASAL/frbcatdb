@@ -97,7 +97,11 @@ def parse_VOEvent(voevent, mapping):
         - mapping: dictionary vo_event: FRBCAT location
     '''
     # load VOEvent xml file
-    v = vp.load(voevent)
+    try:
+        v = vp.load(voevent)
+    except AttributeError:
+        v = vp.load(open(voevent, "rb"))
+        
     # assert if xml file is a valid VOEvent
     vp.assert_valid_as_v2_0(v)
     # Check if the event is a new VOEvent
