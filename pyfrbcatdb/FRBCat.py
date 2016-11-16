@@ -16,6 +16,7 @@ import voeventparse as vp
 import datetime
 import re
 import psycopg2
+import lxml
 
 class FRBCat_remove:
     def __init__(self, connection, cursor, mapping, event_type):
@@ -366,11 +367,14 @@ class FRBCat_add:
         self.insert_into_database(table, rows, value)
 
     def insert_into_database(self, table, rows, value):
-        row_sql = ', '.join(map(str, rows))
         try:
-            self.cursor.execute("""INSERT INTO {} ({}) VALUES {}
-                                   RETURNING id""".format(
-                                table, row_sql, tuple(value)))
+            row_sql = ', '.join(map(str, rows))
+            parameters = '(' + ','.join(['%s' for i in value]) + ')'
+            value = [x.text if isinstance(
+                     x, lxml.objectify.StringElement) else x for x in value]            
+            sql = """INSERT INTO {} ({}) VALUES {} RETURNING id
+                  """.format(table, row_sql, parameters)
+            self.cursor.execute(sql, tuple(value))
             return self.cursor.fetchone()[0]  # return last insert id
         except psycopg2.IntegrityError:
             self.connection.rollback()
@@ -427,10 +431,13 @@ class FRBCat_add:
                          db values in mapping['values']
         '''
         # define database tables in the order they need to be filled
-        tables = ['authors', 'frbs', 'frbs_notes', 'observations',
-                  'observations_notes', 'radio_observations_params',
-                  'radio_observations_params_notes',
-                  'radio_measured_params', 'radio_measured_params_notes']
+        #tables = ['authors', 'frbs', 'frbs_notes', 'observations',
+        #          'observations_notes', 'radio_observations_params',
+        #          'radio_observations_params_notes',
+        #          'radio_measured_params', 'radio_measured_params_notes']
+        tables = ['authors', 'frbs', 'observations',
+                  'radio_observations_params',
+                  'radio_measured_params']
         # loop over defined tables
         for table in tables:
             try:
