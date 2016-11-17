@@ -503,13 +503,13 @@ class FRBCat_add:
         dbase.closeDBConnection(self.connection, self.cursor)
 
 
-class FRBCat_decode:
+class FRBCat_create:
     def __init__(self, connection, cursor, frbs_id):
         self.connection = connection
         self.cursor = cursor
         self.frbs_id = frbs_id
         
-    def decode_VOEvent_from_FRBCat(self):
+    def create_VOEvent_from_FRBCat(self):
         '''
         Decode a VOEvent from the FRBCat database
           input:

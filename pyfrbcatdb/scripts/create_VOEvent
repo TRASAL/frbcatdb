@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-description:    Create a db entry for a VOEvent: Runner
+description:    Decode VOEvent db entry to xml: Runner
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
@@ -13,18 +13,15 @@ from pyfrbcatdb import create_VOEvent as pFcreate
 def cli_parser():
     '''
     parse command line arguments:
-        should be single/multiple valid VOEvent xml files
     '''
     parser = argparse.ArgumentParser(description='Process VOEvent XML file '
                                      'and add it to FRB database')
-    parser.add_argument('VOEvents', metavar='VOEvent',
-                        type=argparse.FileType('rb'), nargs='+',
-                        help='List of VOEvent XML files')
-    results = vars(parser.parse_args())['VOEvents']
-    return results
+    parser.add_argument('frb_ids', metavar='frb_ids',
+                        type=int, nargs='+',
+                        help='List of frbs ids')
+    return vars(parser.parse_args())['frb_ids']
 
 
 if __name__ == "__main__":
-    voevents = cli_parser()
-    for voevent in voevents:  # TODO: do we allow multiple xml files?
-        vo_data, mapping = pFcreate.process_VOEvent(voevent)
+    frb_ids = cli_parser()
+    pFcreate.decode_FRBCat_entry(frb_ids)
