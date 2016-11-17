@@ -36,8 +36,6 @@ class FRBCat_remove:
         if cont:
             cont = self.remove_from_observations()
         if cont:
-            cont = self.remove_from_authors()
-        if cont:
             self.remove_from_frbs()
         self.remove_from_publications()
         self.remove_from_authors()
@@ -81,6 +79,7 @@ class FRBCat_remove:
             # delete entry from frbs
             sql = """delete from frbs
                      where id='{}'""".format(self.frb_id)
+            self.cursor.execute(sql)
             return True
         
     def remove_from_observations(self):
@@ -116,6 +115,7 @@ class FRBCat_remove:
             # delete entry from observations
             sql = """delete from observations
                      where id='{}'""".format(self.obs_id)
+            self.cursor.execute(sql)
             return True
     
     def remove_from_radio_observations_params(self):
@@ -152,6 +152,7 @@ class FRBCat_remove:
             # delete entry from radio_observations_params
             sql = """delete from radio_observations_params
                      where id='{}'""".format(self.rop_id)
+            self.cursor.execute(sql)
             return True
 
     def remove_from_radio_measured_params(self):
@@ -498,8 +499,6 @@ class FRBCat_add:
             # TODO: is this what we want to do?
             self.connection.rollback()
         else:
-            # commit changes to db
-            #self.connection.rollback()  # TODO: placeholder for next line
             dbase.commitToDB(self.connection, self.cursor)
         dbase.closeDBConnection(self.connection, self.cursor)
 
@@ -528,9 +527,9 @@ class FRBCat_decode:
                  ON frbs.author_id=authors.id
                 INNER JOIN observations
                  ON observations.frb_id=frbs.id
-                LEFT JOIN radio_observations_params
+                INNER JOIN radio_observations_params
                  ON radio_observations_params.obs_id=observations.id
-                LEFT JOIN radio_measured_params
+                INNER JOIN radio_measured_params
                  ON radio_measured_params.rop_id=radio_observations_params.id
                 LEFT JOIN radio_measured_params_notes
                  ON radio_measured_params_notes.rmp_id=radio_measured_params.id
