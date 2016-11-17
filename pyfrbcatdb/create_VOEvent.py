@@ -100,7 +100,9 @@ def parse_VOEvent(voevent, mapping):
     try:
         v = vp.load(voevent)
     except AttributeError:
-        v = vp.load(open(voevent, "rb"))
+        f = open(voevent, "rb")
+        v = vp.load(f)
+        f.close()
         
     # assert if xml file is a valid VOEvent
     vp.assert_valid_as_v2_0(v)
