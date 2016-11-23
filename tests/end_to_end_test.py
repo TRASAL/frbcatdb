@@ -4,14 +4,32 @@ import unittest
 import datetime
 import psycopg2
 from pyfrbcatdb import dbase as dbase
-from pyfrbcatdb import create_VOEvent as pFcreate
+from pyfrbcatdb import decode_VOEvent as decode
 
 class end2endtest(unittest.TestCase):
     def setUp(self):
         if 'TRAVIS' in os.environ:
-            self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', userName='postgres', dbPassword=None, dbHost=None,dbPort=None, dbCursor=psycopg2.extensions.cursor)
+             self.DB_NAME = 'frbcat'
+             self.USER_NAME = 'postgres'
+             self.DB_HOST = None
+             self.DB_PORT = None
+             self.USER_PASSWORD = None
+             self.connection, self.cursor = dbase.connectToDB(
+                 dbName=self.DB_NAME, userName=self.USER_NAME,
+                 dbPassword=self.USER_PASSWORD, dbHost=self.DB_HOST,
+                 dbPort=self.DB_PORT, dbCursor=psycopg2.extensions.cursor)
         else:
-            self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', dbCursor=psycopg2.extensions.cursor)
+            # TODO: read config file
+            self.DB_NAME = 'frbcat'
+            self.USER_NAME = 'aa-alert'
+            self.DB_HOST = 'localhost'
+            self.DB_PORT = None
+            self.USER_PASSWORD = 'aa-alert'
+            self.connection, self.cursor = dbase.connectToDB(
+                dbName=self.DB_NAME, userName=self.USER_NAME,
+                dbPassword=self.USER_PASSWORD, dbHost=self.DB_HOST,
+                dbPort=self.DB_PORT, dbCursor=psycopg2.extensions.cursor)
+            
         self.test_data = os.path.join(dirname(abspath(__file__)), '..', 'test_data')
 
     def tearDown(self):
@@ -45,7 +63,9 @@ class end2endtest(unittest.TestCase):
         should add one row in frbs, observations, rop, rmp
         '''
         len_before = self.get_num_rows_main_tables()
-        pFcreate.process_VOEvent(os.path.join(self.test_data, 'add_1.xml'))
+        decode.decode_VOEvent(os.path.join(self.test_data, 'add_1.xml'),
+                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
+                              self.USER_NAME, self.USER_PASSWORD)
         len_after = self.get_num_rows_main_tables()
         # assert frbs increased by 1
         self.assertEqual(len_before[1], len_after[1]-1)
@@ -62,7 +82,9 @@ class end2endtest(unittest.TestCase):
         should remove one row in frbs, observations, rop, rmp
         '''
         len_before = self.get_num_rows_main_tables()
-        pFcreate.process_VOEvent(os.path.join(self.test_data, 'retract_1.xml'))
+        decode.decode_VOEvent(os.path.join(self.test_data, 'retract_1.xml'),
+                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
+                              self.USER_NAME, self.USER_PASSWORD)
         len_after = self.get_num_rows_main_tables()
         # assert frbs increased by 1
         self.assertEqual(len_before[1], len_after[1]+1)
@@ -80,8 +102,12 @@ class end2endtest(unittest.TestCase):
         authors, frbs, observations, rop, rmp
         '''
         len_before = self.get_num_rows_main_tables()
-        pFcreate.process_VOEvent(os.path.join(self.test_data, 'add_1.xml'))
-        pFcreate.process_VOEvent(os.path.join(self.test_data, 'retract_1.xml'))
+        decode.decode_VOEvent(os.path.join(self.test_data, 'add_1.xml'),
+                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
+                              self.USER_NAME, self.USER_PASSWORD)
+        decode.decode_VOEvent(os.path.join(self.test_data, 'retract_1.xml'),
+                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
+                              self.USER_NAME, self.USER_PASSWORD)
         len_after = self.get_num_rows_main_tables()
         # assert authors,frbs,obs,rop,rmp all have the same length
         self.assertEqual(len_before, len_after)
