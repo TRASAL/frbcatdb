@@ -16,16 +16,203 @@ import voeventparse as vp
 import datetime
 import re
 import psycopg2
+import lxml
+
+class FRBCat_remove:
+    def __init__(self, connection, cursor, mapping, event_type):
+        self.connection = connection
+        self.cursor = cursor
+        self.ivorn = (mapping[mapping['FRBCAT COLUMN']=='voevent_ivorn']
+                     )['value'].values[0]
+        self.event_type = event_type
+        
+    def remove_entry(self):
+        '''
+        Remove entry from FRBCat
+        '''
+        cont = self.remove_from_radio_measured_params()
+        if cont:
+            cont = self.remove_from_radio_observations_params()
+        if cont:
+            cont = self.remove_from_observations()
+        if cont:
+            self.remove_from_frbs()
+        self.remove_from_publications()
+        self.remove_from_authors()
+        dbase.commitToDB(self.connection, self.cursor)
+        dbase.closeDBConnection(self.connection, self.cursor)
+
+    def remove_from_publications(self):
+        pass
+
+    def remove_from_authors(self):
+        pass
+
+    def remove_from_frbs(self):
+        # check if there are more rops for the selected obs_id
+        sql = """select id as obs_id from observations
+                 where frb_id='{}'""".format(self.frb_id)
+        self.cursor.execute(sql)
+        if self.cursor.fetchone():  # is not None
+            # we don't want to delete obs_id from observations
+            # as well as entries from upstream tables
+            return False
+        else:
+            # delete from frbs_notes
+            sql = """delete from frbs_notes
+                     where frb_id='{}'""".format(self.frb_id)
+            self.cursor.execute(sql)
+            # select pub_ids from frbs_have_publications
+            sql = """select pub_id from frbs_have_publications
+                     where frb_id='{}'""".format(self.frb_id)
+            self.cursor.execute(sql)
+            self.pub_ids_frbs = self.cursor.fetchall()
+            # delete entry from frbs_have_publications
+            sql = """delete from frbs_have_publications
+                     where frb_id='{}'""".format(self.frb_id)
+            self.cursor.execute(sql)
+            # select author_id from frbs
+            sql = """select author_id from frbs
+                     where id='{}'""".format(self.frb_id)
+            self.cursor.execute(sql)
+            self.author_id_frbs = self.cursor.fetchone()
+            # delete entry from frbs
+            sql = """delete from frbs
+                     where id='{}'""".format(self.frb_id)
+            self.cursor.execute(sql)
+            return True
+        
+    def remove_from_observations(self):
+        # check if there are more rops for the selected obs_id
+        sql = """select id as rop_id from radio_observations_params
+                 where obs_id='{}'""".format(self.obs_id)
+        self.cursor.execute(sql)
+        if self.cursor.fetchone():  # is not None
+            # we don't want to delete obs_id from observations
+            # as well as entries from upstream tables
+            return False
+        else:
+            # delete from observations add_frbs_notes
+            sql = """delete from observations_notes
+                     where obs_id='{}'""".format(self.obs_id)
+            self.cursor.execute(sql)
+            # select pub_ids from observations_have_publications
+            sql = """select pub_id from observations_have_publications
+                     where obs_id='{}'""".format(self.obs_id)
+            self.cursor.execute(sql)
+            self.pub_ids_obs = self.cursor.fetchall()
+            # delete entry from observations_have_publications
+            sql = """delete from observations_have_publications
+                     where obs_id='{}'""".format(self.obs_id)
+            self.cursor.execute(sql)
+            # select frb_id, author_id from observations
+            sql = """select frb_id, author_id from observations
+                     where id='{}'""".format(self.obs_id)
+            self.cursor.execute(sql)
+            sql_exec = self.cursor.fetchone()
+            self.frb_id = sql_exec['frb_id']
+            self.author_id_obs = sql_exec['author_id']
+            # delete entry from observations
+            sql = """delete from observations
+                     where id='{}'""".format(self.obs_id)
+            self.cursor.execute(sql)
+            return True
+    
+    def remove_from_radio_observations_params(self):
+        # check if there are more rmps for the selected rop_id
+        sql = """select id as rmp_id from radio_measured_params
+                 where rop_id='{}'""".format(self.rop_id)
+        self.cursor.execute(sql)
+        if self.cursor.fetchone():  # is not None
+            # we don't want to delete rop_id from radio_observation_params
+            # as well as entries from upstream tables
+            return False
+        else:
+            # delete from radio_observations_params_notes
+            sql = """delete from radio_observations_params_notes
+                     where rop_id='{}'""".format(self.rop_id)
+            self.cursor.execute(sql)
+            # select pub_ids from rop_have_publications
+            sql = """select pub_id
+                     from radio_observations_params_have_publications
+                     where rop_id='{}'""".format(self.rop_id)
+            self.cursor.execute(sql)
+            self.pub_ids_rop = self.cursor.fetchall()
+            # delete entry from rop_have_publications
+            sql = """delete from radio_observations_params_have_publications
+                     where rop_id='{}'""".format(self.rop_id)
+            self.cursor.execute(sql)             
+            # select obs_id, author_id from rop
+            sql = """select obs_id, author_id from radio_observations_params
+                     where id='{}'""".format(self.rop_id)
+            self.cursor.execute(sql)
+            sql_exec = self.cursor.fetchone()
+            self.obs_id = sql_exec['obs_id']
+            self.author_id = sql_exec['author_id']
+            # delete entry from radio_observations_params
+            sql = """delete from radio_observations_params
+                     where id='{}'""".format(self.rop_id)
+            self.cursor.execute(sql)
+            return True
+
+    def remove_from_radio_measured_params(self):
+        sql = """select rop_id,id as rmp_id from radio_measured_params
+                 where voevent_ivorn='{}'""".format(self.ivorn)
+        self.cursor.execute(sql)
+        sql_exec = self.cursor.fetchone()
+        if sql_exec:  # there is an entry to remove
+            self.rmp_id = sql_exec['rmp_id']
+            self.rop_id = sql_exec['rop_id']
+            # delete from radio_measured_params_notes
+            sql = """delete from radio_measured_params_notes
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            # get all radio_images for the selected rmp_id
+            sql = """select radio_image_id
+                    from radio_images_have_radio_measured_params
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            # delete all radio_images for the selected rmp_id
+            for radio_image_id in self.cursor:
+                sql = """delete from radio_images
+                        where id='{}'""".format(radio_image_id)
+                self.cursor.execute(sql)
+            # delete entry from radio_images_have_radio_measured_params
+            sql = """delete from radio_images_have_radio_measured_params
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            # select all publication ids for the selected rmp_id
+            sql = """select pub_id
+                    from radio_measured_params_have_publications
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            self.pub_ids_rmp = self.cursor.fetchall()
+            # delete entry from rmp_have_publications
+            sql = """delete from radio_measured_params_have_publications
+                    where rmp_id='{}'""".format(self.rmp_id)
+            self.cursor.execute(sql)
+            # delete all publications for the selected rmp_id
+            #for pub_id in self.cursor:
+            #    sql = """delete from publications where id
+            # delete entry from radio_observations_params
+            sql = """delete from radio_measured_params
+                    where voevent_ivorn='{}'""".format(self.ivorn)
+            self.cursor.execute(sql)
+            return True
+        else:
+            # no entry found in database
+            return False
 
 class FRBCat_add:
-    def __init__(self, connection, cursor, mapping):
+    def __init__(self, connection, cursor, mapping, event_type):
         self.connection = connection
         self.cursor = cursor
         self.mapping = mapping
-
+        self.event_type = event_type
+        
     def check_author_exists(self, ivorn):
         '''
-        Check if author already exists in database
+        Check if author already exists in Fdatabase
         if author is found, set self.author_id
         '''
         # check if the author ivorn is already in the database
@@ -190,16 +377,18 @@ class FRBCat_add:
         self.insert_into_database(table, rows, value)
 
     def insert_into_database(self, table, rows, value):
-        row_sql = ', '.join(map(str, rows))
         try:
-            self.cursor.execute("INSERT INTO {} ({}) VALUES {}".format(
-                                table, row_sql, tuple(value)))
-            return self.connection.insert_id()  # alternatively cursor.lastrowid
-            # BE CAREFULL: IN POSTGRES I DO NOT THINK THIS WAY OF GETING THE ID WORKS
-            # YOU MAY HAVE TO USE "INSERT ... RETURNING ..."
+            row_sql = ', '.join(map(str, rows))
+            parameters = '(' + ','.join(['%s' for i in value]) + ')'
+            value = [x.text if isinstance(
+                     x, lxml.objectify.StringElement) else x for x in value]
+            value = nparray(value)
+            sql = """INSERT INTO {} ({}) VALUES {} RETURNING id
+                  """.format(table, row_sql, parameters)
+            self.cursor.execute(sql, tuple(value))
+            return self.cursor.fetchone()[0]  # return last insert id
         except psycopg2.IntegrityError:
             self.connection.rollback()
-
             # database IntegrityError
             if table == 'authors':
                 # authors table should have unique ivorn
@@ -253,10 +442,13 @@ class FRBCat_add:
                          db values in mapping['values']
         '''
         # define database tables in the order they need to be filled
-        tables = ['authors', 'frbs', 'frbs_notes', 'observations',
-                  'observations_notes', 'radio_observations_params',
-                  'radio_observations_params_notes',
-                  'radio_measured_params', 'radio_measured_params_notes']
+        #tables = ['authors', 'frbs', 'frbs_notes', 'observations',
+        #          'observations_notes', 'radio_observations_params',
+        #          'radio_observations_params_notes',
+        #          'radio_measured_params', 'radio_measured_params_notes']
+        tables = ['authors', 'frbs', 'observations',
+                  'radio_observations_params',
+                  'radio_measured_params']
         # loop over defined tables
         for table in tables:
             try:
@@ -307,19 +499,17 @@ class FRBCat_add:
             # TODO: is this what we want to do?
             self.connection.rollback()
         else:
-            # commit changes to db
-            #self.connection.rollback()  # TODO: placeholder for next line
             dbase.commitToDB(self.connection, self.cursor)
         dbase.closeDBConnection(self.connection, self.cursor)
 
 
-class FRBCat_decode:
+class FRBCat_create:
     def __init__(self, connection, cursor, frbs_id):
         self.connection = connection
         self.cursor = cursor
         self.frbs_id = frbs_id
-
-    def decode_VOEvent_from_FRBCat(self):
+        
+    def create_VOEvent_from_FRBCat(self):
         '''
         Decode a VOEvent from the FRBCat database
           input:
@@ -337,9 +527,9 @@ class FRBCat_decode:
                  ON frbs.author_id=authors.id
                 INNER JOIN observations
                  ON observations.frb_id=frbs.id
-                LEFT JOIN radio_observations_params
+                INNER JOIN radio_observations_params
                  ON radio_observations_params.obs_id=observations.id
-                LEFT JOIN radio_measured_params
+                INNER JOIN radio_measured_params
                  ON radio_measured_params.rop_id=radio_observations_params.id
                 LEFT JOIN radio_measured_params_notes
                  ON radio_measured_params_notes.rmp_id=radio_measured_params.id
@@ -486,7 +676,7 @@ class FRBCat_decode:
         # check if the created event is a valid VOEvent v2.0 event
         if vp.valid_as_v2_0(self.v):
             # save to VOEvent xml
-            with open(xmlname, 'w') as f:
+            with open(xmlname, 'wb') as f:
                 vp.dump(self.v, f, pretty_print=True)
 
     def rop_params(self):
@@ -494,11 +684,12 @@ class FRBCat_decode:
         Add radio observations params section to voevent object
         '''
         # rop params in group 'radio observations params'
-        rop_params = ['backend', 'beam', 'gl', 'gb', 'FWHM', 'sampling_time',
+        rop_params = ['backend', 'beam', 'gl', 'gb', 'fwhm', 'sampling_time',
                       'bandwidth', 'centre_frequency', 'npol',
                       'channel_bandwidth', 'bits_per_sample', 'gain',
                       'tsys', 'ne2001_dm_limit', 'rop_note']
-        rop_param_list = self.createParamList(rop_params)
+        rop_desc = VOEvent_params(param_type='rop')
+        rop_param_list = self.createParamList(rop_params, rop_desc)
         self.v.What.append(vp.Group(params=rop_param_list,
                                     name='radio observations params'))
 
@@ -517,12 +708,13 @@ class FRBCat_decode:
                       'spectral_index', 'spectral_index_error', 'z_phot',
                       'z_phot_error', 'z_spec', 'z_spec_error', 'rank',
                       'rmp_note']
-        rmp_param_list = self.createParamList(rmp_params)
+        rmp_desc = VOEvent_params(param_type='rmp')
+        rmp_param_list = self.createParamList(rmp_params, rmp_desc)
         # rmp params in group 'radio measured params'
         self.v.What.append(vp.Group(params=rmp_param_list,
                            name='radio measured params'))
 
-    def createParamList(self, params):
+    def createParamList(self, params, param_desc):
         '''
         ceate a list of params, so these can be written as group
         '''
@@ -534,15 +726,31 @@ class FRBCat_decode:
                 # key is not in database
                 raise
             if value:
+                # exctract param description 
+                item_desc = param_desc.loc[param_desc[
+                    'name'].str.lower()==param.lower()]
                 try:
-                    paramList.extend(vp.Param(name=param,
-                                              value=self.event[param]))
+                    if not item_desc.empty:
+                        paramList.extend(
+                            vp.Param(name=param,
+                                value=self.event[param],
+                                unit=item_desc['unit'].values[0],
+                                ucd=item_desc['ucd'].values[0]))
+                    else:
+                        paramList.extend(
+                            vp.Param(name=param,
+                                value=self.event[param]))
                 except NameError:
-                    paramList = [vp.Param(name=param, value=self.event[param])]
+                    if not item_desc.empty:
+                        paramList = [vp.Param(name=param, value=self.event[param],
+                                              unit=item_desc['unit'].values[0],
+                                              ucd=item_desc['ucd'].values[0])]
+                    else:
+                        paramList = [vp.Param(name=param, value=self.event[param])]
         return paramList
 
 
-def VOEvent_FRBCAT_mapping(new_event=True):
+def VOEvent_FRBCAT_mapping():
     '''
     Create a dictionary of dicts of VOEvent -> FRBCAT mapping
     new_event: boolean indicating if event is a new event,default=True
@@ -553,8 +761,34 @@ def VOEvent_FRBCAT_mapping(new_event=True):
     # location of mapping.txt file
     mapping = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
                            'mapping.txt')
-    df = pd.read_table(mapping, sep='/', engine='c', header=0,
+    df = pd.read_table(mapping, sep='\\', engine='c', header=0,
                        skiprows=[0], skip_blank_lines=True,
                        skipinitialspace=True,
                        converters=convert).fillna('None')
+    # replace empty strings by None
+    #df = df.replace([''], [None])    
+    return df
+
+def VOEvent_params(param_type=None):
+    '''
+    Read param txt file into a pandas dataframe
+    '''
+    convert = {0: utils.strip, 1: utils.strip, 2: utils.strip,
+               3: utils.strip}
+    # location of file containing parameter description
+    if param_type == 'rop':  # radio observation param
+        filename = 'rop_params.txt'
+    elif param_type == 'rmp':  # radio measured param
+        filename = 'rmp_params.txt'
+    else:
+        pass  # TODO: log warning, unknown param type
+    pdesc = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
+                         filename)  # path to file
+    # create pandas dataframe
+    df = pd.read_table(pdesc, sep='\\', engine='c', header=0,
+                       skiprows=None, skip_blank_lines=True,
+                       skipinitialspace=True,
+                       converters=convert).fillna('None')
+    # replace empty strings by None
+    df = df.replace([''], [None])
     return df

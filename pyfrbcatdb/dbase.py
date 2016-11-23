@@ -7,10 +7,9 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 import psycopg2
 import psycopg2.extras
-from pyfrbcatdb import config
 
-def connectToDB(dbName=config.DB_NAME, userName=config.USER_NAME, dbPassword=config.USER_PASSWORD, dbHost=config.DB_HOST,
-                dbPort=config.DB_PORT, dbCursor=psycopg2.extras.DictCursor):
+def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
+                dbPort=None, dbCursor=psycopg2.extras.DictCursor):
     '''
     Connect to a specified PostgreSQL DB and return connection and cursor objects.
     '''

@@ -1,27 +1,42 @@
 #!/usr/bin/env python
 
 '''
-description:    Decode VOEvent db entry to xml: Runner
+description:    Create a db entry for a VOEvent: Runner
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 
-import argparse
-from pyfrbcatdb import decode_VOEvent as pFdecode
-
+import configargparse
+from pyfrbcatdb import decode_VOEvent
+import sys
+import os
+from os import environ as env 
 
 def cli_parser():
     '''
     parse command line arguments:
+        should be single/multiple valid VOEvent xml files
     '''
-    parser = argparse.ArgumentParser(description='Process VOEvent XML file '
+    cfile = os.path.join(sys.prefix, 'etc', 'pyfrbcatdb', 'dbase.config')
+    parser = configargparse.ArgumentParser(default_config_files=[cfile],
+        description='Process VOEvent XML file '
                                      'and add it to FRB database')
-    parser.add_argument('frb_ids', metavar='frb_ids',
-                        type=int, nargs='+',
-                        help='List of frbs ids')
-    return vars(parser.parse_args())['frb_ids']
+    parser.add('-c', '--my-config', required=False, is_config_file=True, help='config file path')
+    parser.add('--DB_NAME', required=True, help='name postgres database', env_var='DB_NAME')
+    parser.add('--DB_HOST', help='name postgres database', env_var='DB_HOST')
+    parser.add('--DB_PORT', help='name postgres database', env_var='DB_PORT')
+    parser.add('--USER_NAME', required=True, help='user postgres database', env_var='USER_NAME')
+    parser.add('--USER_PASSWORD', help='user postgres database', env_var='USER_PASSWORD')
+    parser.add('VOEvents', metavar='VOEvent',
+                        type=configargparse.FileType('rb'), nargs='+',
+                        help='List of VOEvent XML files')
+    results = parser.parse_args()
+    return results
 
 
 if __name__ == "__main__":
-    frb_ids = cli_parser()
-    pFdecode.decode_FRBCat_entry(frb_ids)
+    results = cli_parser()
+    for voevent in results.VOEvents:  # TODO: do we allow multiple xml files?
+        vo_data, mapping = decode_VOEvent.decode_VOEvent(
+            voevent, results.DB_NAME, results.DB_HOST, results.DB_PORT,
+            results.USER_NAME, results.USER_PASSWORD)

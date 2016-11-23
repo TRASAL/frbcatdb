@@ -3,3 +3,5 @@ pandas
 psycopg2
 coverage
 nose
+configargparse
+flask
