@@ -6,22 +6,32 @@ license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 
-import argparse
+import configargparse
 from pyfrbcatdb import create_VOEvent as pFcreate
-
+import os
+import sys
 
 def cli_parser():
     '''
     parse command line arguments:
     '''
-    parser = argparse.ArgumentParser(description='Process VOEvent XML file '
-                                     'and add it to FRB database')
-    parser.add_argument('frb_ids', metavar='frb_ids',
-                        type=int, nargs='+',
-                        help='List of frbs ids')
-    return vars(parser.parse_args())['frb_ids']
+    cfile = os.path.join(sys.prefix, 'etc', 'pyfrbcatdb', 'dbase.config')
+    parser = configargparse.ArgumentParser(default_config_files=[cfile],
+        description='Create VOEvent XML file from FRB database')
+    parser.add('-c', '--my-config', required=False, is_config_file=True, help='config file path')
+    parser.add('--DB_NAME', required=True, help='name postgres database', env_var='DB_NAME')
+    parser.add('--DB_HOST', help='name postgres database', env_var='DB_HOST')
+    parser.add('--DB_PORT', help='name postgres database', env_var='DB_PORT')
+    parser.add('--USER_NAME', required=True, help='user postgres database', env_var='USER_NAME')
+    parser.add('--USER_PASSWORD', help='user postgres database', env_var='USER_PASSWORD')    
+    parser.add('frb_ids', metavar='frb_ids', type=int, nargs='+',
+               help='List of frbs ids')
+    results = parser.parse_args()
+    return results
 
 
 if __name__ == "__main__":
-    frb_ids = cli_parser()
-    pFcreate.decode_FRBCat_entry(frb_ids)
+    results = cli_parser()
+    pFcreate.decode_FRBCat_entry(results.frb_ids, results.DB_NAME,
+                                 results.DB_HOST, results.DB_PORT,
+                                 results.USER_NAME, results.USER_PASSWORD)

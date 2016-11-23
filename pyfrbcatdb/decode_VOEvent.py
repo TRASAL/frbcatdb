@@ -12,7 +12,13 @@ from pyfrbcatdb import utils
 
 
 class decode_VOEvent:
-    def __init__(self, voevent):
+    def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME, 
+                 USER_PASSWORD):
+        self.DB_NAME = DB_NAME
+        self.DB_HOST = DB_HOST
+        self.DB_PORT = DB_PORT
+        self.USER_NAME = USER_NAME
+        self.USER_PASSWORD = USER_PASSWORD
         self.process_VOEvent(voevent)
     
     def process_VOEvent(self, voevent):
@@ -160,7 +166,9 @@ class decode_VOEvent:
         '''
         # connect to database
         # TODO: add connection details
-        connection, cursor = dbase.connectToDB()
+        connection, cursor = dbase.connectToDB(self.DB_NAME, self.USER_NAME,
+                                               self.USER_PASSWORD, self.DB_HOST,
+                                               self.DB_PORT)
         if event_type[0] in ['retraction', 'supersedes']:
             # for retraction or supersedes we need to remove the entry from FRBCat
             FRBCat = FRBCat_remove(connection, cursor, mapping, event_type)
