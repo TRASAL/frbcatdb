@@ -53,16 +53,17 @@ class decode_VOEvent:
         }
         try:
             utils.decdeg2dms(vp.get_event_position(v, index=0).ra)
-            key = switcher[[mapping['FRBCAT COLUMN'].iloc[idx]][0]]
+            key = switcher.get(mapping['FRBCAT COLUMN'].iloc[idx])
             if key in ['raj', 'decj', 'ra', 'dec']:
-                return utils.decdeg2dms(getattr(vp.get_event_position(v, index=0),
-                                        key))
+                return utils.decdeg2dms(getattr(
+                    vp.get_event_position(v, index=0), key))
             else:
-                return getattr(vp.get_event_position(v, index=0),
-                            key)
+                return getattr(vp.get_event_position(v, index=0), key)
         except AttributeError:
             return None
         except KeyError:
+            return None
+        except TypeError:
             return None
 
     def get_attrib(self, v, mapping, idx):
@@ -94,7 +95,7 @@ class decode_VOEvent:
             '':         None
         }
         # get function from switcher dictionary
-        return switcher[mapping['VOEvent TYPE'].iloc[idx]]
+        return switcher.get(mapping['VOEvent TYPE'].iloc[idx], lambda: None)
 
     def parse_VOEvent(self, voevent, mapping):
         '''
@@ -152,7 +153,6 @@ class decode_VOEvent:
                 range(0, len(vo_alta))]))()
         # make sure we don't have any lists here
         merged = [x[0] if isinstance(x, list) else x for x in merged]
-
         # add to pandas dataframe as a new column
         mapping.loc[:, 'value'] = pandas.Series(merged, index=mapping.index)
         # need to add xml file to database as well
