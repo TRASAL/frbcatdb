@@ -128,7 +128,7 @@ class decode_VOEvent:
         # if a path is not found in the xml it gets an empty list which is
         # removed in the next step
         # puts all params into dict param_data[group][param_name]
-        param_data = vp.pull_params(v)
+        param_data = vp.get_grouped_params(v)
         vo_data = (lambda v=v, mapping=mapping: (
                 [v.xpath('.//' + event.replace('.', '/')) if mapping[
                     'VOEvent TYPE'].iloc[idx] not in [
@@ -152,6 +152,7 @@ class decode_VOEvent:
                 range(0, len(vo_alta))]))()
         # make sure we don't have any lists here
         merged = [x[0] if isinstance(x, list) else x for x in merged]
+
         # add to pandas dataframe as a new column
         mapping.loc[:, 'value'] = pandas.Series(merged, index=mapping.index)
         # need to add xml file to database as well
