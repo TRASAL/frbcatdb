@@ -52,13 +52,13 @@ class decode_VOEvent:
             'pointing_error': 'err',
         }
         try:
-            utils.decdeg2dms(vp.pull_astro_coords(v, index=0).ra)
+            utils.decdeg2dms(vp.get_event_position(v, index=0).ra)
             key = switcher[[mapping['FRBCAT COLUMN'].iloc[idx]][0]]
             if key in ['raj', 'decj', 'ra', 'dec']:
-                return utils.decdeg2dms(getattr(vp.pull_astro_coords(v, index=0),
+                return utils.decdeg2dms(getattr(vp.get_event_position(v, index=0),
                                         key))
             else:
-                return getattr(vp.pull_astro_coords(v, index=0),
+                return getattr(vp.get_event_position(v, index=0),
                             key)
         except AttributeError:
             return None
@@ -81,10 +81,7 @@ class decode_VOEvent:
         Get time in UTC
         Return string 'YYYY-MM-DD HH:MM:SS'
         '''
-        isotime = vp.pull_isotime(v, index=0)
-        # convert to UTC
-        utctime = isotime.astimezone(timezone('UTC'))
-        # return time in UTC string
+        utctime = vp.get_event_time_as_utc(v, index=0)
         return utctime.strftime("%Y-%m-%d %H:%M:%S")
 
     def get_value(self, v, param_data, mapping, idx):
