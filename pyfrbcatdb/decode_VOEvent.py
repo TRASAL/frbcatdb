@@ -52,17 +52,18 @@ class decode_VOEvent:
             'pointing_error': 'err',
         }
         try:
-            utils.decdeg2dms(vp.pull_astro_coords(v, index=0).ra)
-            key = switcher[[mapping['FRBCAT COLUMN'].iloc[idx]][0]]
+            utils.decdeg2dms(vp.get_event_position(v, index=0).ra)
+            key = switcher.get(mapping['FRBCAT COLUMN'].iloc[idx])
             if key in ['raj', 'decj', 'ra', 'dec']:
-                return utils.decdeg2dms(getattr(vp.pull_astro_coords(v, index=0),
-                                        key))
+                return utils.decdeg2dms(getattr(
+                    vp.get_event_position(v, index=0), key))
             else:
-                return getattr(vp.pull_astro_coords(v, index=0),
-                            key)
+                return getattr(vp.get_event_position(v, index=0), key)
         except AttributeError:
             return None
         except KeyError:
+            return None
+        except TypeError:
             return None
 
     def get_attrib(self, v, mapping, idx):
@@ -81,10 +82,7 @@ class decode_VOEvent:
         Get time in UTC
         Return string 'YYYY-MM-DD HH:MM:SS'
         '''
-        isotime = vp.pull_isotime(v, index=0)
-        # convert to UTC
-        utctime = isotime.astimezone(timezone('UTC'))
-        # return time in UTC string
+        utctime = vp.get_event_time_as_utc(v, index=0)
         return utctime.strftime("%Y-%m-%d %H:%M:%S")
 
     def get_value(self, v, param_data, mapping, idx):
@@ -97,7 +95,7 @@ class decode_VOEvent:
             '':         None
         }
         # get function from switcher dictionary
-        return switcher[mapping['VOEvent TYPE'].iloc[idx]]
+        return switcher.get(mapping['VOEvent TYPE'].iloc[idx], lambda: None)
 
     def parse_VOEvent(self, voevent, mapping):
         '''
@@ -131,7 +129,7 @@ class decode_VOEvent:
         # if a path is not found in the xml it gets an empty list which is
         # removed in the next step
         # puts all params into dict param_data[group][param_name]
-        param_data = vp.pull_params(v)
+        param_data = vp.get_grouped_params(v)
         vo_data = (lambda v=v, mapping=mapping: (
                 [v.xpath('.//' + event.replace('.', '/')) if mapping[
                     'VOEvent TYPE'].iloc[idx] not in [
