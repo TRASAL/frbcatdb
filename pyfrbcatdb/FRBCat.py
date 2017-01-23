@@ -14,6 +14,7 @@ from numpy import where as npwhere
 from numpy import ravel as npravel
 import voeventparse as vp
 import datetime
+import pytz
 import re
 import psycopg2
 import lxml
@@ -25,7 +26,7 @@ class FRBCat_remove:
         self.ivorn = (mapping[mapping['FRBCAT COLUMN']=='voevent_ivorn']
                      )['value'].values[0]
         self.event_type = event_type
-        
+
     def remove_entry(self):
         '''
         Remove entry from FRBCat
@@ -81,7 +82,7 @@ class FRBCat_remove:
                      where id='{}'""".format(self.frb_id)
             self.cursor.execute(sql)
             return True
-        
+
     def remove_from_observations(self):
         # check if there are more rops for the selected obs_id
         sql = """select id as rop_id from radio_observations_params
@@ -117,7 +118,7 @@ class FRBCat_remove:
                      where id='{}'""".format(self.obs_id)
             self.cursor.execute(sql)
             return True
-    
+
     def remove_from_radio_observations_params(self):
         # check if there are more rmps for the selected rop_id
         sql = """select id as rmp_id from radio_measured_params
@@ -141,7 +142,7 @@ class FRBCat_remove:
             # delete entry from rop_have_publications
             sql = """delete from radio_observations_params_have_publications
                      where rop_id='{}'""".format(self.rop_id)
-            self.cursor.execute(sql)             
+            self.cursor.execute(sql)
             # select obs_id, author_id from rop
             sql = """select obs_id, author_id from radio_observations_params
                      where id='{}'""".format(self.rop_id)
@@ -209,7 +210,7 @@ class FRBCat_add:
         self.cursor = cursor
         self.mapping = mapping
         self.event_type = event_type
-        
+
     def check_author_exists(self, ivorn):
         '''
         Check if author already exists in Fdatabase
@@ -508,7 +509,7 @@ class FRBCat_create:
         self.connection = connection
         self.cursor = cursor
         self.frbs_id = frbs_id
-        
+
     def create_VOEvent_from_FRBCat(self):
         '''
         Decode a VOEvent from the FRBCat database
@@ -652,7 +653,7 @@ class FRBCat_create:
                            dec=utils.dms2decdeg(self.event['decj']),
                            err=self.event['pointing_error'], units='deg',
                            system=vp.definitions.sky_coord_system.utc_fk5_geo),
-                          obs_time=self.event['utc'],
+                          obs_time=pytz.utc.localize(self.event['utc']),
                           observatory_location=self.event['telescope'])
 
     def set_why(self):
@@ -726,7 +727,7 @@ class FRBCat_create:
                 # key is not in database
                 raise
             if value:
-                # exctract param description 
+                # exctract param description
                 item_desc = param_desc.loc[param_desc[
                     'name'].str.lower()==param.lower()]
                 try:
@@ -766,7 +767,7 @@ def VOEvent_FRBCAT_mapping():
                        skipinitialspace=True,
                        converters=convert).fillna('None')
     # replace empty strings by None
-    #df = df.replace([''], [None])    
+    #df = df.replace([''], [None])
     return df
 
 def VOEvent_params(param_type=None):
