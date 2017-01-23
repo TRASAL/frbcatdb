@@ -18,6 +18,7 @@ import pytz
 import re
 import psycopg2
 import lxml
+from xml.dom.minidom import parseString
 
 class FRBCat_remove:
     def __init__(self, connection, cursor, mapping, event_type):
@@ -579,7 +580,7 @@ class FRBCat_create:
         # Define Why section
         self.set_why()
         # TODO: add citations (not in frbcat?)
-        self.save_xml(xmlname)
+        self.save_xml(xmlname, force_pretty_print=True)
 
     def init_voevent(self):
         '''
@@ -670,15 +671,25 @@ class FRBCat_create:
             vp.add_why(self.v,
                        inferences=vp.Inference(name=self.event['name']))
 
-    def save_xml(self, xmlname):
+    def save_xml(self, xmlname, force_pretty_print=False):
         '''
         Check the validity of the voevent xml file and save as xmlname
         '''
         # check if the created event is a valid VOEvent v2.0 event
         if vp.valid_as_v2_0(self.v):
             # save to VOEvent xml
-            with open(xmlname, 'wb') as f:
-                vp.dump(self.v, f, pretty_print=True)
+            if force_pretty_print:
+                with open(xmlname, 'w') as f:
+                 if force_pretty_print:
+                     # use xml.dom.minidom to force pretty printing xml
+                     vp.voevent._return_to_standard_xml(self.v)
+                     txt = lxml.etree.tostring(self.v)
+                     f.write(parseString(txt).toprettyxml())
+            else:
+                with open(xmlname, 'wb') as f:
+                    # lxml pretty printing often does not work
+                    # workaround use force_pretty_print=True
+                    vp.dump(self.v, f, pretty_print=True)
 
     def rop_params(self):
         '''
