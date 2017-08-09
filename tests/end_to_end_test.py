@@ -29,7 +29,6 @@ class end2endtest(unittest.TestCase):
                 dbName=self.DB_NAME, userName=self.USER_NAME,
                 dbPassword=self.USER_PASSWORD, dbHost=self.DB_HOST,
                 dbPort=self.DB_PORT, dbCursor=psycopg2.extensions.cursor)
-            
         self.test_data = os.path.join(dirname(abspath(__file__)), '..', 'test_data')
 
     def tearDown(self):
@@ -59,14 +58,16 @@ class end2endtest(unittest.TestCase):
 
     def test_01(self):
         '''
-        Adding a new event with existing author 
-        should add one row in frbs, observations, rop, rmp
+        Adding a new event with a new author
+        should add one row in authors, frbs, observations, rop, rmp
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'add_1.xml'),
                               self.DB_NAME, self.DB_HOST, self.DB_PORT,
                               self.USER_NAME, self.USER_PASSWORD)
         len_after = self.get_num_rows_main_tables()
+        # assert authors increased by 1
+        self.assertEqual(len_before[0], len_after[0]-1)
         # assert frbs increased by 1
         self.assertEqual(len_before[1], len_after[1]-1)
         # assert observations increased by 1
@@ -76,41 +77,6 @@ class end2endtest(unittest.TestCase):
         # assert rmp increased by 1
         self.assertEqual(len_before[4], len_after[4]-1)
 
-    def test_02(self):
-        '''
-        Retracting the event added by test_01
-        should remove one row in frbs, observations, rop, rmp
-        '''
-        len_before = self.get_num_rows_main_tables()
-        decode.decode_VOEvent(os.path.join(self.test_data, 'retract_1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD)
-        len_after = self.get_num_rows_main_tables()
-        # assert frbs increased by 1
-        self.assertEqual(len_before[1], len_after[1]+1)
-        # assert observations increased by 1
-        self.assertEqual(len_before[2], len_after[2]+1)
-        # assert rop increased by 1
-        self.assertEqual(len_before[3], len_after[3]+1)
-        # assert rmp increased by 1
-        self.assertEqual(len_before[4], len_after[4]+1)
-        
-    def test_03(self):
-        '''
-        Adding a new event with existing author and retracting the same
-        event should result in the same amount of rows in
-        authors, frbs, observations, rop, rmp
-        '''
-        len_before = self.get_num_rows_main_tables()
-        decode.decode_VOEvent(os.path.join(self.test_data, 'add_1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD)
-        decode.decode_VOEvent(os.path.join(self.test_data, 'retract_1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD)
-        len_after = self.get_num_rows_main_tables()
-        # assert authors,frbs,obs,rop,rmp all have the same length
-        self.assertEqual(len_before, len_after)
 
 if __name__ == '__main__':
     unittest.main()
