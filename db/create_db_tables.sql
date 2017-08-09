@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS observations (
   utc TIMESTAMP NOT NULL,
   data_link TEXT,
   detected BOOLEAN NOT NULL DEFAULT FALSE,
+  verified BOOLEAN NOT NULL DEFAULT FALSE,
   UNIQUE (frb_id, telescope, utc));
 CREATE INDEX observations_author_id_fk ON observations (author_id);
 CREATE INDEX observations_frb_id_fk ON observations (frb_id);
@@ -98,12 +99,14 @@ CREATE TABLE IF NOT EXISTS radio_observations_params (
   receiver VARCHAR(255),
   backend VARCHAR(255),
   beam VARCHAR(8),
+  beam_semi_major_axis DOUBLE PRECISION,
+  beam_semi_minor_axis DOUBLE PRECISION,
+  beam_rotation_angle DOUBLE PRECISION,
   raj VARCHAR(16) NOT NULL,
   decj VARCHAR(16) NOT NULL,
   gl DOUBLE PRECISION,
   gb DOUBLE PRECISION,
   pointing_error DOUBLE PRECISION,
-  FWHM DOUBLE PRECISION,
   sampling_time DOUBLE PRECISION,
   bandwidth DOUBLE PRECISION,
   centre_frequency DOUBLE PRECISION,
@@ -112,12 +115,11 @@ CREATE TABLE IF NOT EXISTS radio_observations_params (
   bits_per_sample SMALLINT,
   gain DOUBLE PRECISION,
   tsys DOUBLE PRECISION,
-  ne2001_dm_limit DOUBLE PRECISION,
+  mw_dm_limit DOUBLE PRECISION,
   UNIQUE (obs_id, settings_id));
 CREATE INDEX radio_observations_params_author_id_fk ON radio_observations_params (author_id);
 CREATE INDEX radio_observations_params_obs_id_fk ON radio_observations_params (obs_id);
 COMMENT ON COLUMN radio_observations_params.pointing_error IS 'pointing accuracy in arcsec';
-COMMENT ON COLUMN radio_observations_params.FWHM IS 'FWHM of beam in arcmin';
 COMMENT ON COLUMN radio_observations_params.bandwidth IS 'in MHz';
 COMMENT ON COLUMN radio_observations_params.centre_frequency IS 'in MHz';
 COMMENT ON COLUMN radio_observations_params.channel_bandwidth IS 'in MHz';
@@ -168,22 +170,21 @@ CREATE TABLE IF NOT EXISTS radio_measured_params (
   dm_index_error DOUBLE PRECISION,
   scattering_index DOUBLE PRECISION,
   scattering_index_error DOUBLE PRECISION,
-  scattering_time DOUBLE PRECISION,
-  scattering_time_error DOUBLE PRECISION,
+  scattering DOUBLE PRECISION,
+  scattering_error DOUBLE PRECISION,
   linear_poln_frac DOUBLE PRECISION,
   linear_poln_frac_error DOUBLE PRECISION,
   circular_poln_frac DOUBLE PRECISION,
   circular_poln_frac_error DOUBLE PRECISION,
   spectral_index DOUBLE PRECISION,
   spectral_index_error DOUBLE PRECISION,
-  z_phot DOUBLE PRECISION,
-  z_phot_error DOUBLE PRECISION,
-  z_spec DOUBLE PRECISION,
-  z_spec_error DOUBLE PRECISION,
+  rm DOUBLE PRECISION,
+  rm_error DOUBLE PRECISION,
+  redshift DOUBLE PRECISION,
   rank INTEGER);
 CREATE INDEX radio_measured_params_author_id_fk ON radio_measured_params (author_id);
 CREATE INDEX radio_measured_params_rop_id_fk ON radio_measured_params (rop_id);
-COMMENT ON COLUMN radio_measured_params.scattering_time IS 'At 1 GHz';
+COMMENT ON COLUMN radio_measured_params.scattering IS 'At 1 GHz';
 
 -- -----------------------------------------------------
 -- Table radio_measured_params_have_publications
