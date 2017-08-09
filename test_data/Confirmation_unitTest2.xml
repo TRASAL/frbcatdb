@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="observation" ivorn="ivo://au.csiro.parkes/superb#FRB1405141714/57954.56250000"> <!-- MJD of VOEvent creation -->
+    <Who>
+    	<AuthorIVORN>ivo://au.csiro.parkes.superb</AuthorIVORN>
+    	<Date>2017-07-20T13:30:00</Date> <!-- Time of event creation -->
+    	<Author><contactEmail>ebpetroff@gmail.com</contactEmail><contactName>Emily Petroff</contactName></Author>
+    </Who>
+        <Group name="advanced parameters">
+    	    <Param dataType="float" name="dm_index_error" unit="None" value="0.005"><Description>Dispersion measure index error</Description></Param>
+    	    <Param dataType="float" name="scattering_timescale" unit="ms" value="4.00"><Description>Scattering timescale at 1 GHz</Description></Param>
+    	    <Param dataType="float" name="scatter_index" unit="None" value="0.01"><Description>Scatter index</Description></Param>
+        </Group>
+    </What>
+     <WhereWhen>
+      <ObsDataLocation>
+        <ObservatoryLocation id="PARKES">
+          <AstroCoordSystem id="UTC-GEOD-TOPO"/>
+          <AstroCoords coord_system_id="UTC-GEOD-TOPO">
+            <Position3D unit="deg-deg-m">
+              <Value3>
+                <C1>148.2635101</C1>
+                <C2>-32.9984064</C2>
+                <C3>414.80</C3>
+                </Value3>
+            </Position3D>
+        </AstroCoords>
+            </ObservatoryLocation>
+            <ObservationLocation>
+                <AstroCoordSystem id="UTC-FK5-GEO"/><AstroCoords coord_system_id="UTC-FK5-GEO">
+                <Time unit="s"><TimeInstant><ISOTime>2014-05-14T17:14:11.059</ISOTime></TimeInstant></Time> <!-- Time FRB occured -->
+                <Position2D unit="deg"><Name1>RA</Name1><Name2>Dec</Name2><Value2><C1>338.525000</C1><C2>-12.312778</C2></Value2><Error2Radius>0.125</Error2Radius></Position2D>
+                </AstroCoords>
+           </ObservationLocation>
+        </ObsDataLocation>
+    </WhereWhen>
+	<Why importance="0">
+        <Name>FRB140514</Name>
+	    <Concept>Catalogue update</Concept><Description>Catalogue update to a few parameters</Description>
+	</Why>
+	<Citations>
+	    <EventIVORN cite="supersedes">ivo://au.csiro.parkes/superb#FRB1405141714/57953.44444444</EventIVORN>
+	    <Description>Update of a few parameters</Description>
+	</Citations>
+</voe:VOEvent>
