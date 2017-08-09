@@ -16,7 +16,7 @@ class BasicDBTest(unittest.TestCase):
         'frbs': 'id,author_id,name,utc,private' ,
         'frbs_have_publications': 'frb_id,pub_id',
         'frbs_notes': 'id,frb_id,last_modified,author,note',
-        'observations': 'id,frb_id,author_id,type,telescope,utc,data_link,detected','verified',
+        'observations': 'id,frb_id,author_id,type,telescope,utc,data_link,detected,verified',
         'observations_have_publications': 'obs_id,pub_id',
         'observations_notes': 'id,obs_id,last_modified,author,note',
         'radio_observations_params': 'id,obs_id,author_id,settings_id,receiver,backend,beam,raj,decj,gl,gb,pointing_error,sampling_time,bandwidth,centre_frequency,npol,channel_bandwidth,bits_per_sample,gain,tsys,mw_dm_limit','beam_semi_major_axis','beam_semi_minor_axis','beam_rotation_angle',
