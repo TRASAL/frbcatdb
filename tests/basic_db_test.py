@@ -51,7 +51,7 @@ class BasicDBTest(unittest.TestCase):
         'radio_observations_params': (1,1,1,'settings1','receiver 1','backend 1','beam 1',None,None,None,'19:06:53','-40:37:14',356.641,-20.0206,11,0.125,288,1372.5,2,None,1,0.69,28,110),
         'radio_observations_params_have_publications': (1,1),
         'radio_observations_params_notes': (1,2,datetime.datetime(2016, 3, 13, 5, 45, 12),'J. Doe','some note'),
-        'radio_measured_params': (1,1,1,'ivo://unknown:frb1','',790,3,17,9.4,0.2,0.2,0.3,'',None,None,0,2,0.01,-4.2,1.2,None,None,None,None,None,None,None,1,None,None,None),
+        'radio_measured_params': (1,1,1,'ivo://unknown:frb1','',790,3,17,9.4,0.2,0.2,0.3,'',None,None,0,2,0.01,-4.2,1.2,None,None,None,None,None,None,None,None,1,None,None,None),
         'radio_measured_params_have_publications': (1,1),
         'radio_measured_params_notes': (1,3,datetime.datetime(2016, 3, 13, 5, 45, 12),'J. Doe','some note'),
         'radio_images': (1,'Radio Image 1', None, None),

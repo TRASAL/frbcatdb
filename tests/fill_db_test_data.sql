@@ -16,10 +16,10 @@ INSERT INTO radio_observations_params VALUES (4,4,1,'settings1','receiver 3','ba
 INSERT INTO radio_observations_params_have_publications VALUES (1,1),(2,1),(1,2),(2,2),(1,3),(2,3),(3,3),(4,3);
 INSERT INTO radio_observations_params_notes VALUES (1,2,'2016-03-13 05:45:12','J. Doe','some note');
 
-INSERT INTO radio_measured_params VALUES (1,1,1,'ivo://unknown:frb1','',790,3,17 ,9.4,0.2,0.2 ,0.3  ,'',NULL,NULL,False,2,0.01,-4.2,1.2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL);
-INSERT INTO radio_measured_params VALUES (2,2,1,'ivo://unknown:frb2','',748,3,18 ,8  ,4  ,2.25,0.53 ,'',0.26,0.09,False,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,NULL,NULL,NULL);
-INSERT INTO radio_measured_params VALUES (3,3,1,'ivo://unknown:frb3','',375,3,100,20 ,0  ,0,   1.574,'',0,0,False,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,NULL,NULL,NULL);
-INSERT INTO radio_measured_params VALUES (4,4,1,'ivo://unknown:frb4','',375,3,100,20 ,0  ,0,   1.574,'',0,0,False,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,NULL,NULL,NULL);
+INSERT INTO radio_measured_params VALUES (1,1,1,'ivo://unknown:frb1','',790,3,17 ,9.4,0.2,0.2 ,0.3  ,'',NULL,NULL,False,2,0.01,-4.2,1.2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL);
+INSERT INTO radio_measured_params VALUES (2,2,1,'ivo://unknown:frb2','',748,3,18 ,8  ,4  ,2.25,0.53 ,'',0.26,0.09,False,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,NULL,NULL,NULL);
+INSERT INTO radio_measured_params VALUES (3,3,1,'ivo://unknown:frb3','',375,3,100,20 ,0  ,0,   1.574,'',0,0,False,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,NULL,NULL,NULL);
+INSERT INTO radio_measured_params VALUES (4,4,1,'ivo://unknown:frb4','',375,3,100,20 ,0  ,0,   1.574,'',0,0,False,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,NULL,NULL,NULL);
 INSERT INTO radio_measured_params_have_publications VALUES (1,1),(2,1),(1,2),(2,2),(1,3),(2,3),(3,3),(4,3);
 INSERT INTO radio_measured_params_notes VALUES (1,3,'2016-03-13 05:45:12','J. Doe','some note');
 
