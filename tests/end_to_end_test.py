@@ -62,7 +62,7 @@ class end2endtest(unittest.TestCase):
         should add one row in authors, frbs, observations, rop, rmp
         '''
         len_before = self.get_num_rows_main_tables()
-        decode.decode_VOEvent(os.path.join(self.test_data, 'add_1.xml'),
+        decode.decode_VOEvent(os.path.join(self.test_data, 'Detection_unitTest1.xml'),
                               self.DB_NAME, self.DB_HOST, self.DB_PORT,
                               self.USER_NAME, self.USER_PASSWORD)
         len_after = self.get_num_rows_main_tables()

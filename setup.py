@@ -22,7 +22,7 @@ setup(
     url = "https://github.com/AA-ALERT/frbcatdb",
     packages=['pyfrbcatdb'],
     package_data={'pyfrbcatdb': ['mapping.txt', 'rop_params.txt',
-                                 'rmp_params.txt']},
+                                 'rmp_params.txt', 'mapping.json']},
     data_files=[(os.path.join(conf_path('pyfrbcatdb')), ['pyfrbcatdb/dbase.config'])],
     scripts=['pyfrbcatdb/scripts/decode_VOEvent',
              'pyfrbcatdb/scripts/create_VOEvent'],
