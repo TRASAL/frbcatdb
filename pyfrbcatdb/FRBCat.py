@@ -491,8 +491,8 @@ class FRBCat_add:
             # TODO: is this what we want to do?
             self.connection.rollback()
         else:
-            #dbase.commitToDB(self.connection, self.cursor)
-            self.connection.rollback()
+            dbase.commitToDB(self.connection, self.cursor)
+            #self.connection.rollback()
         dbase.closeDBConnection(self.connection, self.cursor)
 
 

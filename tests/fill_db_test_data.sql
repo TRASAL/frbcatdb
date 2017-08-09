@@ -5,7 +5,7 @@ INSERT INTO frbs VALUES (1,1,'FRB010125','2001-01-24 23:29:14',False),(2,1,'FRB0
 INSERT INTO frbs_have_publications VALUES (1,1),(1,2),(1,3),(2,3),(3,3);
 INSERT INTO frbs_notes VALUES (1,1,'2015-10-19 00:40:02','J. Doe','some note'),(2,2,'2015-10-19 00:36:26','J. Doe','some other note');
 
-INSERT INTO observations VALUES (1,1,1,'type 1','telescope 1','2001-01-24 23:29:14','http://data111/',True),(2,1,1,'type 2','telescope 2','2001-01-24 23:29:54','http://data211/',True),(3,2,1,'type 1','telescope 1','2001-06-21 11:02:09','http://data321/',True),(4,3,1,'type 2','telescope 2','2001-07-24 17:50:00','http://data431/',True);
+INSERT INTO observations VALUES (1,1,1,'type 1','telescope 1','2001-01-24 23:29:14','http://data111/',True, True),(2,1,1,'type 2','telescope 2','2001-01-24 23:29:54','http://data211/',True),(3,2,1,'type 1','telescope 1','2001-06-21 11:02:09','http://data321/',True, True),(4,3,1,'type 2','telescope 2','2001-07-24 17:50:00','http://data431/',True, True);
 INSERT INTO observations_have_publications VALUES (1,1),(2,1),(1,2),(2,2),(1,3),(2,3),(3,3),(4,3);
 INSERT INTO observations_notes VALUES (1,4,'2016-03-13 05:45:12','J. Doe','some note');
 
