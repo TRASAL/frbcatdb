@@ -5,4 +5,4 @@ coverage
 nose
 configargparse
 flask
-yaml
+PyYAML
