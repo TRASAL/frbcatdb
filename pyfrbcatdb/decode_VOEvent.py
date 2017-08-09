@@ -10,7 +10,6 @@ from pytz import timezone
 from pyfrbcatdb.FRBCat import *
 from pyfrbcatdb import utils
 
-
 class decode_VOEvent:
     def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME, 
                  USER_PASSWORD):
@@ -23,24 +22,42 @@ class decode_VOEvent:
     
     def process_VOEvent(self, voevent):
         # load mapping VOEvent -> FRBCAT
-        mapping = VOEvent_FRBCAT_mapping()
+        mapping = parse_mapping()
         # parse VOEvent xml file
         vo_dict, event_type = self.parse_VOEvent(voevent, mapping)
         # create/delete a new FRBCat entry
         self.update_FRBCat(vo_dict, event_type)
 
-    def get_param(self, param_data, mapping, idx):
+    def get_param(self, param_data, param_group, param_name):
         '''
         Get param data for a given attribute
         '''
-        # mapping['VOEvent TYPE'][idx] not in ['Param', 'Coord', 'ISOTime']
         try:
-            return (param_data[mapping['FRBCAT TABLE'].iloc[idx].replace('_',' ')]
-                    [mapping['FRBCAT COLUMN'].iloc[idx]])['value']
-        except KeyError:
+            # return value of the param if defined in the XML
+            return param_data.get(param_group).get(param_name).get('value')
+        except AttributeError:
+            # return None for the ones that are not defined in the XML
             return None
 
-    def get_coord(self, v, mapping, idx):
+    def get_coord(self, v, coordname):
+        try:
+            units = getattr(vp.get_event_position(v, index=0), 'units')
+        except AttributeError:
+            units = None
+        try:
+            if (units == 'deg') and coordname in ['ra', 'dec']:
+                return utils.decdeg2dms(getattr(vp.get_event_position(
+                  v, index=0), coordname))
+            else:
+                return getattr(vp.get_event_position(v, index=0), coordname)
+        except AttributeError:
+            return None
+        except KeyError:
+            return None
+        except TypeError:
+            return None
+
+    def get_coord2(self, v, mapping, idx):
         '''
         Get astro coordinates
         '''
@@ -66,12 +83,12 @@ class decode_VOEvent:
         except TypeError:
             return None
 
-    def get_attrib(self, v, mapping, idx):
+    def get_attrib(self, v, attribname):
         '''
         Get xml attributes
         '''
         try:
-            return v.attrib[mapping['VOEvent'].iloc[idx]]
+            return v.attrib[attribname]
         except ValueError:
             return None
         except KeyError:
@@ -85,17 +102,37 @@ class decode_VOEvent:
         utctime = vp.get_event_time_as_utc(v, index=0)
         return utctime.strftime("%Y-%m-%d %H:%M:%S")
 
-    def get_value(self, v, param_data, mapping, idx):
-        switcher = {
-            'Param':    self.get_param(param_data, mapping, idx),
-            'Coord':    self.get_coord(v, mapping, idx),
-            'ISOTime':  self.get_utc_time_str(v),
-            'XML':      vp.dumps(v),
-            'attrib':   self.get_attrib(v, mapping, idx),
-            '':         None
-        }
-        # get function from switcher dictionary
-        return switcher.get(mapping['VOEvent TYPE'].iloc[idx], lambda: None)
+    def get_value(self, v, param_data, item):
+        itemtype = item.get('type')
+        if itemtype == 'attrib':
+            return self.get_attrib(v, item.get('name'))
+        elif itemtype == 'Param':
+            return self.get_param(param_data, item.get('param_group'), item.get('param_name'))
+        elif itemtype == 'ISOTime':
+            return self.get_utc_time_str(v)
+        elif itemtype == 'XML':
+            return vp.dumps(v)
+        elif itemtype == 'voevent':
+            try:
+                return v.xpath('.//' + item.get('voevent').replace('.', '/'))[0]
+            except IndexError:
+                return None
+        elif itemtype == 'Coord':
+            return self.get_coord(v, item.get('name'))
+        elif itemtype == 'verify':
+            # get importance attribute from <Why> section
+            importance = v.Why.attrib.get(item.get('name'))
+            # for high importance set verified=True, else False
+            try:
+                if (float(importance) >= 0.95):
+                    # high importance, so default to verified
+                    return True
+                else:
+                    return False
+            except TypeError:
+                return False
+        else:
+            return None
 
     def parse_VOEvent(self, voevent, mapping):
         '''
@@ -114,7 +151,6 @@ class decode_VOEvent:
             f = open(voevent, "rb")
             v = vp.load(f)
             f.close()
-            
         # assert if xml file is a valid VOEvent
         vp.assert_valid_as_v2_0(v)
         # Check if the event is a new VOEvent
@@ -124,38 +160,17 @@ class decode_VOEvent:
                         v.xpath('Citations')[0].EventIVORN.text)
         except IndexError:
             event_type = ('new', None)
-        mapping = VOEvent_FRBCAT_mapping()
         # use the mapping to get required data from VOEvent xml
         # if a path is not found in the xml it gets an empty list which is
         # removed in the next step
         # puts all params into dict param_data[group][param_name]
         param_data = vp.get_grouped_params(v)
-        vo_data = (lambda v=v, mapping=mapping: (
-                [v.xpath('.//' + event.replace('.', '/')) if mapping[
-                    'VOEvent TYPE'].iloc[idx] not in [
-                    'Param', 'Coord', 'ISOTime', 'XML', 'attrib']
-                    and event else self.get_value(
-                    v, param_data, mapping, idx) for idx, event in
-                    enumerate(mapping['VOEvent'])]))()
-        vo_data = [None if not a else a for a in vo_data]
-        vo_alta = (lambda v=v, mapping=mapping: (
-                [v.xpath('.//' + event.replace('.', '/')) if mapping[
-                    'VOEvent TYPE'].iloc[idx] not in [
-                    'Param', 'Coord', 'ISOTime', 'XML', 'attrib']
-                    and event else self.get_value(
-                    v, param_data, mapping, idx) for idx, event in
-                    enumerate(mapping['VOEvent_alt'])]))()
-        vo_alta = [None if not a else a for a in vo_alta]
-        # TODO: merging is a placeholder:
-        # some things may depend on new/not new event
-        merged = (lambda vo_data=vo_data, vo_alta=vo_alta: ([vo_data[idx] if
-                vo_data[idx] else vo_alta[idx] for idx in
-                range(0, len(vo_alta))]))()
-        # make sure we don't have any lists here
-        merged = [x[0] if isinstance(x, list) else x for x in merged]
-        # add to pandas dataframe as a new column
-        mapping.loc[:, 'value'] = pandas.Series(merged, index=mapping.index)
-        # need to add xml file to database as well
+        for table in mapping.keys():  # iterate over all tables
+            for idx, item in enumerate(mapping[table]):
+                # validate item
+                # TODO pass item to a validate function to check
+                # Add values from XML to dictionary
+                mapping[table][idx]['value'] = self.get_value(v, param_data, item)
         return mapping, event_type
 
     def update_FRBCat(self, mapping, event_type):

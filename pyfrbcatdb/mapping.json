@@ -1,0 +1,411 @@
+{
+  "authors": [
+    {
+      "column": "ivorn",
+      "type": "voevent",
+      "voevent": "Who.AuthorIVORN",
+      "param_type": ""
+    },
+    {
+      "column": "title",
+      "type":,
+      "voevent": ,
+      "param_type":
+    },
+    {
+      "column": "logo_url",
+      "type":,
+      "voevent": ,
+      "param_type":
+    },
+    {
+      "column": "short_name",
+      "type": "voevent",
+      "voevent": "Who.Author.shortName",
+      "param_type":
+    },
+    {
+      "column": "contact_name",
+      "type": "voevent",
+      "voevent": "Who.Author.contactName",
+      "param_type":
+    },
+    {
+      "column": "contact_email",
+      "type": "voevent",
+      "voevent": "Who.Author.contactEmail",
+      "param_type":
+    },
+    {
+      "column": "contact_phone",
+      "type": "voevent",
+      "voevent": "Who.Author.contactPhone",
+      "param_type":
+    },
+    {
+      "column": "other_information",
+      "type":,
+      "voevent": ,
+      "param_type":
+    }
+  ],
+  "frbs": [
+    {
+      "column": "name",
+      "type": "voevent",
+      "voevent": Why.Name,
+      "param_type":
+    },
+    {
+      "column": "utc",
+      "type": "ISOTime",
+      "voevent": ,
+      "param_type":
+    },
+  ],
+  "frbs_notes": [
+    {
+      "column": "private",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    },
+  ],
+  "observations": [
+    {
+      "column": "type",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    },
+    {
+      "column": "telescope",
+      "type": "voevent",
+      "voevent": "WhereWhen.ObsDataLocation.ObservatoryLocation.@id",
+      "param_type":
+    },
+    {
+      "column": "utc",
+      "type": "ISOTime",
+    },
+    {
+      "column": "data_link",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    },
+    {
+      "column": "detected",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    },
+    {
+      "column": "verified",
+      "type": "verify",
+      "name": importance,
+      "param_type":
+    },
+  ],
+  "observations_notes": [
+    {
+      "column": "",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    },
+  ],
+  "radio_observations_params": [
+    {
+      "column": "receiver",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "receiver"
+    },
+    {
+      "column": "backend",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "backend"
+    },
+    {
+      "column": "beam",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "beam"
+    },
+    {
+      "column": "beam_semi_major_axis",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "beam_semi-major_axis"
+    },
+    {
+      "column": "beam_semi_minor_axis",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "beam_semi-minor_axis"
+    },
+    {
+      "column": "beam_rotation_angle",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "beam_rotation_angle"
+    },
+    {
+      "column": "raj",
+      "type": "Coord",
+      "name": "ra",
+    },
+    {
+      "column": "decj",
+      "type": "Coord",
+      "name": "dec",
+    },
+    {
+      "column": "pointing_error",
+      "type": "Coord",
+      "name": "err",
+    },
+    {
+      "column": "gl",
+      "type": "Param",
+      "name": "gl",
+    },
+    {
+      "column": "gb",
+      "type": "Param",
+      "name": "gb",
+    },
+    {
+      "column": "sampling_time",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "sampling_time"
+    },
+    {
+      "column": "bandwidth",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "bandwidth"
+    },
+    {
+      "column": "centre_frequency",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "centre_frequency"
+    },
+    {
+      "column": "npol",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "npol"
+    },
+    {
+      "column": "channel_bandwidth",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "channel_bandwidth"
+    },
+    {
+      "column": "bits_per_sample",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "bits_per_sample"
+    },
+    {
+      "column": "gain",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "gain"
+    },
+    {
+      "column": "tsys",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "tsys"
+    },
+    {
+      "column": "MW_dm_limit",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "MW_dm_limit"
+    },
+
+  ],
+  "radio_observations_params_notes": [
+    {
+      "column": "",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    }
+  ],
+  "radio_measured_params": [
+    {
+      "column": "voevent_ivorn",
+      "type": "attrib",
+      "name": "ivorn",
+      "voevent": ,
+      "param_type":
+    },
+    {
+      "column": "voevent_xml",
+      "type": "XML",
+    },
+    {
+      "column": "dm",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "dm"
+    },
+    {
+      "column": "dm_error",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "dm_error"
+    },
+    {
+      "column": "snr",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "snr"
+    },
+    {
+      "column": "width",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "width"
+    },
+    {
+      "column": "width_error_upper",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "width_error_upper"
+    },
+    {
+      "column": "width_error_lower",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "width_error_lower"
+    },
+    {
+      "column": "flux",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "flux"
+    },
+    {
+      "column": "flux_prefix",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "flux_prefix"
+    },
+    {
+      "column": "flux_error_upper",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "flux_error_upper"
+    },
+    {
+      "column": "flux_error_lower",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "flux_error_lower"
+    },
+    {
+      "column": "flux_calibrated",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "flux_calibrated"
+    },
+    {
+      "column": "dm_index",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "dm_index"
+    },
+    {
+      "column": "dm_index_error",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "dm_index_error"
+    },
+    {
+      "column": "scattering_index",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "scattering_index"
+    },
+    {
+      "column": "scattering_index_error",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "scattering_index_error"
+    },
+    {
+      "column": "scattering",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "scattering"
+    },
+    {
+      "column": "scattering_error",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "scattering_error"
+    },
+    {
+      "column": "spectral_index",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "spectral_index"
+    },
+    {
+      "column": "spectral_index_error",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "spectral_index_error"
+    },
+    {
+      "column": "rm",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "rm"
+    },
+    {
+      "column": "rm_error",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "rm_error"
+    },
+    {
+      "column": "rank",
+      "type": "Param",
+      "param_group": "event parameters",
+      "param_name": "rank"
+    },
+    {
+      "column": "redshift",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "redshift"
+    },
+  ],
+  "radio_measaured_params_notes": [
+    {
+      "column": "fds",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    },
+  ],
+  "publications": [
+    {
+      "column": "tds",
+      "type": "",
+      "voevent": ,
+      "param_type":
+    }
+  ],
+}

@@ -19,6 +19,7 @@ import re
 import psycopg2
 import lxml
 from xml.dom.minidom import parseString
+import yaml
 
 class FRBCat_remove:
     def __init__(self, connection, cursor, mapping, event_type):
@@ -246,7 +247,7 @@ class FRBCat_add:
         '''
         # check if author already exists in database
         # TODO: try/except
-        ivorn = value[npwhere(rows == 'ivorn')][0]
+        ivorn = value[rows == 'ivorn']
         author_exists = self.check_author_exists(ivorn)
         # add author to database if author does not yet exist in db
         if not author_exists:
@@ -336,7 +337,7 @@ class FRBCat_add:
         '''
         rows = npappend(rows, ('rop_id', 'author_id'))
         value = npappend(value, (self.rop_id, self.author_id))
-        ivorn = value[npwhere(rows == 'voevent_ivorn')][0]
+        ivorn = value[rows == 'voevent_ivorn'][0]
         self.event_exists = self.check_event_exists(ivorn)
         # add event to the database if it does not exist yet
         if not self.event_exists:
@@ -457,51 +458,41 @@ class FRBCat_add:
                 del value
             except NameError:
                 pass
-            # extract the rows from the mapping that are in the table
-            to_add = self.mapping.loc[(self.mapping['FRBCAT TABLE'] == table) &
-                                      (self.mapping['value'].notnull())]
-            # extract db rows and values to add
-            rows = to_add['FRBCAT COLUMN'].values
-            # loop over extracted rows and insert values
-            for row in rows:
-                # extract value from pandas dataframe
-                try:
-                    # value
-                    value.append(to_add.loc[to_add['FRBCAT COLUMN'] == row][
-                        'value'].values[0])
-                except UnboundLocalError:
-                    value = [to_add.loc[to_add[
-                             'FRBCAT COLUMN'] == row]['value'].values[0]]
-            value = npravel(nparray(value))  # convert to numpy array
+            # extract rows that have values
+            rows = [item.get('column') for item in self.mapping.get(table) if
+                    item.get('value') is not None]
+            values = [item.get('value') for item in self.mapping.get(table) if
+                    item.get('value') is not None]
             if table == 'authors':
-                self.add_authors(table, rows, value)
+                self.add_authors(table, rows, values)
             if table == 'frbs':
-                self.add_frbs(table, rows, value)
+                self.add_frbs(table, rows, values)
             if table == 'frbs_notes':
-                self.add_frbs_notes(table, rows, value)
+                self.add_frbs_notes(table, rows, values)
             if table == 'observations':
-                self.add_observations(table, rows, value)
+                self.add_observations(table, rows, values)
                 # create first part of settings_id
-                self.settings_id1 = str(value[rows=='telescope'][0]
-                                        ) + ';' + str(value[rows=='utc'][0])
+                self.settings_id1 = str(values[rows=='telescope'][0]
+                                        ) + ';' + str(values[rows=='utc'][0])
             if table == 'observations_notes':
-                self.add_observations_notes(table, rows, value)
+                self.add_observations_notes(table, rows, values)
             if table == 'radio_observations_params':
-                self.add_radio_observations_params(table, rows, value)
+                self.add_radio_observations_params(table, rows, values)
             if table == 'radio_observations_params_notes':
-                self.add_radio_observations_params_notes(table, rows, value)
+                self.add_radio_observations_params_notes(table, rows, values)
             if table == 'radio_measured_params':
-                self.add_radio_measured_params(table, rows, value)
+                self.add_radio_measured_params(table, rows, values)
                 if self.event_exists:
                     break  # don't want to add already existing event
             if table == 'radio_measured_params_notes':
-                self.add_radio_measured_params_notes(table, rows, value)
+                self.add_radio_measured_params_notes(table, rows, values)
         if self.event_exists:
             # event is already in database, rollback
             # TODO: is this what we want to do?
             self.connection.rollback()
         else:
-            dbase.commitToDB(self.connection, self.cursor)
+            #dbase.commitToDB(self.connection, self.cursor)
+            self.connection.rollback()
         dbase.closeDBConnection(self.connection, self.cursor)
 
 
@@ -762,24 +753,17 @@ class FRBCat_create:
         return paramList
 
 
-def VOEvent_FRBCAT_mapping():
+def parse_mapping():
     '''
-    Create a dictionary of dicts of VOEvent -> FRBCAT mapping
-    new_event: boolean indicating if event is a new event,default=True
+    read mapping from json file
     '''
-    # read mapping.txt into a pandas dataframe
-    convert = {0: utils.strip, 1: utils.strip, 2: utils.strip,
-               3: utils.strip, 4: utils.strip}
-    # location of mapping.txt file
-    mapping = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
-                           'mapping.txt')
-    df = pd.read_table(mapping, sep='\\', engine='c', header=0,
-                       skiprows=[0], skip_blank_lines=True,
-                       skipinitialspace=True,
-                       converters=convert).fillna('None')
-    # replace empty strings by None
-    #df = df.replace([''], [None])
-    return df
+    # define path to mapping.json file
+    filename = "mapping.json"
+    mfile = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
+                         filename)  # path to file
+    with open(mfile) as f:
+      mapping = yaml.safe_load(f)
+    return mapping
 
 def VOEvent_params(param_type=None):
     '''

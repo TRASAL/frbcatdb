@@ -36,7 +36,8 @@ def cli_parser():
 
 if __name__ == "__main__":
     results = cli_parser()
-    for voevent in results.VOEvents:  # TODO: do we allow multiple xml files?
-        vo_data, mapping = decode_VOEvent.decode_VOEvent(
-            voevent, results.DB_NAME, results.DB_HOST, results.DB_PORT,
-            results.USER_NAME, results.USER_PASSWORD)
+    for voevent in results.VOEvents:
+        decode_VOEvent.decode_VOEvent(voevent, results.DB_NAME,
+                                      results.DB_HOST, results.DB_PORT,
+                                      results.USER_NAME, results.USER_PASSWORD)
+        voevent.close()
