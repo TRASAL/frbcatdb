@@ -182,10 +182,11 @@ class decode_VOEvent:
         connection, cursor = dbase.connectToDB(self.DB_NAME, self.USER_NAME,
                                                self.USER_PASSWORD, self.DB_HOST,
                                                self.DB_PORT)
-        if event_type[0] in ['retraction', 'supersedes']:
-            # for retraction or supersedes we need to remove the entry from FRBCat
-            FRBCat = FRBCat_remove(connection, cursor, mapping, event_type)
-            FRBCat = FRBCat.remove_entry()
+        #if event_type[0] in ['retraction', 'supersedes']:
+        #    # for retraction or supersedes we need to remove the entry from FRBCat
+        #    FRBCat = FRBCat_remove(connection, cursor, mapping, event_type)
+        #    FRBCat = FRBCat.remove_entry()
+        # TODO: handle retraction
         if event_type[0] in ['new', 'followup', 'supersedes']:
             # for new, followup, supersedes we need to add an entry to FRBCat
             FRBCat = FRBCat_add(connection, cursor, mapping, event_type)
