@@ -77,6 +77,28 @@ class end2endtest(unittest.TestCase):
         # assert rmp increased by 1
         self.assertEqual(len_before[4], len_after[4]-1)
 
+    def test_02(self):
+        '''
+        A confirmation of type supersedes
+        of the event in Detection_unitTest1.xml (test_01) should not
+        add any rows in authors, frbs, observations, rop, rmp
+        '''
+        len_before = self.get_num_rows_main_tables()
+        decode.decode_VOEvent(os.path.join(self.test_data, 'Confirmation_unitTest1.xml'),
+                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
+                              self.USER_NAME, self.USER_PASSWORD)
+        len_after = self.get_num_rows_main_tables()
+        # assert authors increased by 1
+        self.assertEqual(len_before[0], len_after[0])
+        # assert frbs increased by 1
+        self.assertEqual(len_before[1], len_after[1])
+        # assert observations increased by 1
+        self.assertEqual(len_before[2], len_after[2])
+        # assert rop increased by 1
+        self.assertEqual(len_before[3], len_after[3])
+        # assert rmp increased by 1
+        self.assertEqual(len_before[4], len_after[4])
+
 
 if __name__ == '__main__':
     unittest.main()
