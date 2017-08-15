@@ -244,7 +244,7 @@
   "radio_measured_params": [
     {
       "column": "voevent_ivorn",
-      "type": "attrib",
+      "type": "ivorn",
       "name": "ivorn",
       "voevent": ,
       "param_type":

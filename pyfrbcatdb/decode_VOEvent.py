@@ -102,10 +102,18 @@ class decode_VOEvent:
         utctime = vp.get_event_time_as_utc(v, index=0)
         return utctime.strftime("%Y-%m-%d %H:%M:%S")
 
-    def get_value(self, v, param_data, item):
+    def get_value(self, v, param_data, item, event_type):
         itemtype = item.get('type')
-        if itemtype == 'attrib':
-            return self.get_attrib(v, item.get('name'))
+        if itemtype == 'ivorn':
+            if (event_type[0]=='supersedes'):
+                if event_type[1]:
+                    # type supersedes with a valid ivorn citation
+                    return event_type[1]
+                else:
+                    # type supersedes with no ivorn citation, use event ivorn
+                    return self.get_attrib(v, item.get('name'))
+            else:
+                return self.get_attrib(v, item.get('name'))
         elif itemtype == 'Param':
             return self.get_param(param_data, item.get('param_group'), item.get('param_name'))
         elif itemtype == 'ISOTime':
@@ -170,7 +178,7 @@ class decode_VOEvent:
                 # validate item
                 # TODO pass item to a validate function to check
                 # Add values from XML to dictionary
-                mapping[table][idx]['value'] = self.get_value(v, param_data, item)
+                mapping[table][idx]['value'] = self.get_value(v, param_data, item, event_type)
         return mapping, event_type
 
     def update_FRBCat(self, mapping, event_type):
