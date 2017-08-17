@@ -197,5 +197,5 @@ class decode_VOEvent:
         # TODO: handle retraction
         if event_type[0] in ['new', 'followup', 'supersedes']:
             # for new, followup, supersedes we need to add an entry to FRBCat
-            FRBCat = FRBCat_add(connection, cursor, mapping, event_type)
+            FRBCat = FRBCat_add(connection, cursor, mapping, event_type[0])
             FRBCat.add_VOEvent_to_FRBCat()
