@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS observations (
   telescope VARCHAR(128) NOT NULL,
   utc TIMESTAMP NOT NULL,
   data_link TEXT,
-  detected BOOLEAN NOT NULL DEFAULT FALSE,
+  detected BOOLEAN NOT NULL DEFAULT TRUE,
   verified BOOLEAN NOT NULL DEFAULT FALSE,
   UNIQUE (frb_id, telescope, utc));
 CREATE INDEX observations_author_id_fk ON observations (author_id);
