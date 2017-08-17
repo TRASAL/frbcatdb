@@ -156,11 +156,17 @@
       "column": "raj",
       "type": "Coord",
       "name": "ra",
+      "description": "right ascension",
+      "ucd": "pos.eq.ra",
+      "unit": "HH:MM:SS",
     },
     {
       "column": "decj",
       "type": "Coord",
       "name": "dec",
+      "description": "Declination",
+      "ucd": "pos.eq.dec",
+      "unit": "HH:MM:SS",
     },
     {
       "column": "pointing_error",
@@ -171,11 +177,17 @@
       "column": "gl",
       "type": "Param",
       "name": "gl",
+      "description": "galactic longitude",
+      "ucd": "pos.galactic.lon",
+      "unit": "degrees",
     },
     {
       "column": "gb",
       "type": "Param",
       "name": "gb",
+      "description": "galactic latitude",
+      "ucd": "pos.galactic.lat",
+      "unit": "degrees",
     },
     {
       "column": "sampling_time",
@@ -226,7 +238,7 @@
       "param_name": "tsys"
     },
     {
-      "column": "MW_dm_limit",
+      "column": "mw_dm_limit",
       "type": "Param",
       "param_group": "advanced parameters",
       "param_name": "MW_dm_limit"
@@ -280,13 +292,13 @@
     {
       "column": "width_error_upper",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "width_error_upper"
     },
     {
       "column": "width_error_lower",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "width_error_lower"
     },
     {
@@ -298,85 +310,85 @@
     {
       "column": "flux_prefix",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "flux_prefix"
     },
     {
       "column": "flux_error_upper",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "flux_error_upper"
     },
     {
       "column": "flux_error_lower",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "flux_error_lower"
     },
     {
       "column": "flux_calibrated",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "flux_calibrated"
     },
     {
       "column": "dm_index",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "dm_index"
     },
     {
       "column": "dm_index_error",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "dm_index_error"
     },
     {
       "column": "scattering_index",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "scattering_index"
     },
     {
       "column": "scattering_index_error",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "scattering_index_error"
     },
     {
       "column": "scattering",
       "type": "Param",
-      "param_group": "event parameters",
-      "param_name": "scattering"
+      "param_group": "advanced parameters",
+      "param_name": "scattering_timescale"
     },
     {
       "column": "scattering_error",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "scattering_error"
     },
     {
       "column": "spectral_index",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "spectral_index"
     },
     {
       "column": "spectral_index_error",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "spectral_index_error"
     },
     {
       "column": "rm",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "rm"
     },
     {
       "column": "rm_error",
       "type": "Param",
-      "param_group": "event parameters",
+      "param_group": "advanced parameters",
       "param_name": "rm_error"
     },
     {

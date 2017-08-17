@@ -28,7 +28,6 @@ class FRBCat_add:
         self.cursor = cursor
         self.mapping = mapping
         self.event_type = event_type
-
     def check_author_exists(self, ivorn):
         '''
         Check if author already exists in Fdatabase
@@ -357,12 +356,9 @@ class FRBCat_create:
 
     def create_VOEvent_from_FRBCat(self):
         '''
-        Decode a VOEvent from the FRBCat database
-          input:
-            cursor: database cursor object
-            mapping: mapping between database entry and VOEvent xml
+        Create a VOEvent from the FRBCat database
           output:
-            updated mapping with added values column
+            VOEvent XML file
         '''
         sql = """select *, radio_measured_params_notes.note as rmp_note,
                  radio_observations_params_notes.note as rop_note,
@@ -472,10 +468,15 @@ class FRBCat_create:
         '''
         Add What section to voevent object
         '''
-        # Add radio observations params section
-        self.rop_params()
-        # Add radio measured params section
-        self.rmp_params()
+        mapping = parse_mapping()
+        super_dict = {}
+        # flatten the mapping dictionary into a list of dicts
+        for value in mapping.itervalues():
+          try:
+              supermapping += value
+          except NameError:
+              supermapping = value
+        self.add_params(supermapping)
 
     def set_how(self):
         '''
@@ -535,76 +536,41 @@ class FRBCat_create:
                     # workaround use force_pretty_print=True
                     vp.dump(self.v, f, pretty_print=True)
 
-    def rop_params(self):
-        '''
-        Add radio observations params section to voevent object
-        '''
-        # rop params in group 'radio observations params'
-        rop_params = ['backend', 'beam', 'gl', 'gb', 'fwhm', 'sampling_time',
-                      'bandwidth', 'centre_frequency', 'npol',
-                      'channel_bandwidth', 'bits_per_sample', 'gain',
-                      'tsys', 'ne2001_dm_limit', 'rop_note']
-        rop_desc = VOEvent_params(param_type='rop')
-        rop_param_list = self.createParamList(rop_params, rop_desc)
-        self.v.What.append(vp.Group(params=rop_param_list,
-                                    name='radio observations params'))
-
-    def rmp_params(self):
-        '''
-        Add radio measured params section to voevent object
-        '''
-        rmp_params = ['dm', 'dm_error', 'snr', 'width', 'width_error_upper',
-                      'width_error_lower', 'flux', 'flux_prefix',
-                      'flux_error_upper', 'flux_error_lower',
-                      'flux_calibrated', 'dm_index', 'dm_index_error',
-                      'scattering_index', 'scattering_index_error',
-                      'scattering_time', 'scattering_time_error',
-                      'linear_poln_frac', 'linear_poln_frac_error',
-                      'circular_poln_frac', 'circular_poln_frac_error',
-                      'spectral_index', 'spectral_index_error', 'z_phot',
-                      'z_phot_error', 'z_spec', 'z_spec_error', 'rank',
-                      'rmp_note']
-        rmp_desc = VOEvent_params(param_type='rmp')
-        rmp_param_list = self.createParamList(rmp_params, rmp_desc)
-        # rmp params in group 'radio measured params'
-        self.v.What.append(vp.Group(params=rmp_param_list,
-                           name='radio measured params'))
-
-    def createParamList(self, params, param_desc):
+    def createParamList(self, params):
         '''
         ceate a list of params, so these can be written as group
         '''
-        # TODO: don't add params with no value
         for param in params:
-            try:
-                value = self.event[param]
-            except KeyError:
-                # key is not in database
-                raise
+            # get value from database
+            value = self.event[param.get('column')]
             if value:
-                # exctract param description
-                item_desc = param_desc.loc[param_desc[
-                    'name'].str.lower()==param.lower()]
+                # extract param description
+                # TODO: set Description as well
                 try:
-                    if not item_desc.empty:
-                        paramList.extend(
-                            vp.Param(name=param,
-                                value=self.event[param],
-                                unit=item_desc['unit'].values[0],
-                                ucd=item_desc['ucd'].values[0]))
-                    else:
-                        paramList.extend(
-                            vp.Param(name=param,
-                                value=self.event[param]))
+                    paramList.extend(
+                      vp.Param(name=param.get('param_name'),
+                      value=self.event[param.get('column')],
+                      unit=param.get('unit'),
+                      ucd=param.get('ucd')))
                 except NameError:
-                    if not item_desc.empty:
-                        paramList = [vp.Param(name=param, value=self.event[param],
-                                              unit=item_desc['unit'].values[0],
-                                              ucd=item_desc['ucd'].values[0])]
-                    else:
-                        paramList = [vp.Param(name=param, value=self.event[param])]
+                    paramList = vp.Param(name=param.get('param_name'),
+                                         value=self.event[param.get('column')],
+                                         unit=param.get('unit'),
+                                         ucd=param.get('ucd'))
         return paramList
 
+    def add_params(self, supermapping):
+        '''
+        Add radio observations params section to voevent object
+        '''
+        param_groups = ['observatory parameters',
+                        'event parameters', 'advanced parameters']
+        for group in param_groups:
+            params = [param for param in supermapping if
+                      param.get('param_group')==group]
+            param_list = self.createParamList(params)
+            self.v.What.append(vp.Group(params=param_list,
+                                        name=group))
 
 def parse_mapping():
     '''
@@ -617,27 +583,3 @@ def parse_mapping():
     with open(mfile) as f:
       mapping = yaml.safe_load(f)
     return mapping
-
-def VOEvent_params(param_type=None):
-    '''
-    Read param txt file into a pandas dataframe
-    '''
-    convert = {0: utils.strip, 1: utils.strip, 2: utils.strip,
-               3: utils.strip}
-    # location of file containing parameter description
-    if param_type == 'rop':  # radio observation param
-        filename = 'rop_params.txt'
-    elif param_type == 'rmp':  # radio measured param
-        filename = 'rmp_params.txt'
-    else:
-        pass  # TODO: log warning, unknown param type
-    pdesc = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
-                         filename)  # path to file
-    # create pandas dataframe
-    df = pd.read_table(pdesc, sep='\\', engine='c', header=0,
-                       skiprows=None, skip_blank_lines=True,
-                       skipinitialspace=True,
-                       converters=convert).fillna('None')
-    # replace empty strings by None
-    df = df.replace([''], [None])
-    return df
