@@ -7,7 +7,7 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 
 import configargparse
-from pyfrbcatdb import create_VOEvent as pFcreate
+from pyfrbcatdb import create_VOEvent
 import os
 import sys
 
@@ -32,6 +32,6 @@ def cli_parser():
 
 if __name__ == "__main__":
     results = cli_parser()
-    pFcreate.decode_FRBCat_entry(results.frb_ids, results.DB_NAME,
-                                 results.DB_HOST, results.DB_PORT,
-                                 results.USER_NAME, results.USER_PASSWORD)
+    create_VOEvent.create_VOEvent(results.frb_ids, results.DB_NAME,
+             results.DB_HOST, results.DB_PORT,
+             results.USER_NAME, results.USER_PASSWORD)

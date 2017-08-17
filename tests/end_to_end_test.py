@@ -5,7 +5,7 @@ import datetime
 import psycopg2
 from pyfrbcatdb import dbase as dbase
 from pyfrbcatdb import decode_VOEvent as decode
-from pyfrbcatdb import decode_FRBCat_entry as create
+from pyfrbcatdb import create_VOEvent as create
 
 class end2endtest(unittest.TestCase):
     def setUp(self):
@@ -113,8 +113,8 @@ class end2endtest(unittest.TestCase):
         '''
         Creating VOEvent from database
         '''
-        create(1, self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                            self.USER_NAME, self.USER_PASSWORD)
+        create.create_VOEvent(1, self.DB_NAME, self.DB_HOST, self.DB_PORT,
+                              self.USER_NAME, self.USER_PASSWORD)
 
 
 if __name__ == '__main__':

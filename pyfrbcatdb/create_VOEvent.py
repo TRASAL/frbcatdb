@@ -7,7 +7,7 @@ from pyfrbcatdb import dbase
 from pyfrbcatdb.FRBCat import *
 
 
-def decode_FRBCat_entry(frb_ids, DB_NAME, DB_HOST, DB_PORT, USER_NAME, 
+def create_VOEvent(frb_ids, DB_NAME, DB_HOST, DB_PORT, USER_NAME,
                         USER_PASSWORD):
     '''
     Decode FRBCat entry
