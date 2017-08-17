@@ -83,7 +83,7 @@
 	    <Concept>Update of known parameters</Concept><Description>Update to FRBCAT.</Description>
 	</Why>
 	<Citations>
-	    <EventIVORN cite="supersedes">ivo://au.csiro.parkes/superb#FRB1405141714/57953.44444444</EventIVORN>
+        <EventIVORN cite="supersedes">ivo://au.csiro.parkes/parkes#FRB1405141714/57953.44444444</EventIVORN>
 	    <Description>Update of measured parameters</Description>
 	</Citations>
 </voe:VOEvent>
