@@ -117,7 +117,11 @@ class decode_VOEvent:
         elif itemtype == 'Param':
             return self.get_param(param_data, item.get('param_group'), item.get('param_name'))
         elif itemtype == 'ISOTime':
-            return self.get_utc_time_str(v)
+            try:
+                return self.get_utc_time_str(v)
+            except AttributeError:
+                # for type 'retraction' there is no time defined
+                return None
         elif itemtype == 'XML':
             return vp.dumps(v)
         elif itemtype == 'voevent':
@@ -172,7 +176,11 @@ class decode_VOEvent:
         # if a path is not found in the xml it gets an empty list which is
         # removed in the next step
         # puts all params into dict param_data[group][param_name]
-        param_data = vp.get_grouped_params(v)
+        try:
+          param_data = vp.get_grouped_params(v)
+        except AttributeError:
+          # <What> section is not needed for retractions
+          param_data = None
         for table in mapping.keys():  # iterate over all tables
             for idx, item in enumerate(mapping[table]):
                 # validate item
@@ -186,16 +194,13 @@ class decode_VOEvent:
         Add new FRBCat entry
         '''
         # connect to database
-        # TODO: add connection details
         connection, cursor = dbase.connectToDB(self.DB_NAME, self.USER_NAME,
                                                self.USER_PASSWORD, self.DB_HOST,
                                                self.DB_PORT)
-        #if event_type[0] in ['retraction', 'supersedes']:
-        #    # for retraction or supersedes we need to remove the entry from FRBCat
-        #    FRBCat = FRBCat_remove(connection, cursor, mapping, event_type)
-        #    FRBCat = FRBCat.remove_entry()
-        # TODO: handle retraction
+        FRBCat = FRBCat_add(connection, cursor, mapping, event_type[0])
         if event_type[0] in ['new', 'followup', 'supersedes']:
             # for new, followup, supersedes we need to add an entry to FRBCat
-            FRBCat = FRBCat_add(connection, cursor, mapping, event_type[0])
             FRBCat.add_VOEvent_to_FRBCat()
+        elif event_type[0] in ['retraction']:
+            # retract the event
+            FRBCat.retract()

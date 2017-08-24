@@ -28,6 +28,7 @@ class FRBCat_add:
         self.cursor = cursor
         self.mapping = mapping
         self.event_type = event_type
+
     def check_author_exists(self, ivorn):
         '''
         Check if author already exists in Fdatabase
@@ -347,6 +348,40 @@ class FRBCat_add:
             #self.connection.rollback()
         dbase.closeDBConnection(self.connection, self.cursor)
 
+    def retract(self):
+        '''
+        retracting event should set detected/verified to False in
+        observations table
+        '''
+        # extract rows that have values
+        table = 'radio_measured_params'
+        rows = [item.get('column') for item in self.mapping.get(table) if
+                item.get('value') is not None]
+        values = [item.get('value') for item in self.mapping.get(table) if
+                  item.get('value') is not None]
+        voevent_ivorn = values[rows=='voevent_ivorn']
+        sql = "select o.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='{}'".format(voevent_ivorn)
+        try:
+            # execute sql statement
+            self.cursor.execute(sql)
+        except NameError:
+            pass
+        # get id in the observations table
+        obs_id = self.cursor.fetchone()
+        if obs_id:
+            # observation is indeed in the database
+            row_sql = ', '.join(map(str, ['detected', 'verified']))
+            parameters = ', '.join(map(str, [False, False]))
+            sql = "update {} SET ({}) = ({}) WHERE id='{}'".format('observations', row_sql, parameters, obs_id)
+            try:
+                # execute sql statement
+                self.cursor.execute(sql)
+            except NameError:
+                pass
+            # commit changes to database
+            dbase.commitToDB(self.connection, self.cursor)
+        # close database connection
+        dbase.closeDBConnection(self.connection, self.cursor)
 
 class FRBCat_create:
     def __init__(self, connection, cursor, frbs_id):
