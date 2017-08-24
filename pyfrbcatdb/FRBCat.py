@@ -471,6 +471,10 @@ class FRBCat_create:
         mapping = parse_mapping()
         super_dict = {}
         # flatten the mapping dictionary into a list of dicts
+        try:
+          values = d.itervalues()  # python 2 compatibility
+        except AttributeError:
+          values = d.values()
         for value in mapping.itervalues():
           try:
               supermapping += value
