@@ -5,6 +5,7 @@
     	<Date>2017-07-20T13:30:00</Date> <!-- Time of event creation -->
     	<Author><contactEmail>ebpetroff@gmail.com</contactEmail><contactName>Emily Petroff</contactName></Author>
     </Who>
+    <What>
         <Group name="advanced parameters">
     	    <Param dataType="float" name="dm_index_error" unit="None" value="0.005"><Description>Dispersion measure index error</Description></Param>
     	    <Param dataType="float" name="scattering_timescale" unit="ms" value="4.00"><Description>Scattering timescale at 1 GHz</Description></Param>

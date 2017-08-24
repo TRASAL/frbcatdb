@@ -131,8 +131,8 @@ class FRBCat_add:
         '''
         # create settigns_id if we don't have one yet
         if not 'settings_id' in rows:
-            settings_id2 = str(value[rows=='raj'][0]
-                               ) + ';' + str(value[rows=='decj'][0])
+            settings_id2 = str(nparray(value)[nparray(rows)=='raj'][0]
+                               ) + ';' + str(nparray(value)[nparray(rows)=='decj'][0])
             settings_id = self.settings_id1 + ';' + settings_id2
         rows = npappend(rows, ('obs_id', 'author_id', 'settings_id'))
         value = npappend(value, (self.obs_id, self.author_id, settings_id))
