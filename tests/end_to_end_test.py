@@ -113,7 +113,7 @@ class end2endtest(unittest.TestCase):
         '''
         Creating VOEvent from database
         '''
-        create.create_VOEvent(1, self.DB_NAME, self.DB_HOST, self.DB_PORT,
+        create.create_VOEvent([1], self.DB_NAME, self.DB_HOST, self.DB_PORT,
                               self.USER_NAME, self.USER_PASSWORD)
 
 
