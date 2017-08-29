@@ -232,7 +232,6 @@ class FRBCat_add:
                 # pass not null constrains
                 sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
                       """.format(table, row_sql, parameters)
-                import pdb; pdb.set_trace()
                 self.cursor.execute(sql, tuple(value))
                 try:
                     return self.cursor.fetchone()[0]  # return last insert id
