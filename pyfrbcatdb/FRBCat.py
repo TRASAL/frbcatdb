@@ -218,13 +218,13 @@ class FRBCat_add:
             value = [x.text if isinstance(
                      x, lxml.objectify.StringElement) else x for x in value]
             value = nparray(value)
-            if (((table == 'radio_measured_params') and
+            if( ((table == 'radio_measured_params') and
                 (set(['voevent_ivorn', 'voevent_xml',
                         'dm', 'snr', 'width']) < set(rows))) or
                 ((table=='radio_observations_params') and
                   (set(['raj', 'decj']) < set(rows))) or
                 ((table=='observations') and
-                  (set(['telescope', 'detected', 'verified']) < set(rows))) or
+                  (set(['telescope', 'verified']) < set(rows))) or
                 ((table=='frbs') and
                   (set(['name', 'utc']) < set(rows))) or
                 ((table=='authors') and
