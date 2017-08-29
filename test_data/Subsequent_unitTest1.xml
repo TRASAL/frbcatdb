@@ -31,7 +31,7 @@
     </What>
      <WhereWhen>
       <ObsDataLocation>
-        <ObservatoryLocation id="PARKES">
+        <ObservatoryLocation id="PARKES2">
           <AstroCoordSystem id="UTC-GEOD-TOPO"/>
           <AstroCoords coord_system_id="UTC-GEOD-TOPO">
             <Position3D unit="deg-deg-m">

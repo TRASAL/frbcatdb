@@ -232,6 +232,7 @@ class FRBCat_add:
                 # pass not null constrains
                 sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
                       """.format(table, row_sql, parameters)
+                import pdb; pdb.set_trace()
                 self.cursor.execute(sql, tuple(value))
                 try:
                     return self.cursor.fetchone()[0]  # return last insert id
@@ -376,7 +377,7 @@ class FRBCat_add:
             #self.connection.rollback()
         dbase.closeDBConnection(self.connection, self.cursor)
 
-    def retract(self):
+    def retract(self, voevent_cited):
         '''
         retracting event should set detected/verified to False in
         observations table
@@ -388,7 +389,7 @@ class FRBCat_add:
         values = [item.get('value') for item in self.mapping.get(table) if
                   item.get('value') is not None]
         voevent_ivorn = values[rows=='voevent_ivorn']
-        sql = "select o.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='{}'".format(voevent_ivorn)
+        sql = "select o.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='{}'".format(voevent_cited)
         try:
             # execute sql statement
             self.cursor.execute(sql)
@@ -400,7 +401,7 @@ class FRBCat_add:
             # observation is indeed in the database
             row_sql = ', '.join(map(str, ['detected', 'verified']))
             parameters = ', '.join(map(str, [False, False]))
-            sql = "update {} SET ({}) = ({}) WHERE id='{}'".format('observations', row_sql, parameters, obs_id)
+            sql = "update {} SET ({}) = ({}) WHERE id='{}'".format('observations', row_sql, parameters, obs_id[0])
             try:
                 # execute sql statement
                 self.cursor.execute(sql)

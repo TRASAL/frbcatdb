@@ -203,4 +203,4 @@ class decode_VOEvent:
             FRBCat.add_VOEvent_to_FRBCat()
         elif event_type[0] in ['retraction']:
             # retract the event
-            FRBCat.retract()
+            FRBCat.retract(event_type[1])
