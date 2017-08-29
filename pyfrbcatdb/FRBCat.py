@@ -207,62 +207,84 @@ class FRBCat_add:
         self.insert_into_database(table, rows, value)
 
     def insert_into_database(self, table, rows, value):
+        '''
+        insert event into the database
+        if not all required parameters are specified, assume this is an 
+        update event and return the id for the event in the table
+        '''
         try:
             row_sql = ', '.join(map(str, rows))
             parameters = '(' + ','.join(['%s' for i in value]) + ')'
             value = [x.text if isinstance(
                      x, lxml.objectify.StringElement) else x for x in value]
             value = nparray(value)
-            sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
-                  """.format(table, row_sql, parameters)
-            self.cursor.execute(sql, tuple(value))
-            try:
-                return self.cursor.fetchone()[0]  # return last insert id
-            except TypeError:
-                if table == 'authors':
-                    # authors table should have unique ivorn
-                    sql = "select id from {} WHERE id = '{}'".format(
-                        table, value[rows=='ivorn'][0])
-                elif table == 'frbs':
-                    # frbs table should have unique name
-                    sql = "select id from {} WHERE name = '{}'".format(
-                        table, value[rows=='name'][0])
-                elif table == 'observations':
-                    # observation table should have an unique combination of
-                    # frb_id, telescope, utc
-                    sql = """select id from {} WHERE frb_id = '{}' AND
-                            telescope = '{}' AND utc = '{}'""".format(table,
-                                value[rows=='frb_id'][0],
-                                value[rows=='telescope'][0],
-                                value[rows=='utc'][0])
-                elif table == 'radio_observations_params':
-                    # rop table should have an unique combination of
-                    # obs_id, settings_id
-                    sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
-                            '{}'""".format(table,
-                                            value[rows=='obs_id'][0],
-                                            value[rows=='settings_id'][0])
-                elif table == 'radio_measured_params':
-                    # voevent_ivorn mus tbe unique
-                    sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
-                        table, value[rows=='voevent_ivorn'][0])
-                else:
-                    # re-raise IntegrityError
-                    raise
-                # get the id
-                self.cursor.execute(sql)
-                return_id = self.cursor.fetchone()
-                if not return_id:
-                    # Could not get the id from the database
-                    # re-raise IntegrityError
-                    raise
-                else:
-                    return return_id['id']
+            if (((table == 'radio_measured_params') and
+                (set(['voevent_ivorn', 'voevent_xml',
+                        'dm', 'snr', 'width']) < set(rows))) or
+                ((table=='radio_observations_params') and
+                  (set(['raj', 'decj']) < set(rows))) or
+                ((table=='observations') and
+                  (set(['telescope', 'detected', 'verified']) < set(rows))) or
+                ((table=='frbs') and
+                  (set(['name', 'utc']) < set(rows)))):
+                # pass not null constrains
+                sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
+                      """.format(table, row_sql, parameters)
+                self.cursor.execute(sql, tuple(value))
+                try:
+                    return self.cursor.fetchone()[0]  # return last insert id
+                except TypeError:
+                    return self.get_id_existing(table, rows, value)
+            else:
+                # not all required parameters are in voevent xml file
+                # return id if it is already in the database
+                return self.get_id_existing(table, rows, value)
         except psycopg2.IntegrityError:
             # rollback changes
             self.connection.rollback()
             # re-raise exception
             raise
+
+    def get_id_existing(self, table, rows, value):
+        if table == 'authors':
+            # authors table should have unique ivorn
+            sql = "select id from {} WHERE id = '{}'".format(
+                table, value[rows=='ivorn'][0])
+        elif table == 'frbs':
+            # frbs table should have unique name
+            sql = "select id from {} WHERE name = '{}'".format(
+                table, value[rows=='name'][0])
+        elif table == 'observations':
+            # observation table should have an unique combination of
+            # frb_id, telescope, utc
+            sql = """select id from {} WHERE frb_id = '{}' AND
+                    telescope = '{}' AND utc = '{}'""".format(table,
+                        value[rows=='frb_id'][0],
+                        value[rows=='telescope'][0],
+                        value[rows=='utc'][0])
+        elif table == 'radio_observations_params':
+            # rop table should have an unique combination of
+            # obs_id, settings_id
+            sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
+                    '{}'""".format(table,
+                                    value[rows=='obs_id'][0],
+                                    value[rows=='settings_id'][0])
+        elif table == 'radio_measured_params':
+            # voevent_ivorn mus tbe unique
+            sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
+                table, value[rows=='voevent_ivorn'][0])
+        else:
+            # re-raise IntegrityError
+            raise
+        # get the id
+        self.cursor.execute(sql)
+        return_id = self.cursor.fetchone()
+        if not return_id:
+            # Could not get the id from the database
+            # re-raise IntegrityError
+            raise psycopg2.IntegrityError("Unable to get id from database: {}".format(sql))
+        else:
+            return return_id['id']
 
     def update_database(self, table, rows, value):
         '''
