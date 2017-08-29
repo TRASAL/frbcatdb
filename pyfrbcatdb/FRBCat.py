@@ -213,52 +213,56 @@ class FRBCat_add:
             value = [x.text if isinstance(
                      x, lxml.objectify.StringElement) else x for x in value]
             value = nparray(value)
-            sql = """INSERT INTO {} ({}) VALUES {} RETURNING id
+            sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
                   """.format(table, row_sql, parameters)
             self.cursor.execute(sql, tuple(value))
-            return self.cursor.fetchone()[0]  # return last insert id
+            try:
+                return self.cursor.fetchone()[0]  # return last insert id
+            except TypeError:
+                if table == 'authors':
+                    # authors table should have unique ivorn
+                    sql = "select id from {} WHERE id = '{}'".format(
+                        table, value[rows=='ivorn'][0])
+                elif table == 'frbs':
+                    # frbs table should have unique name
+                    sql = "select id from {} WHERE name = '{}'".format(
+                        table, value[rows=='name'][0])
+                elif table == 'observations':
+                    # observation table should have an unique combination of
+                    # frb_id, telescope, utc
+                    sql = """select id from {} WHERE frb_id = '{}' AND
+                            telescope = '{}' AND utc = '{}'""".format(table,
+                                value[rows=='frb_id'][0],
+                                value[rows=='telescope'][0],
+                                value[rows=='utc'][0])
+                elif table == 'radio_observations_params':
+                    # rop table should have an unique combination of
+                    # obs_id, settings_id
+                    sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
+                            '{}'""".format(table,
+                                            value[rows=='obs_id'][0],
+                                            value[rows=='settings_id'][0])
+                elif table == 'radio_measured_params':
+                    # voevent_ivorn mus tbe unique
+                    sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
+                        table, value[rows=='voevent_ivorn'][0])
+                else:
+                    # re-raise IntegrityError
+                    raise
+                # get the id
+                self.cursor.execute(sql)
+                return_id = self.cursor.fetchone()
+                if not return_id:
+                    # Could not get the id from the database
+                    # re-raise IntegrityError
+                    raise
+                else:
+                    return return_id['id']
         except psycopg2.IntegrityError:
+            # rollback changes
             self.connection.rollback()
-            # database IntegrityError
-            if table == 'authors':
-                # authors table should have unique ivorn
-                sql = "select id from {} WHERE id = '{}'".format(
-                    table, value[rows=='ivorn'][0])
-            elif table == 'frbs':
-                # frbs table should have unique name
-                sql = "select id from {} WHERE name = '{}'".format(
-                    table, value[rows=='name'][0])
-            elif table == 'observations':
-                # observation table should have an unique combination of
-                # frb_id, telescope, utc
-                sql = """select id from {} WHERE frb_id = '{}' AND
-                         telescope = '{}' AND utc = '{}'""".format(table,
-                             value[rows=='frb_id'][0],
-                             value[rows=='telescope'][0],
-                             value[rows=='utc'][0])
-            elif table == 'radio_observations_params':
-                # rop table should have an unique combination of
-                # obs_id, settings_id
-                sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
-                         '{}'""".format(table,
-                                        value[rows=='obs_id'][0],
-                                        value[rows=='settings_id'][0])
-            elif table == 'radio_measured_params':
-                # voevent_ivorn mus tbe unique
-                sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
-                    table, value[rows=='voevent_ivorn'][0])
-            else:
-                # re-raise IntegrityError
-                raise
-            # get the id
-            self.cursor.execute(sql)
-            return_id = self.cursor.fetchone()
-            if not return_id:
-                # Could not get the id from the database
-                # re-raise IntegrityError
-                raise
-            else:
-                return return_id['id']
+            # re-raise exception
+            raise
 
     def update_database(self, table, rows, value):
         '''
