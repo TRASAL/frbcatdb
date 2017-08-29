@@ -226,7 +226,9 @@ class FRBCat_add:
                 ((table=='observations') and
                   (set(['telescope', 'detected', 'verified']) < set(rows))) or
                 ((table=='frbs') and
-                  (set(['name', 'utc']) < set(rows)))):
+                  (set(['name', 'utc']) < set(rows))) or
+                ((table=='authors') and
+                  (set(['ivorn']) < set(rows)))):
                 # pass not null constrains
                 sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
                       """.format(table, row_sql, parameters)
