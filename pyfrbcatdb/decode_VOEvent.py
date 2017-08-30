@@ -6,13 +6,12 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 import voeventparse as vp
 import pandas
 from pyfrbcatdb import dbase
-from pytz import timezone
 from pyfrbcatdb.FRBCat import *
 from pyfrbcatdb import utils
 from pyfrbcatdb.logger import logger
 
 class decode_VOEvent(logger):
-    def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME, 
+    def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME,
                  USER_PASSWORD, LOG_FILE):
         logger.__init__(self, LOG_FILE)
         self.DB_NAME = DB_NAME
@@ -34,7 +33,8 @@ class decode_VOEvent(logger):
         # create/delete a new FRBCat entry
         self.update_FRBCat(vo_dict, event_type)
 
-    def get_param(self, param_data, param_group, param_name):
+    @staticmethod
+    def get_param(param_data, param_group, param_name):
         '''
         Get param data for a given attribute
         '''
@@ -45,7 +45,8 @@ class decode_VOEvent(logger):
             # return None for the ones that are not defined in the XML
             return None
 
-    def get_coord(self, v, coordname):
+    @staticmethod
+    def get_coord(v, coordname):
         try:
             units = getattr(vp.get_event_position(v, index=0), 'units')
         except AttributeError:
@@ -63,33 +64,8 @@ class decode_VOEvent(logger):
         except TypeError:
             return None
 
-    def get_coord2(self, v, mapping, idx):
-        '''
-        Get astro coordinates
-        '''
-        switcher = {
-            'raj': 'ra',
-            'decj': 'dec',
-            'gl': 'gl',
-            'gb': 'gb',
-            'pointing_error': 'err',
-        }
-        try:
-            utils.decdeg2dms(vp.get_event_position(v, index=0).ra)
-            key = switcher.get(mapping['FRBCAT COLUMN'].iloc[idx])
-            if key in ['raj', 'decj', 'ra', 'dec']:
-                return utils.decdeg2dms(getattr(
-                    vp.get_event_position(v, index=0), key))
-            else:
-                return getattr(vp.get_event_position(v, index=0), key)
-        except AttributeError:
-            return None
-        except KeyError:
-            return None
-        except TypeError:
-            return None
-
-    def get_attrib(self, v, attribname):
+    @staticmethod
+    def get_attrib(v, attribname):
         '''
         Get xml attributes
         '''
@@ -100,7 +76,8 @@ class decode_VOEvent(logger):
         except KeyError:
             return None
 
-    def get_utc_time_str(self, v):
+    @staticmethod
+    def get_utc_time_str( v):
         '''
         Get time in UTC
         Return string 'YYYY-MM-DD HH:MM:SS'

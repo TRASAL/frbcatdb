@@ -25,7 +25,7 @@ def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
         if dbPort != None:
             connectionString += " port='" + str(dbPort) + "'"
         connection  = psycopg2.connect(connectionString)
-    except:
+    except Exception:
         raise
     # if the connection succeeded get a cursor
     cursor = connection.cursor(cursor_factory=dbCursor)

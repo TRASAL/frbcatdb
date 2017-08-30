@@ -3,14 +3,12 @@ description:    FRBCat functionality for pyfrbcatdb
 license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
-import pandas as pd
 from pyfrbcatdb import dbase as dbase
 from pyfrbcatdb import utils as utils
 import os
 import sys
 from numpy import append as npappend
 from numpy import array as nparray
-from numpy import where as npwhere
 from numpy import ravel as npravel
 import voeventparse as vp
 import datetime
@@ -209,7 +207,7 @@ class FRBCat_add:
     def insert_into_database(self, table, rows, value):
         '''
         insert event into the database
-        if not all required parameters are specified, assume this is an 
+        if not all required parameters are specified, assume this is an
         update event and return the id for the event in the table
         '''
         try:
@@ -387,7 +385,6 @@ class FRBCat_add:
                 item.get('value') is not None]
         values = [item.get('value') for item in self.mapping.get(table) if
                   item.get('value') is not None]
-        voevent_ivorn = values[rows=='voevent_ivorn']
         sql = "select o.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='{}'".format(voevent_cited)
         try:
             # execute sql statement
@@ -532,7 +529,6 @@ class FRBCat_create:
         Add What section to voevent object
         '''
         mapping = parse_mapping()
-        super_dict = {}
         # flatten the mapping dictionary into a list of dicts
         try:
           values = mapping.itervalues()  # python 2 compatibility

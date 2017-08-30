@@ -23,7 +23,7 @@ def write(sql, filename):
   try:
     with open(filename, "w") as sql_out:
       sql_out.write(sql)
-  except IOError as e:
+  except IOError:
     raise # re-raise exception
 
 if __name__=="__main__":
