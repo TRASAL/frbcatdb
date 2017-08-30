@@ -9,10 +9,12 @@ from pyfrbcatdb import dbase
 from pytz import timezone
 from pyfrbcatdb.FRBCat import *
 from pyfrbcatdb import utils
+from pyfrbcatdb.logger import logger
 
-class decode_VOEvent:
+class decode_VOEvent(logger):
     def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME, 
-                 USER_PASSWORD):
+                 USER_PASSWORD, LOG_FILE):
+        logger.__init__(self, LOG_FILE)
         self.DB_NAME = DB_NAME
         self.DB_HOST = DB_HOST
         self.DB_PORT = DB_PORT
@@ -21,6 +23,7 @@ class decode_VOEvent:
         self.process_VOEvent(voevent)
     
     def process_VOEvent(self, voevent):
+        self.logger.info("Processing file {}".format(voevent.name))
         # load mapping VOEvent -> FRBCAT
         mapping = parse_mapping()
         # parse VOEvent xml file
@@ -172,6 +175,7 @@ class decode_VOEvent:
                         v.xpath('Citations')[0].EventIVORN.text)
         except IndexError:
             event_type = ('new', None)
+        self.logger.info("Event of of type: {}".format(event_type))
         # use the mapping to get required data from VOEvent xml
         # if a path is not found in the xml it gets an empty list which is
         # removed in the next step

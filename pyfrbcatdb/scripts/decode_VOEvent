@@ -27,6 +27,7 @@ def cli_parser():
     parser.add('--DB_PORT', help='name postgres database', env_var='DB_PORT')
     parser.add('--USER_NAME', required=True, help='user postgres database', env_var='USER_NAME')
     parser.add('--USER_PASSWORD', help='user postgres database', env_var='USER_PASSWORD')
+    parser.add('--LOG_FILE', help='log file', env_var='LOG_FILE')
     parser.add('VOEvents', metavar='VOEvent',
                         type=configargparse.FileType('rb'), nargs='+',
                         help='List of VOEvent XML files')
@@ -39,5 +40,6 @@ if __name__ == "__main__":
     for voevent in results.VOEvents:
         decode_VOEvent.decode_VOEvent(voevent, results.DB_NAME,
                                       results.DB_HOST, results.DB_PORT,
-                                      results.USER_NAME, results.USER_PASSWORD)
+                                      results.USER_NAME, results.USER_PASSWORD,
+                                      results.LOG_FILE)
         voevent.close()
