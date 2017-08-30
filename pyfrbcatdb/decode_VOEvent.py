@@ -21,9 +21,12 @@ class decode_VOEvent(logger):
         self.USER_NAME = USER_NAME
         self.USER_PASSWORD = USER_PASSWORD
         self.process_VOEvent(voevent)
-    
+
     def process_VOEvent(self, voevent):
-        self.logger.info("Processing file {}".format(voevent.name))
+        try:
+            self.logger.info("Processing file {}".format(voevent.name))
+        except AttributeError:
+            self.logger.info("Processing file {}".format(voevent))
         # load mapping VOEvent -> FRBCAT
         mapping = parse_mapping()
         # parse VOEvent xml file
