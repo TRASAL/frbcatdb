@@ -84,14 +84,6 @@ class FRBCat_add:
         value = npappend(value, (self.frb_id))
         self.insert_into_database(table, rows, value)
 
-    def add_frbs_have_publications(self, table, rows, value):
-        '''
-        Add event to the frbs_have_publications table
-        '''
-        rows = npappend(rows, ('frb_id', 'pub_id'))
-        value = npappend(value, (self.frb_id, self.pub_id))
-        self.insert_into_database(table, rows, value)
-
     def add_observations(self, table, rows, value):
         '''
         Add event to the observations table
@@ -109,14 +101,6 @@ class FRBCat_add:
         '''
         rows = npappend(rows, ('obs_id'))
         value = npappend(value, (self.obs_id))
-        self.insert_into_database(table, rows, value)
-
-    def add_observations_have_publications(self, table, rows, value):
-        '''
-        Add event to the observations_have_publications table
-        '''
-        rows = npappend(rows, ('obs_id', 'pub_id'))
-        value = npappend(value, (self.obs_id, self.pub_id))
         self.insert_into_database(table, rows, value)
 
     def add_radio_observations_params(self, table, rows, value):
@@ -142,15 +126,6 @@ class FRBCat_add:
         value = npappend(value, (self.rop_id))
         self.insert_into_database(table, rows, value)
 
-    def add_radio_observations_params_have_publications(
-      self, table, rows, value):
-        '''
-        Add event to the radio_observations_params_have_publications table
-        '''
-        rows = npappend(rows, ('rop_id', 'pub_id'))
-        value = npappend(value, (self.rop_id, self.pub_id))
-        self.insert_into_database(table, rows, value)
-
     def add_radio_measured_params(self, table, rows, value):
         '''
         Add event to the radio_measured_params table
@@ -170,34 +145,6 @@ class FRBCat_add:
         '''
         rows = npappend(rows, ('rmp_id'))
         value = npappend(value, (self.rmp_id))
-        self.insert_into_database(table, rows, value)
-
-    def add_radio_measured_params_have_publications(self, table, rows, value):
-        '''
-        Add event to the radio_measured_params_have_publications table
-        '''
-        rows = npappend(rows, ('rmp_id', 'pub_id'))
-        value = npappend(value, (self.rmp_id, self.pub_id))
-        self.insert_into_database(table, rows, value)
-
-    def add_publications(self, table, rows, value):
-        '''
-        Add event to the publications table
-        '''
-        self.pubid = self.insert_into_database(table, rows, value)
-
-    def add_radio_images(self, table, rows, value):
-        '''
-        Add event to the radio_images table
-        '''
-        self.rid = self.insert_into_database(table, rows, value)
-
-    def add_radio_images_have_rmp(self, table, rows, value):
-        '''
-        Add event to the radio_images_have_rmp table
-        '''
-        rows = npappend(rows, ('radio_image_id', 'rmp_id'))
-        value = npappend(value, (self.rid, self.rmp_id))
         self.insert_into_database(table, rows, value)
 
     def insert_into_database(self, table, rows, value):
