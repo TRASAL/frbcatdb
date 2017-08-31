@@ -59,7 +59,6 @@ class FRBCat_add:
         Add author to the database if the ivorn is not in the authors table
         '''
         # check if author already exists in database
-        # TODO: try/except
         ivorn = value[rows == 'ivorn']
         author_exists = self.check_author_exists(ivorn)
         # add author to database if author does not yet exist in db
@@ -74,9 +73,8 @@ class FRBCat_add:
         value = npappend(value, self.author_id)
         # try to insert into database / return frb id
         self.frb_id = self.insert_into_database(table, rows, value)
-        # event is of type supersedes, so we need to update
-        if self.event_type=='supersedes':
-            self.update_database(table, rows, value)
+        # update database if type is supersedes
+        self.update_database(table, rows, value)
 
     def add_frbs_notes(self, table, rows, value):
         '''
@@ -102,9 +100,8 @@ class FRBCat_add:
         value = npappend(value, (self.frb_id, self.author_id))
         # try to insert into database / return observation id
         self.obs_id = self.insert_into_database(table, rows, value)
-        # event is of type supersedes, so we need to update
-        if self.event_type=='supersedes':
-            self.update_database(table, rows, value)
+        # update database if type is supersedes
+        self.update_database(table, rows, value)
 
     def add_observations_notes(self, table, rows, value):
         '''
@@ -134,8 +131,8 @@ class FRBCat_add:
         rows = npappend(rows, ('obs_id', 'author_id', 'settings_id'))
         value = npappend(value, (self.obs_id, self.author_id, settings_id))
         self.rop_id = self.insert_into_database(table, rows, value)
-        if self.event_type=='supersedes':
-            self.update_database(table, rows, value)
+        # update database if type is supersedes
+        self.update_database(table, rows, value)
 
     def add_radio_observations_params_notes(self, table, rows, value):
         '''
@@ -164,8 +161,8 @@ class FRBCat_add:
         self.event_exists = self.check_event_exists(ivorn)
         # add event to the database if it does not exist yet
         self.rmp_id = self.insert_into_database(table, rows, value)
-        if self.event_type=='supersedes':
-            self.update_database(table, rows, value)
+        # update database if type is supersedes
+        self.update_database(table, rows, value)
 
     def add_radio_measured_params_notes(self, table, rows, value):
         '''
@@ -210,11 +207,9 @@ class FRBCat_add:
         update event and return the id for the event in the table
         '''
         try:
-            row_sql = ', '.join(map(str, rows))
-            parameters = '(' + ','.join(['%s' for i in value]) + ')'
-            value = [x.text if isinstance(
-                     x, lxml.objectify.StringElement) else x for x in value]
-            value = nparray(value)
+            # define sql params
+            row_sql, parameters, value = define_sql_params(rows, value)
+            # check if VOEVent passes the not null constraints of database
             if( ((table == 'radio_measured_params') and
                 (set(['voevent_ivorn', 'voevent_xml',
                         'dm', 'snr', 'width']) < set(rows))) or
@@ -226,13 +221,17 @@ class FRBCat_add:
                   (set(['name', 'utc']) < set(rows))) or
                 ((table=='authors') and
                   (set(['ivorn']) < set(rows)))):
-                # pass not null constrains
+                # define sql statement
                 sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
                       """.format(table, row_sql, parameters)
+                # execute sql statement, try to insert into database
                 self.cursor.execute(sql, tuple(value))
                 try:
+                    # return id from insert
                     return self.cursor.fetchone()[0]  # return last insert id
                 except TypeError:
+                    # insert did not happen due to already existing entry
+                    # in database, return id of the existing entry
                     return self.get_id_existing(table, rows, value)
             else:
                 # not all required parameters are in voevent xml file
@@ -287,27 +286,29 @@ class FRBCat_add:
 
     def update_database(self, table, rows, value):
         '''
-        for type supersedes we need to update existing table values
+        if type supersedes we need to update existing table values
+        else do nothing
         '''
-        row_sql = ', '.join(map(str, rows))
-        parameters = '(' + ','.join(['%s' for i in value]) + ')'
-        value = [x.text if isinstance(
-                 x, lxml.objectify.StringElement) else x for x in value]
-        value = nparray(value)
-        if table == 'frbs':
-            sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.frb_id)
-        elif table == 'observations':
-            sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.obs_id)
-        elif table == 'radio_observations_params':
-            sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.rop_id)
-        elif table == 'radio_measured_params':
-            sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.rmp_id)
+        if self.event_type=='supersedes':
+            # event is of type supersedes, so we need to update
+            row_sql, parameters, value = define_sql_params(rows, value)
+            # define sql statments
+            if table == 'frbs':
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.frb_id)
+            elif table == 'observations':
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.obs_id)
+            elif table == 'radio_observations_params':
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.rop_id)
+            elif table == 'radio_measured_params':
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.rmp_id)
+            else:
+                pass
+            try:
+                # execute sql statement
+                self.cursor.execute(sql, tuple(value))
+            except NameError:
+                pass
         else:
-            pass
-        try:
-            # execute sql statement
-            self.cursor.execute(sql, tuple(value))
-        except NameError:
             pass
 
     def add_VOEvent_to_FRBCat(self):
@@ -400,6 +401,16 @@ class FRBCat_add:
             dbase.commitToDB(self.connection, self.cursor)
         # close database connection
         dbase.closeDBConnection(self.connection, self.cursor)
+
+    @staticmethod
+    def define_sql_params(rows, value):
+        row_sql = ', '.join(map(str, rows))
+        parameters = '(' + ','.join(['%s' for i in value]) + ')'
+        value = [x.text if isinstance(
+                 x, lxml.objectify.StringElement) else x for x in value]
+        value = nparray(value)
+        return row_sql, parameters, value
+
 
 class FRBCat_create:
     def __init__(self, connection, cursor, frbs_id):
