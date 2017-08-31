@@ -208,7 +208,7 @@ class FRBCat_add:
         '''
         try:
             # define sql params
-            row_sql, parameters, value = define_sql_params(rows, value)
+            row_sql, parameters, value = self.define_sql_params(rows, value)
             # check if VOEVent passes the not null constraints of database
             if( ((table == 'radio_measured_params') and
                 (set(['voevent_ivorn', 'voevent_xml',
@@ -291,7 +291,7 @@ class FRBCat_add:
         '''
         if self.event_type=='supersedes':
             # event is of type supersedes, so we need to update
-            row_sql, parameters, value = define_sql_params(rows, value)
+            row_sql, parameters, value = self.define_sql_params(rows, value)
             # define sql statments
             if table == 'frbs':
                 sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.frb_id)
