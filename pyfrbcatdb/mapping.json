@@ -169,11 +169,6 @@
       "unit": "HH:MM:SS",
     },
     {
-      "column": "pointing_error",
-      "type": "Coord",
-      "name": "err",
-    },
-    {
       "column": "gl",
       "type": "Param",
       "name": "gl",

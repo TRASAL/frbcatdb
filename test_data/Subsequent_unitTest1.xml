@@ -31,7 +31,7 @@
     </What>
      <WhereWhen>
       <ObsDataLocation>
-        <ObservatoryLocation id="PARKES2">
+        <ObservatoryLocation id="PARKES">
           <AstroCoordSystem id="UTC-GEOD-TOPO"/>
           <AstroCoords coord_system_id="UTC-GEOD-TOPO">
             <Position3D unit="deg-deg-m">
@@ -45,7 +45,7 @@
             </ObservatoryLocation>
             <ObservationLocation>
                 <AstroCoordSystem id="UTC-FK5-GEO"/><AstroCoords coord_system_id="UTC-FK5-GEO">
-                <Time unit="s"><TimeInstant><ISOTime>2014-05-14T17:14:11.059</ISOTime></TimeInstant></Time> <!-- Time FRB occured -->
+                <Time unit="s"><TimeInstant><ISOTime>2014-05-14T17:14:13.059</ISOTime></TimeInstant></Time> <!-- Time FRB occured -->
                 <Position2D unit="deg"><Name1>RA</Name1><Name2>Dec</Name2><Value2><C1>338.525000</C1><C2>-12.312778</C2></Value2><Error2Radius>0.125</Error2Radius></Position2D>
                 </AstroCoords>
            </ObservationLocation>

@@ -561,18 +561,19 @@ class FRBCat_create:
         Add WhereWhen section to voevent object
         '''
         # ra: right ascension; dec: declination; err: error radius
-        if self.event['pointing_error']:
+        if self.event['beam_semi_major_axis']:
             vp.add_where_when(self.v,
                               coords=vp.Position2D
                               (ra=utils.dms2decdeg(self.event['raj']),
                               dec=utils.dms2decdeg(self.event['decj']),
-                              err=self.event['pointing_error'], units='deg',
+                              err=self.event['beam_semi_major_axis'],
+                              units='deg',
                               system=vp.definitions.sky_coord_system.utc_fk5_geo),
                               obs_time=pytz.utc.localize(self.event['utc']),
                               observatory_location=self.event['telescope'])
         else:
             # some of the original database entries do not have a value
-            # for pointing error, set to 0
+            # for beam_semi_major_axis, set to 0
             vp.add_where_when(self.v,
                               coords=vp.Position2D
                               (ra=utils.dms2decdeg(self.event['raj']),
