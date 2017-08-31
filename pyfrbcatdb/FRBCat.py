@@ -9,7 +9,6 @@ import os
 import sys
 from numpy import append as npappend
 from numpy import array as nparray
-from numpy import ravel as npravel
 import voeventparse as vp
 import datetime
 import pytz
@@ -274,8 +273,8 @@ class FRBCat_add:
             sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
                 table, value[rows=='voevent_ivorn'][0])
         else:
-            # re-raise IntegrityError
-            raise
+            # raise IntegrityError
+            raise psycopg2.IntegrityError("Unable to get id from database: {}".format(sql))
         # get the id
         self.cursor.execute(sql)
         return_id = self.cursor.fetchone()
@@ -379,12 +378,6 @@ class FRBCat_add:
         retracting event should set detected/verified to False in
         observations table
         '''
-        # extract rows that have values
-        table = 'radio_measured_params'
-        rows = [item.get('column') for item in self.mapping.get(table) if
-                item.get('value') is not None]
-        values = [item.get('value') for item in self.mapping.get(table) if
-                  item.get('value') is not None]
         sql = "select o.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='{}'".format(voevent_cited)
         try:
             # execute sql statement

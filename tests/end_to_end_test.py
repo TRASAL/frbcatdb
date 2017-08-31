@@ -1,5 +1,5 @@
 import os
-from os.path import join,dirname,abspath
+from os.path import dirname,abspath
 import unittest
 import datetime
 import psycopg2

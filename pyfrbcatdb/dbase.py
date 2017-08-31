@@ -49,7 +49,7 @@ def commitToDB(connection, cursor):
     '''
     try:
         connection.commit()
-    except:
+    except psycopg2.DatabaseError:
         connection.rollback()
 
 
