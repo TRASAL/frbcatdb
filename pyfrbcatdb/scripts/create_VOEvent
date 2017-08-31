@@ -23,7 +23,8 @@ def cli_parser():
     parser.add('--DB_HOST', help='name postgres database', env_var='DB_HOST')
     parser.add('--DB_PORT', help='name postgres database', env_var='DB_PORT')
     parser.add('--USER_NAME', required=True, help='user postgres database', env_var='USER_NAME')
-    parser.add('--USER_PASSWORD', help='user postgres database', env_var='USER_PASSWORD')    
+    parser.add('--USER_PASSWORD', help='user postgres database', env_var='USER_PASSWORD')
+    parser.add('--LOG_FILE', help='log file', env_var='LOG_FILE')
     parser.add('frb_ids', metavar='frb_ids', type=int, nargs='+',
                help='List of frbs ids')
     results = parser.parse_args()

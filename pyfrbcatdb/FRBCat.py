@@ -490,11 +490,9 @@ class FRBCat_create:
         '''
         Initialize voevent
         '''
-        # /begin placeholders
-        stream = 'teststream'
+        stream = self.event['voevent_ivorn'].lstrip('ivo://')
         stream_id = 1
-        role = vp.definitions.roles.test
-        # /end placeholders
+        role = vp.definitions.roles.observation
         self.v = vp.Voevent(stream=stream, stream_id=stream_id, role=role)
         # set description TODO, do we have something to put here?
         # v.Description =
@@ -517,9 +515,13 @@ class FRBCat_create:
         '''
         Add author section to voevent object
         '''
-        # TODO: placeholder, not in database; one of author details need
-        # to be specified for a valid voevent 2.0 file
-        self.event['contact_name'] = 'placeholder'
+        # set a plactholder if none of the contact details are in the database
+        # for some of the original entries
+        if not any([self.event['title'], self.event['short_name'],
+                    self.event['contact_name'], self.event['contact_email'],
+                    self.event['contact_phone']]):
+            self.event['contact_name'] = 'frbcatdb_extracted'
+        # set author section
         vp.set_author(self.v,
                       title=self.event['title'],
                       shortName=self.event['short_name'],
@@ -558,16 +560,27 @@ class FRBCat_create:
         '''
         Add WhereWhen section to voevent object
         '''
-        # TODO: add coord system to database?
         # ra: right ascension; dec: declination; err: error radius
-        vp.add_where_when(self.v,
-                          coords=vp.Position2D
-                          (ra=utils.dms2decdeg(self.event['raj']),
-                           dec=utils.dms2decdeg(self.event['decj']),
-                           err=self.event['pointing_error'], units='deg',
-                           system=vp.definitions.sky_coord_system.utc_fk5_geo),
-                          obs_time=pytz.utc.localize(self.event['utc']),
-                          observatory_location=self.event['telescope'])
+        if self.event['pointing_error']:
+            vp.add_where_when(self.v,
+                              coords=vp.Position2D
+                              (ra=utils.dms2decdeg(self.event['raj']),
+                              dec=utils.dms2decdeg(self.event['decj']),
+                              err=self.event['pointing_error'], units='deg',
+                              system=vp.definitions.sky_coord_system.utc_fk5_geo),
+                              obs_time=pytz.utc.localize(self.event['utc']),
+                              observatory_location=self.event['telescope'])
+        else:
+            # some of the original database entries do not have a value
+            # for pointing error, set to 0
+            vp.add_where_when(self.v,
+                              coords=vp.Position2D
+                              (ra=utils.dms2decdeg(self.event['raj']),
+                              dec=utils.dms2decdeg(self.event['decj']),
+                              err=0, units='deg',
+                              system=vp.definitions.sky_coord_system.utc_fk5_geo),
+                              obs_time=pytz.utc.localize(self.event['utc']),
+                              observatory_location=self.event['telescope'])
 
     def set_why(self):
         '''
@@ -620,10 +633,10 @@ class FRBCat_create:
                       unit=param.get('unit'),
                       ucd=param.get('ucd')))
                 except NameError:
-                    paramList = vp.Param(name=param.get('param_name'),
+                    paramList = [vp.Param(name=param.get('param_name'),
                                          value=self.event[param.get('column')],
                                          unit=param.get('unit'),
-                                         ucd=param.get('ucd'))
+                                         ucd=param.get('ucd'))]
         return paramList
 
     def add_params(self, supermapping):
