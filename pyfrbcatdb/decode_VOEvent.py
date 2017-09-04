@@ -142,8 +142,6 @@ class decode_VOEvent(logger):
                     return False
             except TypeError:
                 return False
-        elif itemtype == 'note':
-            import pdb; pdb.set_trace()
         else:
             return None
 
@@ -189,7 +187,7 @@ class decode_VOEvent(logger):
                 # TODO pass item to a validate function to check
                 # Add values from XML to dictionary
                 mapping[table][idx]['value'] = self.get_value(v, param_data, item, event_type)
-                if item.get('note'):
+                if item.get('description'):
                     note = self.get_description(v, item)
                     if note:
                         mapping[table][idx]['note'] = note

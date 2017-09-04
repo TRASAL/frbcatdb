@@ -246,7 +246,7 @@
       "type": "Param",
       "param_group": "observatory parameters",
       "param_name": "beam",
-      "note": true,
+      "description": true,
     },
   ],
   "radio_measured_params": [
@@ -406,7 +406,7 @@
       "column": "note",
       "param_group": "advanced parameters",
       "param_name": "scattering",
-      "note": true
+      "description": true
     },
   ],
   "publications": [
