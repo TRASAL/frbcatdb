@@ -45,6 +45,23 @@ class decode_VOEvent(logger):
             return None
 
     @staticmethod
+    def get_description(v, item):
+        '''
+        Return description of parameter
+        '''
+        param_group = item.get('param_group')
+        param_name = item.get('param_name')
+        try:
+            note = v.find(".//Group[@name='{}']".format(param_group)).find(
+              ".//Param[@name='{}']".format(param_name)).Description
+            if note:
+                return "[{}] {}".format(param_name, note)
+            else:
+                return None
+        except AttributeError:
+            return None
+
+    @staticmethod
     def get_coord(v, coordname):
         try:
             units = getattr(vp.get_event_position(v, index=0), 'units')
@@ -125,6 +142,8 @@ class decode_VOEvent(logger):
                     return False
             except TypeError:
                 return False
+        elif itemtype == 'note':
+            import pdb; pdb.set_trace()
         else:
             return None
 
@@ -170,6 +189,10 @@ class decode_VOEvent(logger):
                 # TODO pass item to a validate function to check
                 # Add values from XML to dictionary
                 mapping[table][idx]['value'] = self.get_value(v, param_data, item, event_type)
+                if item.get('note'):
+                    note = self.get_description(v, item)
+                    if note:
+                        mapping[table][idx]['note'] = note
         return mapping, event_type
 
     def update_FRBCat(self, mapping, event_type):

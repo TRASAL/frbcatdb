@@ -118,13 +118,14 @@ class FRBCat_add:
         # update database if type is supersedes
         self.update_database(table, rows, value)
 
-    def add_radio_observations_params_notes(self, table, rows, value):
+    def add_radio_observations_params_notes(self, table, rows, notes):
         '''
         Add event to the radio_observations_params_notes table
         '''
-        rows = npappend(rows, ('rop_id'))
-        value = npappend(value, (self.rop_id))
-        self.insert_into_database(table, rows, value)
+        for note in notes:  # loop over all notes
+            rows_i = npappend(rows, ('rop_id', 'last_modified', 'author'))
+            value_i = npappend(note, (self.rop_id, self.utctime, self.authorname))
+            self.insert_into_database(table, rows_i, value_i)
 
     def add_radio_measured_params(self, table, rows, value):
         '''
@@ -139,13 +140,14 @@ class FRBCat_add:
         # update database if type is supersedes
         self.update_database(table, rows, value)
 
-    def add_radio_measured_params_notes(self, table, rows, value):
+    def add_radio_measured_params_notes(self, table, rows, notes):
         '''
         Add event to the radio_measured_params_notes table
         '''
-        rows = npappend(rows, ('rmp_id'))
-        value = npappend(value, (self.rmp_id))
-        self.insert_into_database(table, rows, value)
+        for note in notes:  # loop over all notes
+            rows_i = npappend(rows, ('rmp_id', 'last_modified', 'author'))
+            value_i = npappend(note, (self.rmp_id, self.utctime, self.authorname))
+            self.insert_into_database(table, rows_i, value_i)
 
     def insert_into_database(self, table, rows, value):
         '''
@@ -167,7 +169,9 @@ class FRBCat_add:
                 ((table=='frbs') and
                   (set(['name', 'utc']) < set(rows))) or
                 ((table=='authors') and
-                  (set(['ivorn']) < set(rows)))):
+                  (set(['ivorn']) < set(rows))) or
+                (table=='radio_measured_params_notes') or
+                (table=='radio_observations_params_notes') ):
                 # define sql statement
                 sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
                       """.format(table, row_sql, parameters)
@@ -220,7 +224,7 @@ class FRBCat_add:
                 table, value[rows=='voevent_ivorn'][0])
         else:
             # raise IntegrityError
-            raise psycopg2.IntegrityError("Unable to get id from database: {}".format(sql))
+            raise psycopg2.IntegrityError("Unable database table: {}".format(table))
         # get the id
         self.cursor.execute(sql)
         return_id = self.cursor.fetchone()
@@ -276,7 +280,8 @@ class FRBCat_add:
         #          'radio_measured_params', 'radio_measured_params_notes']
         tables = ['authors', 'frbs', 'observations',
                   'radio_observations_params',
-                  'radio_measured_params']
+                  'radio_observations_params_notes',
+                  'radio_measured_params', 'radio_measured_params_notes']
         # loop over defined tables
         for table in tables:
             try:
@@ -287,9 +292,17 @@ class FRBCat_add:
             rows = [item.get('column') for item in self.mapping.get(table) if
                     item.get('value') is not None]
             values = [item.get('value') for item in self.mapping.get(table) if
-                    item.get('value') is not None]
+                      item.get('value') is not None]
+            if table in ['radio_measured_params_notes', 'radio_observations_params_notes']:
+                notes = [item.get('note') for item in self.mapping.get(table) if
+                         item.get('note') is not None]
             if table == 'authors':
                 self.add_authors(table, rows, values)
+                try:
+                    # set authorname, needed for notes
+                    self.authorname = values[rows.index('contact_name')]
+                except ValueError:
+                    self.authorname = 'FRBCat insert'
             if table == 'frbs':
                 self.add_frbs(table, rows, values)
             if table == 'frbs_notes':
@@ -299,19 +312,25 @@ class FRBCat_add:
                 # create first part of settings_id
                 self.settings_id1 = str(values[rows=='telescope'][0]
                                         ) + ';' + str(values[rows=='utc'][0])
+                try:
+                    # set utc time needed for notes
+                    self.utctime = values[rows.index('utc')]
+                except ValueError:
+                    # set equal to time of FRBCat insert
+                    self.utctime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             if table == 'observations_notes':
                 self.add_observations_notes(table, rows, values)
             if table == 'radio_observations_params':
                 self.add_radio_observations_params(table, rows, values)
             if table == 'radio_observations_params_notes':
-                self.add_radio_observations_params_notes(table, rows, values)
+                self.add_radio_observations_params_notes(table, rows, notes)
             if table == 'radio_measured_params':
                 self.add_radio_measured_params(table, rows, values)
                 if (self.event_exists and (self.event_type!='supersedes')):
                     # event exists already and is not of type supersedes
                     break  # don't want to add already existing event
             if table == 'radio_measured_params_notes':
-                self.add_radio_measured_params_notes(table, rows, values)
+                self.add_radio_measured_params_notes(table, rows, notes)
         if (self.event_exists and (self.event_type!='supersedes')):
             # event is already in database, rollback
             # TODO: is this what we want to do?

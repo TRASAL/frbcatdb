@@ -65,7 +65,7 @@
   ],
   "frbs_notes": [
     {
-      "column": "private",
+      "column": "",
       "type": "",
       "voevent": ,
       "param_type":
@@ -242,11 +242,12 @@
   ],
   "radio_observations_params_notes": [
     {
-      "column": "",
-      "type": "",
-      "voevent": ,
-      "param_type":
-    }
+      "column": "note",
+      "type": "Param",
+      "param_group": "observatory parameters",
+      "param_name": "beam",
+      "note": true,
+    },
   ],
   "radio_measured_params": [
     {
@@ -354,7 +355,7 @@
       "column": "scattering",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "scattering_timescale"
+      "param_name": "scattering",
     },
     {
       "column": "scattering_error",
@@ -399,12 +400,13 @@
       "param_name": "redshift"
     },
   ],
-  "radio_measaured_params_notes": [
+  "radio_measured_params_notes": [
     {
-      "column": "fds",
-      "type": "",
-      "voevent": ,
-      "param_type":
+      "type": "Param",
+      "column": "note",
+      "param_group": "advanced parameters",
+      "param_name": "scattering",
+      "note": true
     },
   ],
   "publications": [
