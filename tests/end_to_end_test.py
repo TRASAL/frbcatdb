@@ -250,7 +250,5 @@ class end2endtest(unittest.TestCase):
         create.create_VOEvent([1], self.DB_NAME, self.DB_HOST, self.DB_PORT,
                               self.USER_NAME, self.USER_PASSWORD)
 
-Notes_unitTest1.txt
-
 if __name__ == '__main__':
     unittest.main()
