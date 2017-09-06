@@ -154,7 +154,6 @@ CREATE TABLE IF NOT EXISTS radio_measured_params (
   rop_id INTEGER NOT NULL REFERENCES radio_observations_params (id),
   author_id INTEGER NOT NULL REFERENCES authors (id),
   voevent_ivorn VARCHAR(255) NOT NULL UNIQUE,
-  voevent_xml TEXT NOT NULL,
   dm DOUBLE PRECISION NOT NULL,
   dm_error DOUBLE PRECISION,
   snr DOUBLE PRECISION NOT NULL,

@@ -160,7 +160,7 @@ class FRBCat_add:
             row_sql, parameters, value = self.define_sql_params(rows, value)
             # check if VOEVent passes the not null constraints of database
             if( ((table == 'radio_measured_params') and
-                (set(['voevent_ivorn', 'voevent_xml',
+                (set(['voevent_ivorn',
                         'dm', 'snr', 'width']) < set(rows))) or
                 ((table=='radio_observations_params') and
                   (set(['raj', 'decj']) < set(rows))) or
