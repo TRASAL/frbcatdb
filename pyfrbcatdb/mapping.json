@@ -394,10 +394,16 @@
       "param_name": "rank"
     },
     {
-      "column": "redshift",
+      "column": "redshift_inferred",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "redshift"
+      "param_name": "redshift_inferred"
+    },
+    {
+      "column": "redshift_host",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "redshift_host"
     },
   ],
   "radio_measured_params_notes": [
@@ -408,10 +414,24 @@
       "param_name": "scattering",
       "description": true
     },
+    {
+      "type": "Param",
+      "column": "note",
+      "param_group": "advanced parameters",
+      "param_name": "redshift_inferred",
+      "description": true
+    },
+    {
+      "type": "Param",
+      "column": "note",
+      "param_group": "advanced parameters",
+      "param_name": "redshift_host",
+      "description": true
+    },
   ],
   "publications": [
     {
-      "column": "tds",
+      "column": "",
       "type": "",
       "voevent": ,
       "param_type":

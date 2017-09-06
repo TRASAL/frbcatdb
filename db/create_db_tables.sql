@@ -180,7 +180,8 @@ CREATE TABLE IF NOT EXISTS radio_measured_params (
   spectral_index_error DOUBLE PRECISION,
   rm DOUBLE PRECISION,
   rm_error DOUBLE PRECISION,
-  redshift DOUBLE PRECISION,
+  redshift_inferred DOUBLE PRECISION,
+  redshift_host DOUBLE PRECISION,
   rank INTEGER);
 CREATE INDEX radio_measured_params_author_id_fk ON radio_measured_params (author_id);
 CREATE INDEX radio_measured_params_rop_id_fk ON radio_measured_params (rop_id);
