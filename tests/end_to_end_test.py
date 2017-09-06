@@ -86,7 +86,7 @@ class end2endtest(unittest.TestCase):
                   'ebpetroff@gmail.com', 'FRB140514',
                   datetime.datetime(2014, 5, 14, 17, 14, 11), 'PARKES',
                   True, True,
-                  7.5, 7.5, 0, 0.064, 400, 1382, 2, 2, 0.735, 28, 'BPSR', 1,
+                  7.5, 7.5, 0, 0.064, 400, 1382, 2, 2, 0.735, 28, 'BPSR', '1',
                   50.8, -54.6, 34.9,
                   563.3, 1.0, 4.096, 16.1, 0.361, 0.44)  # both detected and verified (importance=1) = True
         self.cursor.execute(sql)
