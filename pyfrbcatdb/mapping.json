@@ -425,6 +425,30 @@
       "param_group": "advanced parameters",
       "param_name": "dispersion_smearing"
     },
+    {
+      "column": "linear_poln_frac",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "linear_pol"
+    },
+    {
+      "column": "linear_poln_frac_error",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "linear_pol_error"
+    },
+    {
+      "column": "cicrular_poln_frac",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "circular_pol"
+    },
+    {
+      "column": "circular_poln_frac_error",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "circular_pol_error"
+    },
   ],
   "radio_measured_params_notes": [
     {
