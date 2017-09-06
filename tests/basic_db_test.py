@@ -149,7 +149,7 @@ class BasicDBTest(unittest.TestCase):
         self.cursor.execute("DELETE FROM radio_observations_params WHERE obs_id = %s AND author_id = %s AND settings_id = %s AND raj = %s AND decj = %s", (1,1,'mycustomsettings','00:00:00','00:00:00'))
         self.connection.commit()
 
-        self.cursor.execute("INSERT INTO radio_measured_params (rop_id,author_id,voevent_ivorn,dm,snr,width) VALUES (%s,%s,%s,%s,%s,%s,%s)", (1,1,'ivo://unknown_new',0,0,0))
+        self.cursor.execute("INSERT INTO radio_measured_params (rop_id,author_id,voevent_ivorn,dm,snr,width) VALUES (%s,%s,%s,%s,%s,%s)", (1,1,'ivo://unknown_new',0,0,0))
         self.connection.commit()
         self.cursor.execute("DELETE FROM radio_measured_params WHERE voevent_ivorn = %s", ('ivo://unknown_new',))
         self.connection.commit()
@@ -168,7 +168,7 @@ class BasicDBTest(unittest.TestCase):
         self.assertRaises(psycopg2.IntegrityError, self.cursor.execute, "INSERT INTO radio_observations_params (obs_id,author_id,settings_id,raj,decj) VALUES (%s,%s,%s,%s,%s)", (1,1,'settings1','19:06:53','-40:37:14'))
         self.connection.rollback()
         # Test uniquess of rmp: voevent_ivorn must be unique
-        self.assertRaises(psycopg2.IntegrityError, self.cursor.execute, "INSERT INTO radio_measured_params (rop_id,author_id,voevent_ivorn,dm,snr,width) VALUES (%s,%s,%s,%s,%s,%s,%s)", (1,1,'ivo://unknown:frb4',0,0,0))
+        self.assertRaises(psycopg2.IntegrityError, self.cursor.execute, "INSERT INTO radio_measured_params (rop_id,author_id,voevent_ivorn,dm,snr,width) VALUES (%s,%s,%s,%s,%s,%s)", (1,1,'ivo://unknown:frb4',0,0,0))
         self.connection.rollback()
 
 if __name__ == '__main__':
