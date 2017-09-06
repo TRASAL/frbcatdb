@@ -122,8 +122,8 @@ class FRBCat_add:
         '''
         Add event to the radio_observations_params_notes table
         '''
-        for note in notes:  # loop over all notes
-            rows_i = npappend(rows, ('rop_id', 'last_modified', 'author'))
+        for idx, note in enumerate(notes):  # loop over all notes
+            rows_i = npappend(rows[idx], ('rop_id', 'last_modified', 'author'))
             value_i = npappend(note, (self.rop_id, self.utctime, self.authorname))
             self.insert_into_database(table, rows_i, value_i)
 
@@ -144,8 +144,8 @@ class FRBCat_add:
         '''
         Add event to the radio_measured_params_notes table
         '''
-        for note in notes:  # loop over all notes
-            rows_i = npappend(rows, ('rmp_id', 'last_modified', 'author'))
+        for idx, note in enumerate(notes):  # loop over all notes
+            rows_i = npappend(rows[idx], ('rmp_id', 'last_modified', 'author'))
             value_i = npappend(note, (self.rmp_id, self.utctime, self.authorname))
             self.insert_into_database(table, rows_i, value_i)
 
