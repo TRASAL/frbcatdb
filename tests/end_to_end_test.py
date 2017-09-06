@@ -81,12 +81,7 @@ class end2endtest(unittest.TestCase):
         # assert rmp increased by 1
         self.assertEqual(len_before[4], len_after[4]-1)
         # check inserted values in database
-        sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis,
-        rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency,
-        rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.beam,
-        rop.gl, rop.gb, rop.mw_dm_limit,
-        rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux, rmp.redshift_inferred
-        from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB1405141714/57953.44444444';"
+        sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.beam, rop.gl, rop.gb, rop.mw_dm_limit, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux, rmp.redshift_inferred from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB1405141714/57953.44444444';"
         values = ('ivo://au.csiro.parkes.superb', 'Emily Petroff',
                   'ebpetroff@gmail.com', 'FRB140514',
                   datetime.datetime(2014, 5, 14, 17, 14, 11), 'PARKES',
