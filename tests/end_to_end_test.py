@@ -156,7 +156,8 @@ class end2endtest(unittest.TestCase):
                   50.8, -54.6, 34.9,
                   562.7, 0.6, 2.80, 16, 0.47, 0.44, 1.1, 5.4, 2.000, 0.004,
                   3.50, 0.7, 1, 0.11, 0.08, 1.32, 2.34, 0.50, 0.0, 10.0, 21.0,
-                  7.0)  # both detected and verified (importance=1) =         self.cursor.execute(sql)
+                  7.0)  # both detected and verified (importance=1) = True
+        self.cursor.execute(sql)
         self.assertTupleEqual(values, self.cursor.fetchone())
 
     def test_02b(self):
