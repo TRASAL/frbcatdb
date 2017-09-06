@@ -438,7 +438,7 @@
       "param_name": "linear_pol_error"
     },
     {
-      "column": "cicrular_poln_frac",
+      "column": "circular_poln_frac",
       "type": "Param",
       "param_group": "advanced parameters",
       "param_name": "circular_pol"
