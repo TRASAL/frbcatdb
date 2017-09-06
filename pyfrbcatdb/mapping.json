@@ -258,10 +258,6 @@
       "param_type":
     },
     {
-      "column": "voevent_xml",
-      "type": "XML",
-    },
-    {
       "column": "dm",
       "type": "Param",
       "param_group": "event parameters",
@@ -404,6 +400,30 @@
       "type": "Param",
       "param_group": "advanced parameters",
       "param_name": "redshift_host"
+    },
+    {
+      "column": "fluence",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "fluence"
+    },
+    {
+      "column": "fluence_error_upper",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "fluence_error_upper"
+    },
+    {
+      "column": "fluence_error_lower",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "fluence_error_lower"
+    },
+    {
+      "column": "dispersion_smearing",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "dispersion_smearing"
     },
   ],
   "radio_measured_params_notes": [
