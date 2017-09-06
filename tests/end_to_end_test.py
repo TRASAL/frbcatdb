@@ -243,22 +243,6 @@ class end2endtest(unittest.TestCase):
         self.cursor.execute(sql)
         self.assertTupleEqual(values, self.cursor.fetchone())
 
-'''
-    def test_05(self):
-        '''
-        Validation of addition of notes to the database
-        '''
-        len_before = self.get_num_rows_main_tables()
-        decode.decode_VOEvent(os.path.join(self.test_data, 'Notes_unitTest1.txt'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
-        # check inserted values in database
-        sql = "select frbs.name, o.detected, o.verified from radio_measured_params_notes rmp_notes join radio_measured_params rmp on rmp_notes.rmp_id=rmp.id join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='ivo://nl.astron.apertif/alert#FRB1707201312/57954.55000000';"
-        # both detected and verified should be False for a retracted event
-        values = ('FRB170720', False, False)
-        self.cursor.execute(sql)
-        self.assertTupleEqual(values, self.cursor.fetchone())
-'''
     def test_06(self):
         '''
         Creating VOEvent from database

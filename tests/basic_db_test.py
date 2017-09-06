@@ -22,7 +22,7 @@ class BasicDBTest(unittest.TestCase):
         'radio_observations_params': 'id,obs_id,author_id,settings_id,receiver,backend,beam,beam_semi_major_axis,beam_semi_minor_axis,beam_rotation_angle,raj,decj,gl,gb,pointing_error,sampling_time,bandwidth,centre_frequency,npol,channel_bandwidth,bits_per_sample,gain,tsys,mw_dm_limit',
         'radio_observations_params_have_publications': 'rop_id,pub_id',
         'radio_observations_params_notes': 'id,rop_id,last_modified,author,note',
-        'radio_measured_params': 'id,rop_id,author_id,voevent_ivorn,voevent_xml,dm,dm_error,snr,width,width_error_upper,width_error_lower,flux,flux_prefix,flux_error_upper,flux_error_lower,flux_calibrated,dm_index,dm_index_error,scattering_index,scattering_index_error,scattering,scattering_error,linear_poln_frac,linear_poln_frac_error,circular_poln_frac,circular_poln_frac_error,spectral_index,spectral_index_error,rm,rm_error,redshift_inferred, redshift_host,rank',
+        'radio_measured_params': 'id,rop_id,author_id,voevent_ivorn,voevent_xml,dm,dm_error,snr,width,width_error_upper,width_error_lower,flux,flux_prefix,flux_error_upper,flux_error_lower,flux_calibrated,dm_index,dm_index_error,scattering_index,scattering_index_error,scattering,scattering_error,linear_poln_frac,linear_poln_frac_error,circular_poln_frac,circular_poln_frac_error,spectral_index,spectral_index_error,rm,rm_error,redshift_inferred,redshift_host,rank',
         'radio_measured_params_have_publications': 'rmp_id,pub_id',
         'radio_measured_params_notes': 'id,rmp_id,last_modified,author,note',
         'radio_images': 'id,title,caption,image',
