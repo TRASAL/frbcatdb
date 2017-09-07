@@ -394,12 +394,6 @@
       "param_name": "rm_error"
     },
     {
-      "column": "rank",
-      "type": "Param",
-      "param_group": "event parameters",
-      "param_name": "rank"
-    },
-    {
       "column": "redshift_inferred",
       "type": "Param",
       "param_group": "advanced parameters",

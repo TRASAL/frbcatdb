@@ -54,6 +54,22 @@ class FRBCat_add:
             self.event_id = event_id['id']
             return True
 
+    def set_rank(self):
+        '''
+        return the rank for the event to be inserted
+        first event of an FRB is rank=1, each next event increments it by 1
+        '''
+        sql = "select rmp.rank from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id where frbs.id={}".format(self.frb_id)
+        self.cursor.execute(sql)
+        ranks = self.cursor.fetchall()
+        try:
+            max_rank = max([x[0] for x in ranks])
+            next_rank = max_rank + 1
+        except ValueError:
+            # first entry of this FRB
+            next_rank = 1
+        return next_rank
+
     def add_authors(self, table, rows, value):
         '''
         Add author to the database if the ivorn is not in the authors table
@@ -115,8 +131,9 @@ class FRBCat_add:
         '''
         Add event to the radio_measured_params table
         '''
-        rows = npappend(rows, ('rop_id', 'author_id'))
-        value = npappend(value, (self.rop_id, self.author_id))
+        rank = self.set_rank()
+        rows = npappend(rows, ('rop_id', 'author_id','rank'))
+        value = npappend(value, (self.rop_id, self.author_id, rank))
         ivorn = value[rows == 'voevent_ivorn'][0]
         self.event_exists = self.check_event_exists(ivorn)
         # add event to the database if it does not exist yet
