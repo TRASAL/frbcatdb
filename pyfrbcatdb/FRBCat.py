@@ -76,14 +76,6 @@ class FRBCat_add:
         # update database if type is supersedes
         self.update_database(table, rows, value)
 
-    def add_frbs_notes(self, table, rows, value):
-        '''
-        Add event to the frbs_notes table
-        '''
-        rows = npappend(rows, ('frb_id'))
-        value = npappend(value, (self.frb_id))
-        self.insert_into_database(table, rows, value)
-
     def add_observations(self, table, rows, value):
         '''
         Add event to the observations table
@@ -94,14 +86,6 @@ class FRBCat_add:
         self.obs_id = self.insert_into_database(table, rows, value)
         # update database if type is supersedes
         self.update_database(table, rows, value)
-
-    def add_observations_notes(self, table, rows, value):
-        '''
-        Add event to the observations_notes table
-        '''
-        rows = npappend(rows, ('obs_id'))
-        value = npappend(value, (self.obs_id))
-        self.insert_into_database(table, rows, value)
 
     def add_radio_observations_params(self, table, rows, value):
         '''
@@ -287,10 +271,6 @@ class FRBCat_add:
                          db values in mapping['values']
         '''
         # define database tables in the order they need to be filled
-        #tables = ['authors', 'frbs', 'frbs_notes', 'observations',
-        #          'observations_notes', 'radio_observations_params',
-        #          'radio_observations_params_notes',
-        #          'radio_measured_params', 'radio_measured_params_notes']
         tables = ['authors', 'frbs', 'observations',
                   'radio_observations_params',
                   'radio_observations_params_notes',
@@ -342,7 +322,6 @@ class FRBCat_add:
                 self.add_radio_measured_params_notes(table, rows, notes)
         if (self.event_exists and (self.event_type!='supersedes')):
             # event is already in database, rollback
-            # TODO: is this what we want to do?
             self.connection.rollback()
         else:
             dbase.commitToDB(self.connection, self.cursor)
@@ -467,7 +446,7 @@ class FRBCat_create:
         '''
         stream = self.event['voevent_ivorn'].lstrip('ivo://')
         stream_id = 1
-        role = vp.definitions.roles.observation
+        role = vp.definitions.roles.test
         self.v = vp.Voevent(stream=stream, stream_id=stream_id, role=role)
         # set description TODO, do we have something to put here?
         # v.Description =
