@@ -218,6 +218,15 @@ class end2endtest(unittest.TestCase):
         self.assertEqual(len_before[3], len_after[3]-1)
         # assert rmp increased by 1
         self.assertEqual(len_before[4], len_after[4]-1)
+        sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.gl, rop.gb, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='ivo://nl.astron.apertif/alert#FRB1707201312/57954.55000000';"
+        values = ('ivo://nl.astron.lofar.alert', 'Emily Petroff',
+                  'ebpetroff@gmail.com', 'FRB170720',
+                  datetime.datetime(2014, 5, 14, 17, 14, 13), 'PARKES',
+                  True, False,
+                  0.5, 0.5, 0, 1.0, 32, 115, 2, 2, 8.8, 1000, '',
+                  151.6, 6.65, 750, 5, 10.0, 10, 1.5)  # both detected and verified (importance=0.85) = True
+        self.cursor.execute(sql)
+        self.assertTupleEqual(values, self.cursor.fetchone())
 
     def test_04(self):
         '''
