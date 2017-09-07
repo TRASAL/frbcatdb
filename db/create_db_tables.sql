@@ -185,6 +185,9 @@ CREATE TABLE IF NOT EXISTS radio_measured_params (
   fluence_error_upper DOUBLE PRECISION,
   fluence_error_lower DOUBLE PRECISION,
   dispersion_smearing DOUBLE PRECISION,
+  galactic_electron_model VARCHAR(255),
+  scattering_model VARCHAR(255),
+  scattering_timescale DOUBLE PRECISION,
   rank INTEGER);
 CREATE INDEX radio_measured_params_author_id_fk ON radio_measured_params (author_id);
 CREATE INDEX radio_measured_params_rop_id_fk ON radio_measured_params (rop_id);
