@@ -147,7 +147,6 @@ class FRBCat_add:
         for idx, note in enumerate(notes):  # loop over all notes
             rows_i = npappend(rows[idx], ('rmp_id', 'last_modified', 'author'))
             value_i = npappend(note, (self.rmp_id, self.authortime, self.authorname))
-            import pdb; pdb.set_trace()
             self.insert_into_database(table, rows_i, value_i)
 
     def insert_into_database(self, table, rows, value):
