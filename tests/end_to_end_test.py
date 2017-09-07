@@ -305,6 +305,7 @@ class end2endtest(unittest.TestCase):
         self.assertEqual(len_before[4], len_after[4]-1)
         # extract rop.id and rmp.id from database to allow for extraction of notes
         sql = "select rop.id, rmp.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on o.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB170831/57996.50000000';"
+        self.cursor.execute(sql)
         (rop_id, rmp_id) = self.cursor.fetchone()
         # extract radio_observations_params_notes
         sql = "select last_modified, author, note from radio_observations_params_notes where rop_id={}".format(rop_id)
