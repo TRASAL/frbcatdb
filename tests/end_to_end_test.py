@@ -181,6 +181,20 @@ class end2endtest(unittest.TestCase):
         self.assertEqual(len_before[3], len_after[3])
         # assert rmp remains the same
         self.assertEqual(len_before[4], len_after[4])
+        # check inserted values in database
+        # same values as test_02 except changing dm_index_error, and adding scattering_timescale, scater_index
+        sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.beam, rop.gl, rop.gb, rop.mw_dm_limit, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux, rmp.redshift_inferred, rmp.dispersion_smearing, rmp.scattering, rmp.dm_index, rmp.dm_index_error, rmp.width_error_upper, rmp.width_error_lower, rmp.flux_calibrated, rmp.flux_error_upper, rmp.flux_error_lower, rmp.fluence, rmp.fluence_error_upper, rmp.fluence_error_lower, rmp.linear_poln_frac, rmp.linear_poln_frac_error, rmp.circular_poln_frac, rmp.circular_poln_frac_error, rmp.scattering_timescale, rmp.scatter_index from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB1405141714/57953.44444444';"
+        values = ('ivo://au.csiro.parkes.superb', 'Emily Petroff',
+                  'ebpetroff@gmail.com', 'FRB140514',
+                  datetime.datetime(2014, 5, 14, 17, 14, 11), 'PARKES',
+                  True, False,
+                  7.5, 7.5, 0, 0.064, 338.281, 1352.0, 2, 2, 0.735, 28, 'BPSR', '1',
+                  50.8, -54.6, 34.9,
+                  562.7, 0.6, 2.80, 16, 0.47, 0.44, 1.1, 5.4, 2.000, 0.005,
+                  3.50, 0.7, True, 0.11, 0.08, 1.32, 2.34, 0.50, 0.0, 10.0, 21.0,
+                  7.0, 4.00, 0.01)  # both detected and verified (importance=1) = True
+        self.cursor.execute(sql)
+        self.assertTupleEqual(values, self.cursor.fetchone())
 
     def test_03(self):
         '''

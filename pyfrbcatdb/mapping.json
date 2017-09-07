@@ -339,13 +339,13 @@
       "column": "scattering_index",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "scattering_index"
+      "param_name": "scatter_index"
     },
     {
       "column": "scattering_index_error",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "scattering_index_error"
+      "param_name": "scatter_index_error"
     },
     {
       "column": "scattering",
