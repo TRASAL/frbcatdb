@@ -449,6 +449,24 @@
       "param_group": "advanced parameters",
       "param_name": "circular_pol_error"
     },
+    {
+      "column": "galactic_electron_model",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "galactic_electron_model"
+    },
+    {
+      "column": "scattering_model",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "scattering_model"
+    },
+    {
+      "column": "scattering_timescale",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "scattering_timescale"
+    },
   ],
   "radio_measured_params_notes": [
     {
