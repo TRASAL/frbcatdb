@@ -282,6 +282,43 @@ class end2endtest(unittest.TestCase):
         self.cursor.execute(sql)
         self.assertTupleEqual(values, self.cursor.fetchone())
 
+    def test_05(self):
+        '''
+        Adding a new event with a new author
+        should add one row in authors, frbs, observations, rop, rmp
+        detected=True, Verified=True (importance flag higher than threshold)
+        '''
+        len_before = self.get_num_rows_main_tables()
+        decode.decode_VOEvent(os.path.join(self.test_data, 'Notes_unitTest1.xml'),
+                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
+                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+        len_after = self.get_num_rows_main_tables()
+        # assert authors increased by 1
+        self.assertEqual(len_before[0], len_after[0]-1)
+        # assert frbs increased by 1
+        self.assertEqual(len_before[1], len_after[1]-1)
+        # assert observations increased by 1
+        self.assertEqual(len_before[2], len_after[2]-1)
+        # assert rop increased by 1
+        self.assertEqual(len_before[3], len_after[3]-1)
+        # assert rmp increased by 1
+        self.assertEqual(len_before[4], len_after[4]-1)
+        # extract rop.id and rmp.id from database to allow for extraction of notes
+        sql = "select rop.id, rmp.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on o.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB170831/57996.50000000';"
+        (rop_id, rmp_id) = self.cursor.fetchone()
+        # extract radio_observations_params_notes
+        sql = "select last_modified, author, note from radio_observations_params_notes where rop_id={}".format(rop_id)
+        self.cursor.execute(sql)
+        values = (datetime.datetime(2017, 8, 31, 12, 00, 00), 'Emily Petroff',
+                  '[beam] Detection beam number if backend is a multi beam receiver')
+        self.assertTupleEqual(values, self.cursor.fetchone())
+        # extract radio_measured_params_notes
+        sql = "select last_modified, author, note from radio_measured_params_notes where rop_id={}".format(rmp_id)
+        self.cursor.execute(sql)
+        values = (datetime.datetime(2017, 8, 31, 12, 00, 00), 'Emily Petroff',
+                  '[beam] Detection beam number if backend is a multi beam receiver')
+        print(self.cursor.fetchall())
+
     def test_06(self):
         '''
         Creating VOEvent from database
