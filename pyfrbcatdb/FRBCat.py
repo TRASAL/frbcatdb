@@ -124,7 +124,7 @@ class FRBCat_add:
         '''
         for idx, note in enumerate(notes):  # loop over all notes
             rows_i = npappend(rows[idx], ('rop_id', 'last_modified', 'author'))
-            value_i = npappend(note, (self.rop_id, self.utctime, self.authorname))
+            value_i = npappend(note, (self.rop_id, self.authortime, self.authorname))
             self.insert_into_database(table, rows_i, value_i)
 
     def add_radio_measured_params(self, table, rows, value):
@@ -146,7 +146,8 @@ class FRBCat_add:
         '''
         for idx, note in enumerate(notes):  # loop over all notes
             rows_i = npappend(rows[idx], ('rmp_id', 'last_modified', 'author'))
-            value_i = npappend(note, (self.rmp_id, self.utctime, self.authorname))
+            value_i = npappend(note, (self.rmp_id, self.authortime, self.authorname))
+            import pdb; pdb.set_trace()
             self.insert_into_database(table, rows_i, value_i)
 
     def insert_into_database(self, table, rows, value):
@@ -193,6 +194,19 @@ class FRBCat_add:
             self.connection.rollback()
             # re-raise exception
             raise
+
+    def get_authortime(self):
+        '''
+        get time voevent file was authored from mapping
+        '''
+        try:
+            return[item.get('value') for item in self.mapping.get('radio_observations_params_notes') if item.get('type')=='authortime'][0]
+        except IndexError:
+            try:
+                return[item.get('value') for item in self.mapping.get('radio_measured_params_notes') if item.get('type')=='authortime'][0]
+            except IndexError:
+                # fall back to insert datetime
+                return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     def get_id_existing(self, table, rows, value):
         if table == 'authors':
@@ -282,6 +296,8 @@ class FRBCat_add:
                   'radio_observations_params',
                   'radio_observations_params_notes',
                   'radio_measured_params', 'radio_measured_params_notes']
+        # get time voevent file was authored
+        self.authortime = self.get_authortime()
         # loop over defined tables
         for table in tables:
             try:
@@ -312,12 +328,6 @@ class FRBCat_add:
                 # create first part of settings_id
                 self.settings_id1 = str(values[rows=='telescope'][0]
                                         ) + ';' + str(values[rows=='utc'][0])
-                try:
-                    # set utc time needed for notes
-                    self.utctime = values[rows.index('utc')]
-                except ValueError:
-                    # set equal to time of FRBCat insert
-                    self.utctime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             if table == 'observations_notes':
                 self.add_observations_notes(table, rows, values)
             if table == 'radio_observations_params':

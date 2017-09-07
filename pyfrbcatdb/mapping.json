@@ -248,6 +248,11 @@
       "param_name": "beam",
       "description": true,
     },
+    {
+      "column": "last_modified",
+      "type": "authortime",
+      "voevent": "Date",
+    },
   ],
   "radio_measured_params": [
     {
@@ -489,6 +494,11 @@
       "param_group": "advanced parameters",
       "param_name": "redshift_host",
       "description": true
+    },
+    {
+      "column": "last_modified",
+      "type": "authortime",
+      "voevent": "Date",
     },
   ],
   "publications": [

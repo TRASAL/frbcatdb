@@ -93,7 +93,7 @@ class decode_VOEvent(logger):
             return None
 
     @staticmethod
-    def get_utc_time_str( v):
+    def get_utc_time_str(v):
         '''
         Get time in UTC
         Return string 'YYYY-MM-DD HH:MM:SS'
@@ -120,6 +120,12 @@ class decode_VOEvent(logger):
                 return self.get_utc_time_str(v)
             except AttributeError:
                 # for type 'retraction' there is no time defined
+                return None
+        elif itemtype == 'authortime':
+            try:
+                timestr = v.xpath('.//' + item.get('voevent').replace('.', '/'))[0]
+                return datetime.datetime.strptime(str(timestr), "%Y-%m-%dT%H:%M:%S").strftime('%Y-%m-%d %H:%M:%S')
+            except IndexError:
                 return None
         elif itemtype == 'XML':
             return vp.dumps(v)
