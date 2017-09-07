@@ -238,7 +238,12 @@
       "param_group": "advanced parameters",
       "param_name": "MW_dm_limit"
     },
-
+    {
+      "column": "galactic_electron_model",
+      "type": "Param",
+      "param_group": "advanced parameters",
+      "param_name": "galactic_electron_model"
+    },
   ],
   "radio_observations_params_notes": [
     {
@@ -453,12 +458,6 @@
       "type": "Param",
       "param_group": "advanced parameters",
       "param_name": "circular_pol_error"
-    },
-    {
-      "column": "galactic_electron_model",
-      "type": "Param",
-      "param_group": "advanced parameters",
-      "param_name": "galactic_electron_model"
     },
     {
       "column": "scattering_model",

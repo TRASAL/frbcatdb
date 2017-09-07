@@ -116,6 +116,7 @@ CREATE TABLE IF NOT EXISTS radio_observations_params (
   gain DOUBLE PRECISION,
   tsys DOUBLE PRECISION,
   mw_dm_limit DOUBLE PRECISION,
+  galactic_electron_model VARCHAR(255),
   UNIQUE (obs_id, settings_id));
 CREATE INDEX radio_observations_params_author_id_fk ON radio_observations_params (author_id);
 CREATE INDEX radio_observations_params_obs_id_fk ON radio_observations_params (obs_id);
@@ -185,7 +186,6 @@ CREATE TABLE IF NOT EXISTS radio_measured_params (
   fluence_error_upper DOUBLE PRECISION,
   fluence_error_lower DOUBLE PRECISION,
   dispersion_smearing DOUBLE PRECISION,
-  galactic_electron_model VARCHAR(255),
   scattering_model VARCHAR(255),
   scattering_timescale DOUBLE PRECISION,
   rank INTEGER);
