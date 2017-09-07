@@ -284,7 +284,7 @@ class end2endtest(unittest.TestCase):
 
     def test_05(self):
         '''
-        Adding a new event with a new author
+        Adding a new event with an existing author
         should add one row in authors, frbs, observations, rop, rmp
         detected=True, Verified=True (importance flag higher than threshold)
         '''
@@ -294,7 +294,7 @@ class end2endtest(unittest.TestCase):
                               self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
         len_after = self.get_num_rows_main_tables()
         # assert authors increased by 1
-        self.assertEqual(len_before[0], len_after[0]-1)
+        self.assertEqual(len_before[0], len_after[0])
         # assert frbs increased by 1
         self.assertEqual(len_before[1], len_after[1]-1)
         # assert observations increased by 1
