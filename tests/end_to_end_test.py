@@ -23,10 +23,10 @@ class end2endtest(unittest.TestCase):
         else:
             # TODO: read config file
             self.DB_NAME = 'frbcat'
-            self.USER_NAME = 'aa-alert'
+            self.USER_NAME = 'postgres'
             self.DB_HOST = 'localhost'
             self.DB_PORT = None
-            self.USER_PASSWORD = 'aa-alert'
+            self.USER_PASSWORD = 'None'
             self.LOG_FILE = 'frbcatdb.log'
             self.connection, self.cursor = dbase.connectToDB(
                 dbName=self.DB_NAME, userName=self.USER_NAME,
@@ -316,9 +316,8 @@ class end2endtest(unittest.TestCase):
         # extract radio_measured_params_notes
         sql = "select last_modified, author, note from radio_measured_params_notes where rmp_id={}".format(rmp_id)
         self.cursor.execute(sql)
-        values = (datetime.datetime(2017, 8, 31, 12, 00, 00), 'Emily Petroff',
-                  '[beam] Detection beam number if backend is a multi beam receiver')
-        print(self.cursor.fetchall())
+        values = [(datetime.datetime(2017, 8, 31, 12, 0), 'Emily Petroff', '[scattering] Measured scattering.'), (datetime.datetime(2017, 8, 31, 12, 0), 'Emily Petroff', '[redshift_inferred] Note on inferred redshift.'), (datetime.datetime(2017, 8, 31, 12, 0), 'Emily Petroff', '[redshift_host] Note on host redshift.')]
+        self.assertEqual(values, self.cursor.fetchall())
 
     def test_06(self):
         '''
