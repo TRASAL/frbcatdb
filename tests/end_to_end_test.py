@@ -314,7 +314,7 @@ class end2endtest(unittest.TestCase):
                   '[beam] Detection beam number if backend is a multi beam receiver')
         self.assertTupleEqual(values, self.cursor.fetchone())
         # extract radio_measured_params_notes
-        sql = "select last_modified, author, note from radio_measured_params_notes where rop_id={}".format(rmp_id)
+        sql = "select last_modified, author, note from radio_measured_params_notes where rmp_id={}".format(rmp_id)
         self.cursor.execute(sql)
         values = (datetime.datetime(2017, 8, 31, 12, 00, 00), 'Emily Petroff',
                   '[beam] Detection beam number if backend is a multi beam receiver')
