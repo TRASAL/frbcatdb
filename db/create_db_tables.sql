@@ -106,7 +106,6 @@ CREATE TABLE IF NOT EXISTS radio_observations_params (
   decj VARCHAR(16) NOT NULL,
   gl DOUBLE PRECISION,
   gb DOUBLE PRECISION,
-  pointing_error DOUBLE PRECISION,
   sampling_time DOUBLE PRECISION,
   bandwidth DOUBLE PRECISION,
   centre_frequency DOUBLE PRECISION,
@@ -120,7 +119,6 @@ CREATE TABLE IF NOT EXISTS radio_observations_params (
   UNIQUE (obs_id, settings_id));
 CREATE INDEX radio_observations_params_author_id_fk ON radio_observations_params (author_id);
 CREATE INDEX radio_observations_params_obs_id_fk ON radio_observations_params (obs_id);
-COMMENT ON COLUMN radio_observations_params.pointing_error IS 'pointing accuracy in arcsec';
 COMMENT ON COLUMN radio_observations_params.bandwidth IS 'in MHz';
 COMMENT ON COLUMN radio_observations_params.centre_frequency IS 'in MHz';
 COMMENT ON COLUMN radio_observations_params.channel_bandwidth IS 'in MHz';
