@@ -31,6 +31,11 @@ class decode_VOEvent(logger):
         vo_dict, event_type = self.parse_VOEvent(voevent, mapping)
         # create/delete a new FRBCat entry
         self.update_FRBCat(vo_dict, event_type)
+        try:
+            self.logger.info("Finished file {}".format(voevent.name))
+        except AttributeError:
+            self.logger.info("Finished file {}".format(voevent))
+
 
     @staticmethod
     def get_param(param_data, param_group, param_name):
