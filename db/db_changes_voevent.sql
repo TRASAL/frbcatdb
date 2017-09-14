@@ -8,6 +8,7 @@ ALTER TABLE radio_observations_params   RENAME COLUMN ne2001_dm_limit TO mw_dm_l
 ALTER TABLE radio_observations_params   DROP COLUMN FWHM CASCADE;
 ALTER TABLE radio_observations_params ADD COLUMN galactic_electron_model VARCHAR(255);
 ALTER TABLE radio_observations_params   DROP COLUMN pointing_error CASCADE;
+UPDATE radio_observations_params SET galactic_electron_model='NE2001' where mw_dm_limit is not null;
 -- -----------------------------------------------------
 -- Table radio_measured_params
 -- -----------------------------------------------------
@@ -28,6 +29,7 @@ ALTER TABLE radio_measured_params ADD COLUMN dispersion_smearing DOUBLE PRECISIO
 ALTER TABLE radio_measured_params ADD COLUMN scattering_model VARCHAR(255);
 ALTER TABLE radio_measured_params ADD COLUMN scattering_timescale DOUBLE PRECISION;
 ALTER TABLE radio_measured_params  DROP COLUMN voevent_xml CASCADE;
+UPDATE radio_measured_params SET scattering_model='One-sided exponential' where scattering is not null;
 
 -- -----------------------------------------------------
 -- Table observations
