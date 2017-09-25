@@ -224,7 +224,7 @@ class end2endtest(unittest.TestCase):
                   datetime.datetime(2014, 5, 14, 17, 14, 11, 59000),
                   datetime.datetime(2014, 5, 14, 17, 14, 13, 59000), 'PARKES',
                   True, False,
-                  0.5, 0.5, 0, 1.0, 32, 115, 2, 2, 8.8, 1000, None,
+                  0.5, 0.5, 0, 1.0, 32, 115, 2, 2, 8.8, 1000, 'ARTS',
                   151.6, 6.65, 750, 5, 10.0, 10, 1.5)  # both detected and verified (importance=0.85) = True
         self.cursor.execute(sql)
         self.assertTupleEqual(values, self.cursor.fetchone())
