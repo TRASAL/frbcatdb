@@ -102,7 +102,7 @@ class decode_VOEvent(logger):
         locstring = '{}:{}:{}'.format(
             str(int(round(coordloc[0]))).zfill(2),
             str(abs(int(round(coordloc[1])))).zfill(2),
-            str(abs(int(round(coordloc[2])))).zfill(2))
+            "{:.2f}".format(abs(coordloc[2])).zfill(5))
         return locstring
 
     @staticmethod
