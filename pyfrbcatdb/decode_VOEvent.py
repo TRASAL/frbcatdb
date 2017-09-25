@@ -103,7 +103,6 @@ class decode_VOEvent(logger):
             str(int(round(coordloc[0]))).zfill(2),
             str(abs(int(round(coordloc[1])))).zfill(2),
             str(abs(int(round(coordloc[2])))).zfill(2))
-        import pdb; pdb.set_trace()
         return locstring
 
     @staticmethod
