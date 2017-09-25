@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS radio_observations_params (
   centre_frequency DOUBLE PRECISION,
   npol INTEGER,
   nchan INTEGER,
-  channel_bandwidth DOUBLE PRECISION,
+  bits_per_sample SMALLINT,
   gain DOUBLE PRECISION,
   tsys DOUBLE PRECISION,
   mw_dm_limit DOUBLE PRECISION,
