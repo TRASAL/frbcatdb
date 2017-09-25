@@ -79,7 +79,7 @@ class decode_VOEvent(logger):
         try:
             units = getattr(vp.get_event_position(v, index=0), 'units')
         except AttributeError:
-            units = None
+            return None
         if not (units == 'deg'):
             raise AttributeError(
                 'Unable to determine units for position: {}'.format(
