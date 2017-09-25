@@ -84,7 +84,7 @@ class end2endtest(unittest.TestCase):
         sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.beam, rop.gl, rop.gb, rop.mw_dm_limit, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux, rmp.redshift_inferred, rmp.dispersion_smearing from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on o.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB1405141714/57953.44444444';"
         values = ('ivo://au.csiro.parkes.superb', 'Emily Petroff',
                   'ebpetroff@gmail.com', 'FRB140514',
-                  datetime.datetime(2014, 5, 14, 17, 14, 11), 'PARKES',
+                  datetime.datetime(2014, 5, 14, 17, 14, 11, 59000), 'PARKES',
                   True, True,
                   7.5, 7.5, 0, 0.064, 400, 1382, 2, 2, 0.735, 28, 'BPSR', '1',
                   50.8, -54.6, 34.9,
@@ -117,7 +117,7 @@ class end2endtest(unittest.TestCase):
         sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.beam, rop.gl, rop.gb, rop.mw_dm_limit, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux, rmp.redshift_inferred, rmp.dispersion_smearing from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on o.author_id=authors.id where voevent_ivorn='ivo://nl.astron.apertif/alert#FRB1707201312/57954.55000000';"
         values = ('ivo://nl.astron.apertif.alert', 'Emily Petroff',
                   'ebpetroff@gmail.com', 'FRB170720',
-                  datetime.datetime(2014, 5, 14, 17, 14, 11), 'PARKES',
+                  datetime.datetime(2014, 5, 14, 17, 14, 11, 59000), 'PARKES',
                   True, False,
                   30.0, 0.41, 15, 0.04096, 300, 1400, 2, 2, 0.8, 1000, 'ARTS',
                   '35', 151.6, 6.65, 156.4,
@@ -150,7 +150,7 @@ class end2endtest(unittest.TestCase):
         sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.beam, rop.gl, rop.gb, rop.mw_dm_limit, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux, rmp.redshift_inferred, rmp.dispersion_smearing, rmp.scattering, rmp.dm_index, rmp.dm_index_error, rmp.width_error_upper, rmp.width_error_lower, rmp.flux_calibrated, rmp.flux_error_upper, rmp.flux_error_lower, rmp.fluence, rmp.fluence_error_upper, rmp.fluence_error_lower, rmp.linear_poln_frac, rmp.linear_poln_frac_error, rmp.circular_poln_frac, rmp.circular_poln_frac_error from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on o.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB1405141714/57953.44444444';"
         values = ('ivo://au.csiro.parkes.superb', 'Emily Petroff',
                   'ebpetroff@gmail.com', 'FRB140514',
-                  datetime.datetime(2014, 5, 14, 17, 14, 11), 'PARKES',
+                  datetime.datetime(2014, 5, 14, 17, 14, 11, 590000), 'PARKES',
                   True, False,
                   7.5, 7.5, 0, 0.064, 338.281, 1352.0, 2, 2, 0.735, 28, 'BPSR', '1',
                   50.8, -54.6, 34.9,
@@ -186,7 +186,7 @@ class end2endtest(unittest.TestCase):
         sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.beam, rop.gl, rop.gb, rop.mw_dm_limit, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux, rmp.redshift_inferred, rmp.dispersion_smearing, rmp.scattering, rmp.dm_index, rmp.dm_index_error, rmp.width_error_upper, rmp.width_error_lower, rmp.flux_calibrated, rmp.flux_error_upper, rmp.flux_error_lower, rmp.fluence, rmp.fluence_error_upper, rmp.fluence_error_lower, rmp.linear_poln_frac, rmp.linear_poln_frac_error, rmp.circular_poln_frac, rmp.circular_poln_frac_error, rmp.scattering_timescale, rmp.scattering_index from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on o.author_id=authors.id where voevent_ivorn='ivo://au.csiro.parkes/parkes#FRB1405141714/57953.44444444';"
         values = ('ivo://au.csiro.parkes.superb', 'Emily Petroff',
                   'ebpetroff@gmail.com', 'FRB140514',
-                  datetime.datetime(2014, 5, 14, 17, 14, 11), 'PARKES',
+                  datetime.datetime(2014, 5, 14, 17, 14, 11, 59000), 'PARKES',
                   True, False,
                   7.5, 7.5, 0, 0.064, 338.281, 1352.0, 2, 2, 0.735, 28, 'BPSR', '1',
                   50.8, -54.6, 34.9,
@@ -221,7 +221,8 @@ class end2endtest(unittest.TestCase):
         sql = "select authors.ivorn, authors.contact_name, authors.contact_email, frbs.name, frbs.utc, o.utc, o.telescope, o.detected, o.verified, rop.beam_semi_major_axis, rop.beam_semi_minor_axis, rop.beam_rotation_angle, rop.sampling_time, rop.bandwidth, rop.centre_frequency, rop.npol, rop.bits_per_sample, rop.gain, rop.tsys, rop.backend, rop.gl, rop.gb, rmp.dm, rmp.dm_error, rmp.width, rmp.snr, rmp.flux from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on o.author_id=authors.id where voevent_ivorn='ivo://nl.astron.lofar/alert#FRB1707201312/57954.56250000';"
         values = ('ivo://nl.astron.lofar.alert', 'Emily Petroff',
                   'ebpetroff@gmail.com', 'FRB170720',
-                  datetime.datetime(2014, 5, 14, 17, 14, 11), datetime.datetime(2014, 5, 14, 17, 14, 13), 'PARKES',
+                  datetime.datetime(2014, 5, 14, 17, 14, 11, 59000),
+                  datetime.datetime(2014, 5, 14, 17, 14, 13, 59000), 'PARKES',
                   True, False,
                   0.5, 0.5, 0, 1.0, 32, 115, 2, 2, 8.8, 1000, '',
                   151.6, 6.65, 750, 5, 10.0, 10, 1.5)  # both detected and verified (importance=0.85) = True
