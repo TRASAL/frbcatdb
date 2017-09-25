@@ -6,3 +6,4 @@ nose
 configargparse
 flask
 PyYAML
+astropy

@@ -6,8 +6,11 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 import voeventparse as vp
 from pyfrbcatdb import dbase
 from pyfrbcatdb.FRBCat import *
-from pyfrbcatdb import utils
 from pyfrbcatdb.logger import logger
+from dateutil import parser
+from astropy import units as u
+from astropy.coordinates import SkyCoord
+
 
 class decode_VOEvent(logger):
     def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME,
@@ -68,22 +71,40 @@ class decode_VOEvent(logger):
 
     @staticmethod
     def get_coord(v, coordname):
+        '''
+        Get coordinate from VOEvent file
+          - transform to HH:MM:SS if coordname=ra
+          - transform to DD:HH:SS if coordname=dec
+        '''
         try:
             units = getattr(vp.get_event_position(v, index=0), 'units')
         except AttributeError:
             units = None
-        try:
-            if (units == 'deg') and coordname in ['ra', 'dec']:
-                return utils.decdeg2dms(getattr(vp.get_event_position(
-                  v, index=0), coordname))
-            else:
-                return getattr(vp.get_event_position(v, index=0), coordname)
-        except AttributeError:
-            return None
-        except KeyError:
-            return None
-        except TypeError:
-            return None
+        if not (units == 'deg'):
+            raise AttributeError(
+                'Unable to determine units for position: {}'.format(
+                vp.get_event_position(v, index=0)))
+        position = vp.get_event_position(v, index=0)
+        if (position.system == 'UTC-FK5-GEO'):
+           skcoord = SkyCoord(ra=position.ra*u.degree,
+                              dec=position.dec*u.degree, frame='fk5')
+        else:
+           # use default reference frame
+           skcoord = SkyCoord(ra=position.ra*u.degree,
+                              dec=position.dec*u.degree)
+        if (coordname == 'ra'):
+            # ra location is in hms
+            coordloc = skcoord.ra.hms
+        elif (coordname == 'dec'):
+            # dec location is in dms
+            coordloc = skcoord.dec.dms
+        # format location tuple to string
+        locstring = '{}:{}:{}'.format(
+            str(int(round(coordloc[0]))).zfill(2),
+            str(abs(int(round(coordloc[1])))).zfill(2),
+            str(abs(int(round(coordloc[2])))).zfill(2))
+        import pdb; pdb.set_trace()
+        return locstring
 
     @staticmethod
     def get_attrib(v, attribname):
@@ -104,7 +125,7 @@ class decode_VOEvent(logger):
         Return string 'YYYY-MM-DD HH:MM:SS'
         '''
         utctime = vp.get_event_time_as_utc(v, index=0)
-        return utctime.strftime("%Y-%m-%d %H:%M:%S")
+        return utctime.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
 
     def get_value(self, v, param_data, item, event_type):
         itemtype = item.get('type')
@@ -129,7 +150,7 @@ class decode_VOEvent(logger):
         elif itemtype == 'authortime':
             try:
                 timestr = v.xpath('.//' + item.get('voevent').replace('.', '/'))[0]
-                return datetime.datetime.strptime(str(timestr), "%Y-%m-%dT%H:%M:%S").strftime('%Y-%m-%d %H:%M:%S')
+                return parser.parse(str(timestr)).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
             except IndexError:
                 return None
         elif itemtype == 'XML':

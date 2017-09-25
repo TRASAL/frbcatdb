@@ -4,7 +4,6 @@ license:        APACHE 2.0
 author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 from pyfrbcatdb import dbase as dbase
-from pyfrbcatdb import utils as utils
 import os
 import sys
 from numpy import append as npappend
@@ -17,7 +16,8 @@ import psycopg2
 import lxml
 from xml.dom.minidom import parseString
 import yaml
-
+from astropy import units as u
+from astropy.coordinates import SkyCoord
 
 class FRBCat_add:
     def __init__(self, connection, cursor, mapping, event_type):
@@ -531,12 +531,17 @@ class FRBCat_create:
         '''
         Add WhereWhen section to voevent object
         '''
-        # ra: right ascension; dec: declination; err: error radius
+        # use astropy to convert raj and decj angles to degrees
+        skcoord = SkyCoord(ra=self.event['raj'], dec=self.event['decj'],
+                           unit=(u.hourangle, u.deg))
+        raj = skcoord.ra.deg
+        decj = skcoord.dec.deg
+        # ra: right ascension; dec: declination; err: error radius        
         if self.event['beam_semi_major_axis']:
             vp.add_where_when(self.v,
                               coords=vp.Position2D
-                              (ra=utils.dms2decdeg(self.event['raj']),
-                              dec=utils.dms2decdeg(self.event['decj']),
+                              (ra=raj,
+                              dec=decj,
                               err=self.event['beam_semi_major_axis'],
                               units='deg',
                               system=vp.definitions.sky_coord_system.utc_fk5_geo),
@@ -547,8 +552,8 @@ class FRBCat_create:
             # for beam_semi_major_axis, set to 0
             vp.add_where_when(self.v,
                               coords=vp.Position2D
-                              (ra=utils.dms2decdeg(self.event['raj']),
-                              dec=utils.dms2decdeg(self.event['decj']),
+                              (ra=raj,
+                              dec=decj,
                               err=0, units='deg',
                               system=vp.definitions.sky_coord_system.utc_fk5_geo),
                               obs_time=pytz.utc.localize(self.event['utc']),
