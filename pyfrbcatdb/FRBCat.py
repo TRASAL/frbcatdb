@@ -159,7 +159,7 @@ class FRBCat_add:
         try:
             # remove rows with empty values
             rows = nparray([i for i,j in zip(rows,value) if j])
-            value = nparray([j for j in value if j])
+            value = nparray([j for j in value if j]).flatten()
             # define sql params
             row_sql, parameters, value = self.define_sql_params(rows, value)
             # check if VOEVent passes the not null constraints of database
@@ -259,7 +259,7 @@ class FRBCat_add:
         '''
         # remove rows with empty values
         rows = nparray([i for i,j in zip(rows,value) if j])
-        value = nparray([j for j in value if j])
+        value = nparray([j for j in value if j]).flatten()
         if self.event_type=='supersedes':
             # event is of type supersedes, so we need to update
             row_sql, parameters, value = self.define_sql_params(rows, value)
