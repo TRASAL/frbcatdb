@@ -110,8 +110,8 @@ CREATE TABLE IF NOT EXISTS radio_observations_params (
   bandwidth DOUBLE PRECISION,
   centre_frequency DOUBLE PRECISION,
   npol INTEGER,
+  nchan INTEGER,
   channel_bandwidth DOUBLE PRECISION,
-  bits_per_sample SMALLINT,
   gain DOUBLE PRECISION,
   tsys DOUBLE PRECISION,
   mw_dm_limit DOUBLE PRECISION,
@@ -121,7 +121,6 @@ CREATE INDEX radio_observations_params_author_id_fk ON radio_observations_params
 CREATE INDEX radio_observations_params_obs_id_fk ON radio_observations_params (obs_id);
 COMMENT ON COLUMN radio_observations_params.bandwidth IS 'in MHz';
 COMMENT ON COLUMN radio_observations_params.centre_frequency IS 'in MHz';
-COMMENT ON COLUMN radio_observations_params.channel_bandwidth IS 'in MHz';
 COMMENT ON COLUMN radio_observations_params.gain IS 'in K/Jy';
 COMMENT ON COLUMN radio_observations_params.tsys IS 'in K';
 

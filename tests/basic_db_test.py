@@ -19,7 +19,7 @@ class BasicDBTest(unittest.TestCase):
         'observations': 'id,frb_id,author_id,type,telescope,utc,data_link,detected,verified',
         'observations_have_publications': 'obs_id,pub_id',
         'observations_notes': 'id,obs_id,last_modified,author,note',
-        'radio_observations_params': 'id,obs_id,author_id,settings_id,receiver,backend,beam,beam_semi_major_axis,beam_semi_minor_axis,beam_rotation_angle,raj,decj,gl,gb,sampling_time,bandwidth,centre_frequency,npol,channel_bandwidth,bits_per_sample,gain,tsys,mw_dm_limit,galactic_electron_model',
+        'radio_observations_params': 'id,obs_id,author_id,settings_id,receiver,backend,beam,beam_semi_major_axis,beam_semi_minor_axis,beam_rotation_angle,raj,decj,gl,gb,sampling_time,bandwidth,centre_frequency,npol,nchan,bits_per_sample,gain,tsys,mw_dm_limit,galactic_electron_model',
         'radio_observations_params_have_publications': 'rop_id,pub_id',
         'radio_observations_params_notes': 'id,rop_id,last_modified,author,note',
         'radio_measured_params': 'id,rop_id,author_id,voevent_ivorn,dm,dm_error,snr,width,width_error_upper,width_error_lower,flux,flux_prefix,flux_error_upper,flux_error_lower,flux_calibrated,dm_index,dm_index_error,scattering_index,scattering_index_error,scattering,scattering_error,linear_poln_frac,linear_poln_frac_error,circular_poln_frac,circular_poln_frac_error,spectral_index,spectral_index_error,rm,rm_error,redshift_inferred,redshift_host, dispersion_smearing, fluence, fluence_error_upper,fluence_error_lower,scattering_model,scattering_timescale,rank',
