@@ -209,10 +209,11 @@
       "param_name": "npol"
     },
     {
-      "column": "channel_bandwidth",
+      "column": "nchan",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "channel_bandwidth"
+      "param_name": "nchan",
+      "ucd": "meta.number;em.freq;em.bin"
     },
     {
       "column": "bits_per_sample",
