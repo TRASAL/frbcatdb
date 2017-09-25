@@ -150,7 +150,7 @@ class decode_VOEvent(logger):
         elif itemtype == 'authortime':
             try:
                 timestr = v.xpath('.//' + item.get('voevent').replace('.', '/'))[0]
-                return parser.parse(str(timestr)).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+                return parser.parse(str(timestr)).strftime('%Y-%m-%d %H:%M:%S')
             except IndexError:
                 return None
         elif itemtype == 'XML':
