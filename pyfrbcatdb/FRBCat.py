@@ -157,9 +157,9 @@ class FRBCat_add:
         update event and return the id for the event in the table
         '''
         try:
-            # remove rows with empty values
-            rows = nparray([i for i,j in zip(rows,value) if j])
-            value = nparray([j for j in value if j]).flatten()
+            # set empty values to None
+            value = nparray([j if j else None for j in value]).flatten()
+
             # define sql params
             row_sql, parameters, value = self.define_sql_params(rows, value)
             # check if VOEVent passes the not null constraints of database
@@ -257,9 +257,9 @@ class FRBCat_add:
         if type supersedes we need to update existing table values
         else do nothing
         '''
-        # remove rows with empty values
-        rows = nparray([i for i,j in zip(rows,value) if j])
-        value = nparray([j for j in value if j]).flatten()
+        # set empty values to None
+        value = nparray([j if j else None for j in value]).flatten()
+
         if self.event_type=='supersedes':
             # event is of type supersedes, so we need to update
             row_sql, parameters, value = self.define_sql_params(rows, value)
