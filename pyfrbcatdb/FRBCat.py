@@ -379,8 +379,8 @@ class FRBCat_add:
         # index of empty values
         ii = [idx for idx,x in enumerate(value) if x]
         # remove empty values
-        rows = rows[ii]
-        value = value[ii]
+        rows = nparray(rows)[ii]
+        value = nparray(value)[ii]
         # define sql params
         row_sql = ', '.join(map(str, rows))
         parameters = '(' + ','.join(['%s' for i in value]) + ')'
