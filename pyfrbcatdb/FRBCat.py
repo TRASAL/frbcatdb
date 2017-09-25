@@ -375,6 +375,13 @@ class FRBCat_add:
 
     @staticmethod
     def define_sql_params(rows, value):
+        ''' Define sql params, remove rows with empty value'''
+        # index of empty values
+        ii = [idx for idx,x in enumerate(value) if x]
+        # remove empty values
+        rows = rows[ii]
+        value = value[ii]
+        # define sql params
         row_sql = ', '.join(map(str, rows))
         parameters = '(' + ','.join(['%s' for i in value]) + ')'
         value = [x.text if isinstance(
