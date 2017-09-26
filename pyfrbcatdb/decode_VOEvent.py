@@ -39,7 +39,6 @@ class decode_VOEvent(logger):
         except AttributeError:
             self.logger.info("Finished file {}".format(voevent))
 
-
     @staticmethod
     def get_param(param_data, param_group, param_name):
         '''
@@ -83,15 +82,15 @@ class decode_VOEvent(logger):
         if not (units == 'deg'):
             raise AttributeError(
                 'Unable to determine units for position: {}'.format(
-                vp.get_event_position(v, index=0)))
+                  vp.get_event_position(v, index=0)))
         position = vp.get_event_position(v, index=0)
         if (position.system == 'UTC-FK5-GEO'):
-           skcoord = SkyCoord(ra=position.ra*u.degree,
-                              dec=position.dec*u.degree, frame='fk5')
+            skcoord = SkyCoord(ra=position.ra*u.degree,
+                               dec=position.dec*u.degree, frame='fk5')
         else:
-           # use default reference frame
-           skcoord = SkyCoord(ra=position.ra*u.degree,
-                              dec=position.dec*u.degree)
+            # use default reference frame
+            skcoord = SkyCoord(ra=position.ra*u.degree,
+                               dec=position.dec*u.degree)
         if (coordname == 'ra'):
             # ra location is in hms
             coordloc = skcoord.ra.hms
@@ -129,7 +128,7 @@ class decode_VOEvent(logger):
     def get_value(self, v, param_data, item, event_type):
         itemtype = item.get('type')
         if itemtype == 'ivorn':
-            if (event_type[0]=='supersedes'):
+            if (event_type[0] == 'supersedes'):
                 if event_type[1]:
                     # type supersedes with a valid ivorn citation
                     return event_type[1]
@@ -139,7 +138,8 @@ class decode_VOEvent(logger):
             else:
                 return self.get_attrib(v, item.get('name'))
         elif itemtype == 'Param':
-            return self.get_param(param_data, item.get('param_group'), item.get('param_name'))
+            return self.get_param(param_data, item.get('param_group'),
+                                  item.get('param_name'))
         elif itemtype == 'ISOTime':
             try:
                 return self.get_utc_time_str(v)
@@ -148,7 +148,8 @@ class decode_VOEvent(logger):
                 return None
         elif itemtype == 'authortime':
             try:
-                timestr = v.xpath('.//' + item.get('voevent').replace('.', '/'))[0]
+                timestr = v.xpath('.//' +
+                                  item.get('voevent').replace('.', '/'))[0]
                 return parser.parse(str(timestr)).strftime('%Y-%m-%d %H:%M:%S')
             except IndexError:
                 return None
@@ -156,7 +157,8 @@ class decode_VOEvent(logger):
             return vp.dumps(v)
         elif itemtype == 'voevent':
             try:
-                return v.xpath('.//' + item.get('voevent').replace('.', '/'))[0]
+                return v.xpath('.//' +
+                               item.get('voevent').replace('.', '/'))[0]
             except IndexError:
                 return None
         elif itemtype == 'Coord':
@@ -199,7 +201,7 @@ class decode_VOEvent(logger):
         # For a new VOEvent there should be no citations
         try:
             event_type = (v.xpath('Citations')[0].EventIVORN.attrib['cite'],
-                        v.xpath('Citations')[0].EventIVORN.text)
+                          v.xpath('Citations')[0].EventIVORN.text)
         except IndexError:
             event_type = ('new', None)
         self.logger.info("Event of of type: {}".format(event_type))
@@ -208,16 +210,17 @@ class decode_VOEvent(logger):
         # removed in the next step
         # puts all params into dict param_data[group][param_name]
         try:
-          param_data = vp.get_grouped_params(v)
+            param_data = vp.get_grouped_params(v)
         except AttributeError:
-          # <What> section is not needed for retractions
-          param_data = None
+            # <What> section is not needed for retractions
+            param_data = None
         for table in mapping.keys():  # iterate over all tables
             for idx, item in enumerate(mapping[table]):
                 # validate item
                 # TODO pass item to a validate function to check
                 # Add values from XML to dictionary
-                mapping[table][idx]['value'] = self.get_value(v, param_data, item, event_type)
+                mapping[table][idx]['value'] = self.get_value(v, param_data,
+                                                              item, event_type)
                 if item.get('description'):
                     note = self.get_description(v, item)
                     if note:
@@ -229,8 +232,10 @@ class decode_VOEvent(logger):
         Add new FRBCat entry
         '''
         # connect to database
-        connection, cursor = dbase.connectToDB(self.DB_NAME, self.USER_NAME,
-                                               self.USER_PASSWORD, self.DB_HOST,
+        connection, cursor = dbase.connectToDB(self.DB_NAME,
+                                               self.USER_NAME,
+                                               self.USER_PASSWORD,
+                                               self.DB_HOST,
                                                self.DB_PORT)
         FRBCat = FRBCat_add(connection, cursor, mapping, event_type[0])
         if event_type[0] in ['new', 'followup', 'supersedes']:

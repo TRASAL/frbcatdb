@@ -8,15 +8,17 @@ from pyfrbcatdb.FRBCat import *
 
 
 def create_VOEvent(frb_ids, DB_NAME, DB_HOST, DB_PORT, USER_NAME,
-                        USER_PASSWORD):
+                   USER_PASSWORD):
     '''
     Decode FRBCat entry
     '''
     # load mapping VOEvent -> FRBCat
     # connect to database
     # TODO: add connection details
-    connection, cursor = dbase.connectToDB(DB_NAME, USER_NAME,
-                                           USER_PASSWORD, DB_HOST,
+    connection, cursor = dbase.connectToDB(DB_NAME,
+                                           USER_NAME,
+                                           USER_PASSWORD,
+                                           DB_HOST,
                                            DB_PORT)
 
     for frb_id in frb_ids:

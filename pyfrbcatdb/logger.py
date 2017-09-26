@@ -7,9 +7,10 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 import logging
 from logging.handlers import RotatingFileHandler
 
+
 class logger:
-    def __init__(self, filename, DEFAULT_LOG_LEVEL = 'debug',
-                 DEFAULT_LOG_LEVEL_C = 'warning'):
+    def __init__(self, filename, DEFAULT_LOG_LEVEL='debug',
+                 DEFAULT_LOG_LEVEL_C='warning'):
         # define global LOG variables
         self.filename = filename
         self.level = DEFAULT_LOG_LEVEL
@@ -39,18 +40,20 @@ class logger:
             for handler in self.logger.handlers[:]:  # make a copy of the list
                 self.logger.removeHandler(handler)
         self.logger.setLevel(self.LOG_LEVELS[self.level])
-        formatter = logging.Formatter(self.LOG_FORMAT, datefmt=self.DATE_FORMAT)
+        formatter = logging.Formatter(self.LOG_FORMAT,
+                                      datefmt=self.DATE_FORMAT)
         # Define and add file handler
         fh = RotatingFileHandler(self.filename,
-                                maxBytes=(10*1024*1024),
-                                backupCount=7)
+                                 maxBytes=(10*1024*1024),
+                                 backupCount=7)
         fh.setFormatter(formatter)
         self.logger.addHandler(fh)
         # Define a handler which writes messages level_c or higher to std_err
         console = logging.StreamHandler()
         console.setLevel(self.LOG_LEVELS[self.level_c])
         # set a format which is simpler for console use
-        formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+        formatter = logging.Formatter(
+          '%(name)-12s: %(levelname)-8s %(message)s')
         console.setFormatter(formatter)
         # add the handler to the root logger
         self.logger.addHandler(console)

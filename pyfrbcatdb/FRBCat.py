@@ -19,6 +19,7 @@ import yaml
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 
+
 class FRBCat_add:
     def __init__(self, connection, cursor, mapping, event_type):
         self.connection = connection
@@ -59,7 +60,10 @@ class FRBCat_add:
         return the rank for the event to be inserted
         first event of an FRB is rank=1, each next event increments it by 1
         '''
-        sql = "select rmp.rank from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id where frbs.id={}".format(self.frb_id)
+        sql = ("select rmp.rank from radio_measured_params rmp join " +
+               "radio_observations_params rop ON rmp.rop_id=rop.id join " +
+               "observations o on rop.obs_id=o.id join frbs on " +
+               "o.frb_id=frbs.id where frbs.id={}").format(self.frb_id)
         self.cursor.execute(sql)
         ranks = self.cursor.fetchall()
         try:
@@ -108,9 +112,10 @@ class FRBCat_add:
         Add event to the radio_observations_params table
         '''
         # create settigns_id if we don't have one yet
-        if not 'settings_id' in rows:
-            settings_id2 = str(nparray(value)[nparray(rows)=='raj'][0]
-                               ) + ';' + str(nparray(value)[nparray(rows)=='decj'][0])
+        if 'settings_id' not in rows:
+            settings_id2 = str(nparray(value)[nparray(rows) == 'raj'][0]
+                               ) + ';' + str(
+                                 nparray(value)[nparray(rows) == 'decj'][0])
             settings_id = self.settings_id1 + ';' + settings_id2
         rows = npappend(rows, ('obs_id', 'author_id', 'settings_id'))
         value = npappend(value, (self.obs_id, self.author_id, settings_id))
@@ -124,7 +129,8 @@ class FRBCat_add:
         '''
         for idx, note in enumerate(notes):  # loop over all notes
             rows_i = npappend(rows[idx], ('rop_id', 'last_modified', 'author'))
-            value_i = npappend(note, (self.rop_id, self.authortime, self.authorname))
+            value_i = npappend(note, (self.rop_id, self.authortime,
+                                      self.authorname))
             self.insert_into_database(table, rows_i, value_i)
 
     def add_radio_measured_params(self, table, rows, value):
@@ -132,7 +138,7 @@ class FRBCat_add:
         Add event to the radio_measured_params table
         '''
         rank = self.set_rank()
-        rows = npappend(rows, ('rop_id', 'author_id','rank'))
+        rows = npappend(rows, ('rop_id', 'author_id', 'rank'))
         value = npappend(value, (self.rop_id, self.author_id, rank))
         ivorn = value[rows == 'voevent_ivorn'][0]
         self.event_exists = self.check_event_exists(ivorn)
@@ -147,7 +153,8 @@ class FRBCat_add:
         '''
         for idx, note in enumerate(notes):  # loop over all notes
             rows_i = npappend(rows[idx], ('rmp_id', 'last_modified', 'author'))
-            value_i = npappend(note, (self.rmp_id, self.authortime, self.authorname))
+            value_i = npappend(note, (self.rmp_id, self.authortime,
+                                      self.authorname))
             self.insert_into_database(table, rows_i, value_i)
 
     def insert_into_database(self, table, rows, value):
@@ -158,27 +165,27 @@ class FRBCat_add:
         '''
         try:
             # remove rows with empty values
-            rows = nparray([i for i,j in zip(rows,value) if j])
+            rows = nparray([i for i, j in zip(rows, value) if j])
             value = nparray([j for j in value if j]).flatten()
             # define sql params
             row_sql, parameters, value = self.define_sql_params(rows, value)
             # check if VOEVent passes the not null constraints of database
-            if( ((table == 'radio_measured_params') and
-                (set(['voevent_ivorn',
-                        'dm', 'snr', 'width']) < set(rows))) or
-                ((table=='radio_observations_params') and
-                  (set(['raj', 'decj']) < set(rows))) or
-                ((table=='observations') and
-                  (set(['telescope', 'verified']) < set(rows))) or
-                ((table=='frbs') and
-                  (set(['name', 'utc']) < set(rows))) or
-                ((table=='authors') and
-                  (set(['ivorn']) < set(rows))) or
-                (table=='radio_measured_params_notes') or
-                (table=='radio_observations_params_notes') ):
+            if (((table == 'radio_measured_params') and
+                 (set(['voevent_ivorn',
+                       'dm', 'snr', 'width']) < set(rows))) or
+                ((table == 'radio_observations_params') and
+                 (set(['raj', 'decj']) < set(rows))) or
+                ((table == 'observations') and
+                 (set(['telescope', 'verified']) < set(rows))) or
+                ((table == 'frbs') and
+                 (set(['name', 'utc']) < set(rows))) or
+                ((table == 'authors') and
+                 (set(['ivorn']) < set(rows))) or
+                (table == 'radio_measured_params_notes') or (
+                  table == 'radio_observations_params_notes')):
                 # define sql statement
-                sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING RETURNING id
-                      """.format(table, row_sql, parameters)
+                sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING
+                         RETURNING id""".format(table, row_sql, parameters)
                 # execute sql statement, try to insert into database
                 self.cursor.execute(sql, tuple(value))
                 try:
@@ -203,10 +210,14 @@ class FRBCat_add:
         get time voevent file was authored from mapping
         '''
         try:
-            return[item.get('value') for item in self.mapping.get('radio_observations_params_notes') if item.get('type')=='authortime'][0]
+            return [item.get('value') for item in
+                    self.mapping.get('radio_observations_params_notes')
+                    if item.get('type') == 'authortime'][0]
         except IndexError:
             try:
-                return[item.get('value') for item in self.mapping.get('radio_measured_params_notes') if item.get('type')=='authortime'][0]
+                return[item.get('value') for item in
+                       self.mapping.get('radio_measured_params_notes')
+                       if item.get('type') == 'authortime'][0]
             except IndexError:
                 # fall back to insert datetime
                 return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -215,40 +226,42 @@ class FRBCat_add:
         if table == 'authors':
             # authors table should have unique ivorn
             sql = "select id from {} WHERE id = '{}'".format(
-                table, value[rows=='ivorn'][0])
+                table, value[rows == 'ivorn'][0])
         elif table == 'frbs':
             # frbs table should have unique name
             sql = "select id from {} WHERE name = '{}'".format(
-                table, value[rows=='name'][0])
+                table, value[rows == 'name'][0])
         elif table == 'observations':
             # observation table should have an unique combination of
             # frb_id, telescope, utc
             sql = """select id from {} WHERE frb_id = '{}' AND
-                    telescope = '{}' AND utc = '{}'""".format(table,
-                        value[rows=='frb_id'][0],
-                        value[rows=='telescope'][0],
-                        value[rows=='utc'][0])
+                    telescope = '{}' AND utc = '{}'""".format(
+                      table, value[rows == 'frb_id'][0],
+                      value[rows == 'telescope'][0],
+                      value[rows == 'utc'][0])
         elif table == 'radio_observations_params':
             # rop table should have an unique combination of
             # obs_id, settings_id
             sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
                     '{}'""".format(table,
-                                    value[rows=='obs_id'][0],
-                                    value[rows=='settings_id'][0])
+                                   value[rows == 'obs_id'][0],
+                                   value[rows == 'settings_id'][0])
         elif table == 'radio_measured_params':
             # voevent_ivorn mus tbe unique
             sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
-                table, value[rows=='voevent_ivorn'][0])
+                table, value[rows == 'voevent_ivorn'][0])
         else:
             # raise IntegrityError
-            raise psycopg2.IntegrityError("Unable database table: {}".format(table))
+            raise psycopg2.IntegrityError(
+              "Unable database table: {}".format(table))
         # get the id
         self.cursor.execute(sql)
         return_id = self.cursor.fetchone()
         if not return_id:
             # Could not get the id from the database
             # re-raise IntegrityError
-            raise psycopg2.IntegrityError("Unable to get id from database: {}".format(sql))
+            raise psycopg2.IntegrityError(
+              "Unable to get id from database: {}".format(sql))
         else:
             return return_id['id']
 
@@ -258,20 +271,24 @@ class FRBCat_add:
         else do nothing
         '''
         # remove rows with empty values
-        rows = nparray([i for i,j in zip(rows,value) if j])
+        rows = nparray([i for i, j in zip(rows, value) if j])
         value = nparray([j for j in value if j]).flatten()
-        if self.event_type=='supersedes':
+        if (self.event_type == 'supersedes'):
             # event is of type supersedes, so we need to update
             row_sql, parameters, value = self.define_sql_params(rows, value)
             # define sql statments
             if table == 'frbs':
-                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.frb_id)
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(
+                  table, row_sql, parameters, self.frb_id)
             elif table == 'observations':
-                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.obs_id)
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(
+                  table, row_sql, parameters, self.obs_id)
             elif table == 'radio_observations_params':
-                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.rop_id)
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(
+                  table, row_sql, parameters, self.rop_id)
             elif table == 'radio_measured_params':
-                sql = "update {} SET ({}) = {} WHERE id='{}'".format(table, row_sql, parameters, self.rmp_id)
+                sql = "update {} SET ({}) = {} WHERE id='{}'".format(
+                  table, row_sql, parameters, self.rmp_id)
             else:
                 pass
             try:
@@ -311,9 +328,10 @@ class FRBCat_add:
                     item.get('value') is not None]
             values = [item.get('value') for item in self.mapping.get(table) if
                       item.get('value') is not None]
-            if table in ['radio_measured_params_notes', 'radio_observations_params_notes']:
-                notes = [item.get('note') for item in self.mapping.get(table) if
-                         item.get('note') is not None]
+            if table in ['radio_measured_params_notes',
+                         'radio_observations_params_notes']:
+                notes = [item.get('note') for item in self.mapping.get(table)
+                         if item.get('note') is not None]
             if table == 'authors':
                 self.add_authors(table, rows, values)
                 try:
@@ -328,8 +346,8 @@ class FRBCat_add:
             if table == 'observations':
                 self.add_observations(table, rows, values)
                 # create first part of settings_id
-                self.settings_id1 = str(values[rows=='telescope'][0]
-                                        ) + ';' + str(values[rows=='utc'][0])
+                self.settings_id1 = str(values[rows == 'telescope'][0]
+                                        ) + ';' + str(values[rows == 'utc'][0])
             if table == 'observations_notes':
                 self.add_observations_notes(table, rows, values)
             if table == 'radio_observations_params':
@@ -338,17 +356,16 @@ class FRBCat_add:
                 self.add_radio_observations_params_notes(table, rows, notes)
             if table == 'radio_measured_params':
                 self.add_radio_measured_params(table, rows, values)
-                if (self.event_exists and (self.event_type!='supersedes')):
+                if (self.event_exists and (self.event_type != 'supersedes')):
                     # event exists already and is not of type supersedes
                     break  # don't want to add already existing event
             if table == 'radio_measured_params_notes':
                 self.add_radio_measured_params_notes(table, rows, notes)
-        if (self.event_exists and (self.event_type!='supersedes')):
+        if (self.event_exists and (self.event_type != 'supersedes')):
             # event is already in database, rollback
             self.connection.rollback()
         else:
             dbase.commitToDB(self.connection, self.cursor)
-            #self.connection.rollback()
         dbase.closeDBConnection(self.connection, self.cursor)
 
     def retract(self, voevent_cited):
@@ -356,7 +373,11 @@ class FRBCat_add:
         retracting event should set detected/verified to False in
         observations table
         '''
-        sql = "select o.id from radio_measured_params rmp join radio_observations_params rop ON rmp.rop_id=rop.id join observations o on rop.obs_id=o.id join frbs on o.frb_id=frbs.id join authors on frbs.author_id=authors.id where voevent_ivorn='{}'".format(voevent_cited)
+        sql = ("select o.id from radio_measured_params rmp join " +
+               "radio_observations_params rop ON rmp.rop_id=rop.id join " +
+               "observations o on rop.obs_id=o.id join frbs on " +
+               "o.frb_id=frbs.id join authors on frbs.author_id=authors.id " +
+               "where voevent_ivorn='{}'").format(voevent_cited)
         try:
             # execute sql statement
             self.cursor.execute(sql)
@@ -368,7 +389,8 @@ class FRBCat_add:
             # observation is indeed in the database
             row_sql = ', '.join(map(str, ['detected', 'verified']))
             parameters = ', '.join(map(str, [False, False]))
-            sql = "update {} SET ({}) = ({}) WHERE id='{}'".format('observations', row_sql, parameters, obs_id[0])
+            sql = "update {} SET ({}) = ({}) WHERE id='{}'".format(
+              'observations', row_sql, parameters, obs_id[0])
             try:
                 # execute sql statement
                 self.cursor.execute(sql)
@@ -516,14 +538,14 @@ class FRBCat_create:
         mapping = parse_mapping()
         # flatten the mapping dictionary into a list of dicts
         try:
-          values = mapping.itervalues()  # python 2 compatibility
+            values = mapping.itervalues()  # python 2 compatibility
         except AttributeError:
-          values = mapping.values()
+            values = mapping.values()
         for value in values:
-          try:
-              supermapping += value
-          except NameError:
-              supermapping = value
+            try:
+                supermapping += value
+            except NameError:
+                supermapping = value
         self.add_params(supermapping)
 
     def set_how(self):
@@ -544,28 +566,30 @@ class FRBCat_create:
                            unit=(u.hourangle, u.deg))
         raj = skcoord.ra.deg
         decj = skcoord.dec.deg
-        # ra: right ascension; dec: declination; err: error radius        
+        # ra: right ascension; dec: declination; err: error radius
         if self.event['beam_semi_major_axis']:
-            vp.add_where_when(self.v,
-                              coords=vp.Position2D
-                              (ra=raj,
-                              dec=decj,
-                              err=self.event['beam_semi_major_axis'],
-                              units='deg',
-                              system=vp.definitions.sky_coord_system.utc_fk5_geo),
-                              obs_time=pytz.utc.localize(self.event['utc']),
-                              observatory_location=self.event['telescope'])
+            vp.add_where_when(
+                self.v,
+                coords=vp.Position2D
+                (ra=raj,
+                 dec=decj,
+                 err=self.event['beam_semi_major_axis'],
+                 units='deg',
+                 system=vp.definitions.sky_coord_system.utc_fk5_geo),
+                obs_time=pytz.utc.localize(self.event['utc']),
+                observatory_location=self.event['telescope'])
         else:
             # some of the original database entries do not have a value
             # for beam_semi_major_axis, set to 0
-            vp.add_where_when(self.v,
-                              coords=vp.Position2D
-                              (ra=raj,
-                              dec=decj,
-                              err=0, units='deg',
-                              system=vp.definitions.sky_coord_system.utc_fk5_geo),
-                              obs_time=pytz.utc.localize(self.event['utc']),
-                              observatory_location=self.event['telescope'])
+            vp.add_where_when(
+                self.v,
+                coords=vp.Position2D
+                (ra=raj,
+                 dec=decj,
+                 err=0, units='deg',
+                 system=vp.definitions.sky_coord_system.utc_fk5_geo),
+                obs_time=pytz.utc.localize(self.event['utc']),
+                observatory_location=self.event['telescope'])
 
     def set_why(self):
         '''
@@ -590,11 +614,11 @@ class FRBCat_create:
             # save to VOEvent xml
             if force_pretty_print:
                 with open(xmlname, 'w') as f:
-                 if force_pretty_print:
-                     # use xml.dom.minidom to force pretty printing xml
-                     vp.voevent._return_to_standard_xml(self.v)
-                     txt = lxml.etree.tostring(self.v)
-                     f.write(parseString(txt).toprettyxml())
+                    if force_pretty_print:
+                        # use xml.dom.minidom to force pretty printing xml
+                        vp.voevent._return_to_standard_xml(self.v)
+                        txt = lxml.etree.tostring(self.v)
+                        f.write(parseString(txt).toprettyxml())
             else:
                 with open(xmlname, 'wb') as f:
                     # lxml pretty printing often does not work
@@ -614,14 +638,15 @@ class FRBCat_create:
                 try:
                     paramList.extend(
                       vp.Param(name=param.get('param_name'),
-                      value=self.event[param.get('column')],
-                      unit=param.get('unit'),
-                      ucd=param.get('ucd')))
+                               value=self.event[param.get('column')],
+                               unit=param.get('unit'),
+                               ucd=param.get('ucd')))
                 except NameError:
-                    paramList = [vp.Param(name=param.get('param_name'),
-                                         value=self.event[param.get('column')],
-                                         unit=param.get('unit'),
-                                         ucd=param.get('ucd'))]
+                    paramList = [
+                        vp.Param(name=param.get('param_name'),
+                                 value=self.event[param.get('column')],
+                                 unit=param.get('unit'),
+                                 ucd=param.get('ucd'))]
         return paramList
 
     def add_params(self, supermapping):
@@ -632,10 +657,11 @@ class FRBCat_create:
                         'event parameters', 'advanced parameters']
         for group in param_groups:
             params = [param for param in supermapping if
-                      param.get('param_group')==group]
+                      param.get('param_group') == group]
             param_list = self.createParamList(params)
             self.v.What.append(vp.Group(params=param_list,
                                         name=group))
+
 
 def parse_mapping():
     '''
@@ -646,5 +672,5 @@ def parse_mapping():
     mfile = os.path.join(os.path.dirname(sys.modules['pyfrbcatdb'].__file__),
                          filename)  # path to file
     with open(mfile) as f:
-      mapping = yaml.safe_load(f)
+        mapping = yaml.safe_load(f)
     return mapping

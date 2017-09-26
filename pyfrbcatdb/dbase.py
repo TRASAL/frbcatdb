@@ -8,23 +8,25 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 import psycopg2
 import psycopg2.extras
 
+
 def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
                 dbPort=None, dbCursor=psycopg2.extras.DictCursor):
     '''
-    Connect to a specified PostgreSQL DB and return connection and cursor objects.
+    Connect to a specified PostgreSQL DB and
+    return connection and cursor objects.
     '''
     # Start DB connection
     try:
         connectionString = "dbname='" + dbName + "'"
-        if userName != None and userName != '':
+        if userName is not None and userName != '':
             connectionString += " user='" + userName + "'"
-        if dbHost != None and dbHost != '':
+        if dbHost is not None and dbHost != '':
             connectionString += " host='" + dbHost + "'"
-        if dbPassword != None and dbPassword != '':
+        if dbPassword is not None and dbPassword != '':
             connectionString += " password='" + dbPassword + "'"
-        if dbPort != None:
+        if dbPort is not None:
             connectionString += " port='" + str(dbPort) + "'"
-        connection  = psycopg2.connect(connectionString)
+        connection = psycopg2.connect(connectionString)
     except Exception:
         raise
     # if the connection succeeded get a cursor
