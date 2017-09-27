@@ -1,4 +1,5 @@
 voevent-parse
+python-dateutil
 psycopg2
 coverage
 pytest
