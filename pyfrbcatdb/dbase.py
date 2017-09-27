@@ -32,13 +32,13 @@ def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
     # Start DB connection
     try:
         connectionString = "dbname='" + dbName + "'"
-        if not userName:
+        if userName:
             connectionString += " user='" + userName + "'"
-        if not dbHost:
+        if dbHost:
             connectionString += " host='" + dbHost + "'"
-        if not dbPassword:
+        if dbPassword:
             connectionString += " password='" + dbPassword + "'"
-        if not dbPort:
+        if dbPort:
             connectionString += " port='" + str(dbPort) + "'"
         connection = psycopg2.connect(connectionString)
     except Exception:
