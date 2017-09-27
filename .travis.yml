@@ -1,6 +1,7 @@
 language: python
 python:
   - "3.5"
+  - "3.6"
 services: postgresql
 addons:
   postgresql: "9.5"
@@ -12,6 +13,6 @@ before_script:
   - psql -U postgres frbcat < db/create_db_tables.sql
   - psql -U postgres frbcat < tests/fill_db_test_data.sql
 script:
-  - nosetests tests --with-coverage --cover-tests --cover-package=pyfrbcatdb --verbose
+  - py.test --cov=pyfrbcatdb --cov-report term --cov-report xml:cov.sml tests/
 after_success:
   - bash <(curl -s https://codecov.io/bash)

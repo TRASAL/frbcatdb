@@ -1,8 +1,8 @@
 voevent-parse
-pandas
 psycopg2
 coverage
-nose
+pytest
+pytest-cov
 configargparse
 flask
 PyYAML
