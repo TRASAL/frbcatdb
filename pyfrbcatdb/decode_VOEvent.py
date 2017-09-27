@@ -18,28 +18,28 @@ class decode_VOEvent(logger):
     FRBCat database.
 
     :param voevent: filestream or filename
-    :param DB_NAME: database name
-    :param DB_HOST: database host
-    :param DB_PORT: database port
-    :param USER_NAME: database user name
-    :param USER_PASSWORD: database user password
-    :param LOG_FILE: name of log file
+    :param dbName: database name
+    :param dbHost: database host
+    :param dbPort: database port
+    :param dbUser: database user name
+    :param dbPassword: database user password
+    :param logfile: name of log file
     :type voevent: _io.BufferedReader, str
-    :type DB_NAME: str
-    :type DB_HOST: str, NoneType
-    :type DB_PORT: str, NoneType
-    :type USER_NAME: str, NoneType
-    :type USER_PASSWORD: str, NoneType
-    :type LOG_FILE: str
+    :type dbName: str
+    :type dbHost: str, NoneType
+    :type dbPort: str, NoneType
+    :type dbUser: str, NoneType
+    :type dbPassword: str, NoneType
+    :type logfile: str
     '''
-    def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME,
-                 USER_PASSWORD, LOG_FILE):
-        logger.__init__(self, LOG_FILE)
-        self.DB_NAME = DB_NAME
-        self.DB_HOST = DB_HOST
-        self.DB_PORT = DB_PORT
-        self.USER_NAME = USER_NAME
-        self.USER_PASSWORD = USER_PASSWORD
+    def __init__(self, voevent, dbName, dbHost, dbPort, dbUser,
+                 dbPassword, logfile):
+        logger.__init__(self, logfile)
+        self.dbName = dbName
+        self.dbHost = dbHost
+        self.dbPort = dbPort
+        self.dbUser = dbUser
+        self.dbPassword = dbPassword
         self.process_VOEvent(voevent)
 
     def process_VOEvent(self, voevent):
@@ -312,11 +312,11 @@ class decode_VOEvent(logger):
         :type event_type: tuple
         '''
         # connect to database
-        connection, cursor = dbase.connectToDB(self.DB_NAME,
-                                               self.USER_NAME,
-                                               self.USER_PASSWORD,
-                                               self.DB_HOST,
-                                               self.DB_PORT)
+        connection, cursor = dbase.connectToDB(self.dbName,
+                                               self.dbUser,
+                                               self.dbPassword,
+                                               self.dbHost,
+                                               self.dbPort)
         FRBCat = FRBCat_add(connection, cursor, mapping, event_type[0])
         if event_type[0] in ['new', 'followup', 'supersedes']:
             # for new, followup, supersedes we need to add an entry to FRBCat

@@ -9,7 +9,7 @@ import psycopg2
 import psycopg2.extras
 
 
-def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
+def connectToDB(dbName=None, dbUser=None, dbPassword=None, dbHost=None,
                 dbPort=None, dbCursor=psycopg2.extras.DictCursor):
     '''
     Connect to a specified PostgreSQL DB and
@@ -18,12 +18,12 @@ def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
     :param dbName: database name
     :param dbHost: database host
     :param dbPort: database port
-    :param userName: database user name
+    :param dbUser: database user name
     :param dbPassword: database user password
     :type dbName: str
     :type dbHost: str, NoneType
     :type dbPort: str, NoneType
-    :type userName: str, NoneType
+    :type dbUser: str, NoneType
     :type dbPassword: str, NoneType
     :returns: connection, cursor
     :rtype: psycopg2.extensions.connection,
@@ -32,13 +32,13 @@ def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
     # Start DB connection
     try:
         connectionString = "dbname='" + dbName + "'"
-        if userName:
-            connectionString += " user='" + userName + "'"
-        if dbHost:
+        if (dbUser and dbUser is not '='):
+            connectionString += " user='" + dbUser + "'"
+        if (dbHost and dbHost is not '='):
             connectionString += " host='" + dbHost + "'"
-        if dbPassword:
+        if (dbPassword and dbPassword is not '='):
             connectionString += " password='" + dbPassword + "'"
-        if dbPort:
+        if (dbPort and dbPort is not '='):
             connectionString += " port='" + str(dbPort) + "'"
         connection = psycopg2.connect(connectionString)
     except Exception:

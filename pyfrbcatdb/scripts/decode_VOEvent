@@ -24,15 +24,18 @@ def cli_parser():
       description='Process VOEvent XML file and add it to FRB database')
     parser.add('-c', '--my-config', required=False, is_config_file=True,
                help='config file path')
-    parser.add('--DB_NAME', required=True, help='name postgres database',
-               env_var='DB_NAME')
-    parser.add('--DB_HOST', help='name postgres database', env_var='DB_HOST')
-    parser.add('--DB_PORT', help='name postgres database', env_var='DB_PORT')
-    parser.add('--USER_NAME', required=True, help='user postgres database',
-               env_var='USER_NAME')
-    parser.add('--USER_PASSWORD', help='user postgres database',
-               env_var='USER_PASSWORD')
-    parser.add('--LOG_FILE', help='log file', env_var='LOG_FILE')
+    parser.add('--dbName', required=True, help='name postgres database',
+               env_var='dbNameFRBCat')
+    parser.add('--dbHost', help='name postgres database',
+               env_var='dbHostFRBCat')
+    parser.add('--dbPort', help='name postgres database',
+               env_var='dbPortFRBCat')
+    parser.add('--dbUser', required=True, help='user postgres database',
+               env_var='dbUserFRBCat')
+    parser.add('--dbPassword', help='user postgres database password',
+               env_var='dbPasswordFRBCat')
+    parser.add('--log', type=str, default=os.path.join(
+      os.path.expanduser("~"), 'pyfrbcatdb_decode.log'), help='log file')
     parser.add('VOEvents', metavar='VOEvent',
                type=configargparse.FileType('rb'), nargs='+',
                help='List of VOEvent XML files')
@@ -43,8 +46,8 @@ def cli_parser():
 if __name__ == "__main__":
     results = cli_parser()
     for voevent in results.VOEvents:
-        decode_VOEvent.decode_VOEvent(voevent, results.DB_NAME,
-                                      results.DB_HOST, results.DB_PORT,
-                                      results.USER_NAME, results.USER_PASSWORD,
-                                      results.LOG_FILE)
+        decode_VOEvent.decode_VOEvent(voevent, results.dbName,
+                                      results.dbHost, results.dbPort,
+                                      results.dbUser, results.dbPassword,
+                                      results.log)
         voevent.close()
