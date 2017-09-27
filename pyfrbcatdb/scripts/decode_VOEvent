@@ -35,7 +35,8 @@ def cli_parser():
     parser.add('--dbPassword', help='user postgres database password',
                env_var='dbPasswordFRBCat')
     parser.add('--log', type=str, default=os.path.join(
-      os.path.expanduser("~"), 'pyfrbcatdb_decode.log'), help='log file')
+      os.path.expanduser("~"), 'pyfrbcatdb_decode.log'
+      ), help='log file, default=[HOME]/pyfrbcatdb_decode.log')
     parser.add('VOEvents', metavar='VOEvent',
                type=configargparse.FileType('rb'), nargs='+',
                help='List of VOEvent XML files')
