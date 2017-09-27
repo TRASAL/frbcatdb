@@ -21,6 +21,19 @@ from astropy.coordinates import SkyCoord
 
 
 class FRBCat_add:
+    '''
+    Class module that adds a decoded VOEvent file to the FRBCat
+    database.
+
+    :param connection: database connection
+    :param cursor: database cursor object
+    :param mapping: mapping between database entry and VOEvent value.
+    :param event_type: type of VOEvent
+    :type connection: psycopg2.extensions.connection
+    :type cursor: psycopg2.extras.DictCursor
+    :type mapping: dict
+    :type event_type: str
+    '''
     def __init__(self, connection, cursor, mapping, event_type):
         self.connection = connection
         self.cursor = cursor
@@ -29,8 +42,14 @@ class FRBCat_add:
 
     def check_author_exists(self, ivorn):
         '''
-        Check if author already exists in Fdatabase
-        if author is found, set self.author_id
+        Check if author already exists in the database.
+        If the author is found, set self.author_id to the id
+        found in the database.
+
+        :param ivorn: author ivorn from VOEvent file
+        :type ivorn: string
+        :returns: boolean if author is found or not
+        :rtype: bool
         '''
         # check if the author ivorn is already in the database
         author_id = dbase.extract_from_db_sql(self.cursor, 'authors', 'id',
@@ -43,8 +62,14 @@ class FRBCat_add:
 
     def check_event_exists(self, ivorn):
         '''
-        Check if event ivorn already exists in database
-        if event is found, set self.event_id
+        Check if event ivorn already exists in database.
+        If the event is found, set self.event_id to the id
+        found in the database.
+
+        :param ivorn: event ivorn from VOEvent file
+        :type ivorn: string
+        :returns: boolean if event is found or not
+        :rtype: bool
         '''
         # check if the event ivorn is already in the database
         event_id = dbase.extract_from_db_sql(
@@ -57,8 +82,11 @@ class FRBCat_add:
 
     def set_rank(self):
         '''
-        return the rank for the event to be inserted
-        first event of an FRB is rank=1, each next event increments it by 1
+        Return the rank for the event to be inserted.
+        First event of an FRB is rank=1, each next event increments it by 1.
+
+        :returns: next_rank, rank of the event to be inserted
+        :rtype: int
         '''
         sql = ("select rmp.rank from radio_measured_params rmp join " +
                "radio_observations_params rop ON rmp.rop_id=rop.id join " +
@@ -74,118 +102,178 @@ class FRBCat_add:
             next_rank = 1
         return next_rank
 
-    def add_authors(self, table, rows, value):
+    def add_authors(self, table, cols, value):
         '''
-        Add author to the database if the ivorn is not in the authors table
+        Add author to the database if the ivorn is not in the authors table.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
         '''
         # check if author already exists in database
-        ivorn = value[rows == 'ivorn']
+        ivorn = value[cols == 'ivorn']
         author_exists = self.check_author_exists(ivorn)
         # add author to database if author does not yet exist in db
         if not author_exists:
-            self.author_id = self.insert_into_database(table, rows, value)
+            self.author_id = self.insert_into_database(table, cols, value)
 
-    def add_frbs(self, table, rows, value):
+    def add_frbs(self, table, cols, value):
         '''
-        Add event to the frbs table
+        Add event to the frbs table.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
         '''
-        rows = npappend(rows, 'author_id')
+        cols = npappend(cols, 'author_id')
         value = npappend(value, self.author_id)
         # try to insert into database / return frb id
-        self.frb_id = self.insert_into_database(table, rows, value)
+        self.frb_id = self.insert_into_database(table, cols, value)
         # update database if type is supersedes
-        self.update_database(table, rows, value)
+        self.update_database(table, cols, value)
 
-    def add_observations(self, table, rows, value):
+    def add_observations(self, table, cols, value):
         '''
-        Add event to the observations table
+        Add event to the observations table.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
         '''
-        rows = npappend(rows, ('frb_id', 'author_id'))
+        cols = npappend(cols, ('frb_id', 'author_id'))
         value = npappend(value, (self.frb_id, self.author_id))
         # try to insert into database / return observation id
-        self.obs_id = self.insert_into_database(table, rows, value)
+        self.obs_id = self.insert_into_database(table, cols, value)
         # update database if type is supersedes
-        self.update_database(table, rows, value)
+        self.update_database(table, cols, value)
 
-    def add_radio_observations_params(self, table, rows, value):
+    def add_radio_observations_params(self, table, cols, value):
         '''
-        Add event to the radio_observations_params table
+        Add event to the radio_observations_params table.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
         '''
         # create settigns_id if we don't have one yet
-        if 'settings_id' not in rows:
-            settings_id2 = str(nparray(value)[nparray(rows) == 'raj'][0]
+        if 'settings_id' not in cols:
+            settings_id2 = str(nparray(value)[nparray(cols) == 'raj'][0]
                                ) + ';' + str(
-                                 nparray(value)[nparray(rows) == 'decj'][0])
+                                 nparray(value)[nparray(cols) == 'decj'][0])
             settings_id = self.settings_id1 + ';' + settings_id2
-        rows = npappend(rows, ('obs_id', 'author_id', 'settings_id'))
+        cols = npappend(cols, ('obs_id', 'author_id', 'settings_id'))
         value = npappend(value, (self.obs_id, self.author_id, settings_id))
-        self.rop_id = self.insert_into_database(table, rows, value)
+        self.rop_id = self.insert_into_database(table, cols, value)
         # update database if type is supersedes
-        self.update_database(table, rows, value)
+        self.update_database(table, cols, value)
 
-    def add_radio_observations_params_notes(self, table, rows, notes):
+    def add_radio_observations_params_notes(self, table, cols, notes):
         '''
-        Add event to the radio_observations_params_notes table
+        Add event to the radio_observations_params_notes table.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param notes: list of notes (each note is a string)
+        :type table: str
+        :type cols: list
+        :type notes: list
         '''
+
         for idx, note in enumerate(notes):  # loop over all notes
-            rows_i = npappend(rows[idx], ('rop_id', 'last_modified', 'author'))
+            cols_i = npappend(cols[idx], ('rop_id', 'last_modified', 'author'))
             value_i = npappend(note, (self.rop_id, self.authortime,
                                       self.authorname))
-            self.insert_into_database(table, rows_i, value_i)
+            self.insert_into_database(table, cols_i, value_i)
 
-    def add_radio_measured_params(self, table, rows, value):
+    def add_radio_measured_params(self, table, cols, value):
         '''
         Add event to the radio_measured_params table
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
         '''
         rank = self.set_rank()
-        rows = npappend(rows, ('rop_id', 'author_id', 'rank'))
+        cols = npappend(cols, ('rop_id', 'author_id', 'rank'))
         value = npappend(value, (self.rop_id, self.author_id, rank))
-        ivorn = value[rows == 'voevent_ivorn'][0]
+        ivorn = value[cols == 'voevent_ivorn'][0]
         self.event_exists = self.check_event_exists(ivorn)
         # add event to the database if it does not exist yet
-        self.rmp_id = self.insert_into_database(table, rows, value)
+        self.rmp_id = self.insert_into_database(table, cols, value)
         # update database if type is supersedes
-        self.update_database(table, rows, value)
+        self.update_database(table, cols, value)
 
-    def add_radio_measured_params_notes(self, table, rows, notes):
+    def add_radio_measured_params_notes(self, table, cols, notes):
         '''
-        Add event to the radio_measured_params_notes table
+        Add event to the radio_measured_params_notes table.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param notes: list of notes (each note is a string)
+        :type table: str
+        :type cols: list
+        :type notes: list
         '''
         for idx, note in enumerate(notes):  # loop over all notes
-            rows_i = npappend(rows[idx], ('rmp_id', 'last_modified', 'author'))
+            cols_i = npappend(cols[idx], ('rmp_id', 'last_modified', 'author'))
             value_i = npappend(note, (self.rmp_id, self.authortime,
                                       self.authorname))
-            self.insert_into_database(table, rows_i, value_i)
+            self.insert_into_database(table, cols_i, value_i)
 
-    def insert_into_database(self, table, rows, value):
+    def insert_into_database(self, table, cols, value):
         '''
-        insert event into the database
-        if not all required parameters are specified, assume this is an
-        update event and return the id for the event in the table
+        Insert event into the database. This method runs sql command.
+        If not all required parameters are specified, assume this is an
+        update event and return the id for the entry in the table,
+        else return the id of the insert.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
+        :returns: id of insert or id of existing entry in table
+        :rtype: int
         '''
         try:
-            # remove rows with empty values
-            rows = nparray([i for i, j in zip(rows, value) if j])
+            # remove cols with empty values
+            cols = nparray([i for i, j in zip(cols, value) if j])
             value = nparray([j for j in value if j]).flatten()
             # define sql params
-            row_sql, parameters, value = self.define_sql_params(rows, value)
+            col_sql, parameters, value = self.define_sql_params(cols, value)
             # check if VOEVent passes the not null constraints of database
             if (((table == 'radio_measured_params') and
                  (set(['voevent_ivorn',
-                       'dm', 'snr', 'width']) < set(rows))) or
+                       'dm', 'snr', 'width']) < set(cols))) or
                 ((table == 'radio_observations_params') and
-                 (set(['raj', 'decj']) < set(rows))) or
+                 (set(['raj', 'decj']) < set(cols))) or
                 ((table == 'observations') and
-                 (set(['telescope', 'verified']) < set(rows))) or
+                 (set(['telescope', 'verified']) < set(cols))) or
                 ((table == 'frbs') and
-                 (set(['name', 'utc']) < set(rows))) or
+                 (set(['name', 'utc']) < set(cols))) or
                 ((table == 'authors') and
-                 (set(['ivorn']) < set(rows))) or
+                 (set(['ivorn']) < set(cols))) or
                 (table == 'radio_measured_params_notes') or (
                   table == 'radio_observations_params_notes')):
                 # define sql statement
                 sql = """INSERT INTO {} ({}) VALUES {}  ON CONFLICT DO NOTHING
-                         RETURNING id""".format(table, row_sql, parameters)
+                         RETURNING id""".format(table, col_sql, parameters)
                 # execute sql statement, try to insert into database
                 self.cursor.execute(sql, tuple(value))
                 try:
@@ -194,11 +282,11 @@ class FRBCat_add:
                 except TypeError:
                     # insert did not happen due to already existing entry
                     # in database, return id of the existing entry
-                    return self.get_id_existing(table, rows, value)
+                    return self.get_id_existing(table, cols, value)
             else:
                 # not all required parameters are in voevent xml file
                 # return id if it is already in the database
-                return self.get_id_existing(table, rows, value)
+                return self.get_id_existing(table, cols, value)
         except psycopg2.IntegrityError:
             # rollback changes
             self.connection.rollback()
@@ -207,7 +295,10 @@ class FRBCat_add:
 
     def get_authortime(self):
         '''
-        get time voevent file was authored from mapping
+        Get time voevent file was authored from mapping dictionary.
+
+        :returns: datetime string of format '%Y-%m-%d %H:%M:%S'
+        :rtype: str
         '''
         try:
             return [item.get('value') for item in
@@ -222,34 +313,46 @@ class FRBCat_add:
                 # fall back to insert datetime
                 return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    def get_id_existing(self, table, rows, value):
+    def get_id_existing(self, table, cols, value):
+        '''
+        Get id of an existing entry in database table.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
+        :returns: id of existing entry in table
+        :rtype: int
+        '''
         if table == 'authors':
             # authors table should have unique ivorn
-            sql = "select id from {} WHERE id = '{}'".format(
-                table, value[rows == 'ivorn'][0])
+            sql = "select id from {} WHERE ivorn = '{}'".format(
+                table, value[cols == 'ivorn'][0])
         elif table == 'frbs':
             # frbs table should have unique name
             sql = "select id from {} WHERE name = '{}'".format(
-                table, value[rows == 'name'][0])
+                table, value[cols == 'name'][0])
         elif table == 'observations':
             # observation table should have an unique combination of
             # frb_id, telescope, utc
             sql = """select id from {} WHERE frb_id = '{}' AND
                     telescope = '{}' AND utc = '{}'""".format(
-                      table, value[rows == 'frb_id'][0],
-                      value[rows == 'telescope'][0],
-                      value[rows == 'utc'][0])
+                      table, value[cols == 'frb_id'][0],
+                      value[cols == 'telescope'][0],
+                      value[cols == 'utc'][0])
         elif table == 'radio_observations_params':
             # rop table should have an unique combination of
             # obs_id, settings_id
             sql = """select id from {} WHERE obs_id = '{}' AND settings_id =
                     '{}'""".format(table,
-                                   value[rows == 'obs_id'][0],
-                                   value[rows == 'settings_id'][0])
+                                   value[cols == 'obs_id'][0],
+                                   value[cols == 'settings_id'][0])
         elif table == 'radio_measured_params':
             # voevent_ivorn mus tbe unique
             sql = "select id from {} WHERE voevent_ivorn = '{}'".format(
-                table, value[rows == 'voevent_ivorn'][0])
+                table, value[cols == 'voevent_ivorn'][0])
         else:
             # raise IntegrityError
             raise psycopg2.IntegrityError(
@@ -265,30 +368,38 @@ class FRBCat_add:
         else:
             return return_id['id']
 
-    def update_database(self, table, rows, value):
+    def update_database(self, table, cols, value):
         '''
-        if type supersedes we need to update existing table values
-        else do nothing
+        If type supersedes we need to update existing table values,
+        else do nothing. This method executes the sql statement.
+
+        :param table: name of database table
+        :param cols: cols in database table that need to be added
+        :param value: values to be set for the cols
+        :type table: str
+        :type cols: list
+        :type value: list
+
         '''
-        # remove rows with empty values
-        rows = nparray([i for i, j in zip(rows, value) if j])
+        # remove cols with empty values
+        cols = nparray([i for i, j in zip(cols, value) if j])
         value = nparray([j for j in value if j]).flatten()
         if (self.event_type == 'supersedes'):
             # event is of type supersedes, so we need to update
-            row_sql, parameters, value = self.define_sql_params(rows, value)
+            col_sql, parameters, value = self.define_sql_params(cols, value)
             # define sql statments
             if table == 'frbs':
                 sql = "update {} SET ({}) = {} WHERE id='{}'".format(
-                  table, row_sql, parameters, self.frb_id)
+                  table, col_sql, parameters, self.frb_id)
             elif table == 'observations':
                 sql = "update {} SET ({}) = {} WHERE id='{}'".format(
-                  table, row_sql, parameters, self.obs_id)
+                  table, col_sql, parameters, self.obs_id)
             elif table == 'radio_observations_params':
                 sql = "update {} SET ({}) = {} WHERE id='{}'".format(
-                  table, row_sql, parameters, self.rop_id)
+                  table, col_sql, parameters, self.rop_id)
             elif table == 'radio_measured_params':
                 sql = "update {} SET ({}) = {} WHERE id='{}'".format(
-                  table, row_sql, parameters, self.rmp_id)
+                  table, col_sql, parameters, self.rmp_id)
             else:
                 pass
             try:
@@ -301,14 +412,11 @@ class FRBCat_add:
 
     def add_VOEvent_to_FRBCat(self):
         '''
-        Add a VOEvent to the FRBCat database
-          - input:
-              connection: database connection
-              cursor: database cursor object
-              mapping: mapping between database entry and VOEvent value
-                         db tables in mapping['FRBCAT TABLE']
-                         db columns in mapping['FRBCAT COLUMN']
-                         db values in mapping['values']
+        Add a VOEvent to the FRBCat database. This is the main
+        method that iterates over all tables and calls the
+        respective method for each table.
+        Finally, the database changes are committed and the
+        database connection is closed.
         '''
         # define database tables in the order they need to be filled
         tables = ['authors', 'frbs', 'observations',
@@ -319,12 +427,8 @@ class FRBCat_add:
         self.authortime = self.get_authortime()
         # loop over defined tables
         for table in tables:
-            try:
-                del value
-            except NameError:
-                pass
-            # extract rows that have values
-            rows = [item.get('column') for item in self.mapping.get(table) if
+            # extract cols that have values
+            cols = [item.get('column') for item in self.mapping.get(table) if
                     item.get('value') is not None]
             values = [item.get('value') for item in self.mapping.get(table) if
                       item.get('value') is not None]
@@ -333,34 +437,34 @@ class FRBCat_add:
                 notes = [item.get('note') for item in self.mapping.get(table)
                          if item.get('note') is not None]
             if table == 'authors':
-                self.add_authors(table, rows, values)
+                self.add_authors(table, cols, values)
                 try:
                     # set authorname, needed for notes
-                    self.authorname = values[rows.index('contact_name')]
+                    self.authorname = values[cols.index('contact_name')]
                 except ValueError:
                     self.authorname = 'FRBCat insert'
             if table == 'frbs':
-                self.add_frbs(table, rows, values)
+                self.add_frbs(table, cols, values)
             if table == 'frbs_notes':
-                self.add_frbs_notes(table, rows, values)
+                self.add_frbs_notes(table, cols, values)
             if table == 'observations':
-                self.add_observations(table, rows, values)
+                self.add_observations(table, cols, values)
                 # create first part of settings_id
-                self.settings_id1 = str(values[rows == 'telescope'][0]
-                                        ) + ';' + str(values[rows == 'utc'][0])
+                self.settings_id1 = str(values[cols == 'telescope'][0]
+                                        ) + ';' + str(values[cols == 'utc'][0])
             if table == 'observations_notes':
-                self.add_observations_notes(table, rows, values)
+                self.add_observations_notes(table, cols, values)
             if table == 'radio_observations_params':
-                self.add_radio_observations_params(table, rows, values)
+                self.add_radio_observations_params(table, cols, values)
             if table == 'radio_observations_params_notes':
-                self.add_radio_observations_params_notes(table, rows, notes)
+                self.add_radio_observations_params_notes(table, cols, notes)
             if table == 'radio_measured_params':
-                self.add_radio_measured_params(table, rows, values)
+                self.add_radio_measured_params(table, cols, values)
                 if (self.event_exists and (self.event_type != 'supersedes')):
                     # event exists already and is not of type supersedes
                     break  # don't want to add already existing event
             if table == 'radio_measured_params_notes':
-                self.add_radio_measured_params_notes(table, rows, notes)
+                self.add_radio_measured_params_notes(table, cols, notes)
         if (self.event_exists and (self.event_type != 'supersedes')):
             # event is already in database, rollback
             self.connection.rollback()
@@ -370,8 +474,13 @@ class FRBCat_add:
 
     def retract(self, voevent_cited):
         '''
-        retracting event should set detected/verified to False in
-        observations table
+        Retract event with the ivorn given by voevent_cited.
+        Retracting event should set detected/verified to False in
+        observations table. Database changes are committed and
+        database connection is closed.
+
+        :param voevent_cited: event ivorn to be retracted
+        :type voevent_cited: str
         '''
         sql = ("select o.id from radio_measured_params rmp join " +
                "radio_observations_params rop ON rmp.rop_id=rop.id join " +
@@ -387,10 +496,10 @@ class FRBCat_add:
         obs_id = self.cursor.fetchone()
         if obs_id:
             # observation is indeed in the database
-            row_sql = ', '.join(map(str, ['detected', 'verified']))
+            col_sql = ', '.join(map(str, ['detected', 'verified']))
             parameters = ', '.join(map(str, [False, False]))
             sql = "update {} SET ({}) = ({}) WHERE id='{}'".format(
-              'observations', row_sql, parameters, obs_id[0])
+              'observations', col_sql, parameters, obs_id[0])
             try:
                 # execute sql statement
                 self.cursor.execute(sql)
@@ -402,18 +511,42 @@ class FRBCat_add:
         dbase.closeDBConnection(self.connection, self.cursor)
 
     @staticmethod
-    def define_sql_params(rows, value):
-        ''' Define sql params'''
+    def define_sql_params(cols, value):
+        '''
+        Format sql params for the sql command from the cols and values.
+
+        :param cols: cols in the db table the sql command needs to operate on
+        :param value: values of the col variables
+        :type cols: numpy.ndarray
+        :type value: numpy.ndarray
+        :returns: col_sql (formatted cols array as a comma-seperated string),
+            parameters (string of format (%s,%s,...), equal to the number of
+            elements in cols),
+            value (values of the col objects, converted to flattened
+            regular numpy array)
+        :rtype: str, str, numpy.ndarray
+        '''
         # define sql params
-        row_sql = ', '.join(map(str, rows))
+        col_sql = ', '.join(map(str, cols))
         parameters = '(' + ','.join(['%s' for i in value]) + ')'
         value = [x.text if isinstance(
                  x, lxml.objectify.StringElement) else x for x in value]
         value = nparray(value)
-        return row_sql, parameters, value
+        return col_sql, parameters, value
 
 
 class FRBCat_create:
+    '''
+    Class module that creates a VOEvent file from the FRBCat
+    database.
+
+    :param connection: database connection
+    :param cursor: database cursor object
+    :param frbs_id: id in frbs table of FRB to be extracted
+    :type connection: psycopg2.extensions.connection
+    :type cursor: psycopg2.extras.DictCursor
+    :type frbs_id: int
+    '''
     def __init__(self, connection, cursor, frbs_id):
         self.connection = connection
         self.cursor = cursor
@@ -421,9 +554,9 @@ class FRBCat_create:
 
     def create_VOEvent_from_FRBCat(self):
         '''
-        Create a VOEvent from the FRBCat database
-          output:
-            VOEvent XML file
+        Create a VOEvent from the FRBCat database. Method gets
+        all information from the database, sets and output name
+        for the VOEvent and calls the create_xml method.
         '''
         sql = """select *, radio_measured_params_notes.note as rmp_note,
                  radio_observations_params_notes.note as rop_note,
@@ -470,7 +603,12 @@ class FRBCat_create:
 
     def create_xml(self, xmlname):
         '''
-        create VOEvent xml file from extracted database values
+        Create VOEvent xml file from extracted database values.
+        Calls all the methods to set the different sections and
+        finally calls the save_xml method.
+
+        :param xmlname: name of the output file
+        :type xmlname: str
         '''
         # Initialize voevent
         self.init_voevent()
@@ -484,12 +622,12 @@ class FRBCat_create:
         self.set_what()
         # Define Why section
         self.set_why()
-        # TODO: add citations (not in frbcat?)
+        # save VOEvent file
         self.save_xml(xmlname, force_pretty_print=True)
 
     def init_voevent(self):
         '''
-        Initialize voevent
+        Initialize voevent.
         '''
         stream = self.event['voevent_ivorn'].lstrip('ivo://')
         stream_id = 1
@@ -500,7 +638,7 @@ class FRBCat_create:
 
     def set_who(self):
         '''
-        Add who section to voevent object
+        Add who section to voevent object.
         '''
         # Set Who.Date timestamp to date of packet-generation
         # regular expression to remove ivo:// in the beginning of string
@@ -514,7 +652,7 @@ class FRBCat_create:
 
     def set_author(self):
         '''
-        Add author section to voevent object
+        Add author section to voevent object.
         '''
         # set a plactholder if none of the contact details are in the database
         # for some of the original entries
@@ -533,7 +671,7 @@ class FRBCat_create:
 
     def set_what(self):
         '''
-        Add What section to voevent object
+        Add What section to voevent object.
         '''
         mapping = parse_mapping()
         # flatten the mapping dictionary into a list of dicts
@@ -550,7 +688,7 @@ class FRBCat_create:
 
     def set_how(self):
         '''
-        Add How section to voevent object
+        Add How section to voevent object.
         '''
         # Describe the reference/telescope here
         # TODO: reference of telescope?
@@ -559,7 +697,7 @@ class FRBCat_create:
 
     def set_wherewhen(self):
         '''
-        Add WhereWhen section to voevent object
+        Add WhereWhen section to voevent object.
         '''
         # use astropy to convert raj and decj angles to degrees
         skcoord = SkyCoord(ra=self.event['raj'], dec=self.event['decj'],
@@ -593,7 +731,7 @@ class FRBCat_create:
 
     def set_why(self):
         '''
-        Add Why section to voevent object
+        Add Why section to voevent object.
         '''
         # Why section (optional) allows for speculation on probable
         # astrophysical cause
@@ -607,7 +745,7 @@ class FRBCat_create:
 
     def save_xml(self, xmlname, force_pretty_print=False):
         '''
-        Check the validity of the voevent xml file and save as xmlname
+        Check the validity of the voevent xml file and save as xmlname.
         '''
         # check if the created event is a valid VOEvent v2.0 event
         if vp.valid_as_v2_0(self.v):
@@ -627,7 +765,13 @@ class FRBCat_create:
 
     def createParamList(self, params):
         '''
-        ceate a list of params, so these can be written as group
+        Ceate a list of params, so these can be written as group.
+
+        :param params: List of params (list of dicts). Each dict
+            contains the information for one parameter.
+        :type params: list
+        :returns: paramList, list of lxml.objectify.ObjectifiedElements
+        :rtype: list
         '''
         for param in params:
             # get value from database
@@ -651,7 +795,10 @@ class FRBCat_create:
 
     def add_params(self, supermapping):
         '''
-        Add radio observations params section to voevent object
+        Add radio observations params section to voevent object.
+
+        :param supermapping: flattened mapping dictionary in list of dicts
+        :type supermapping: list
         '''
         param_groups = ['observatory parameters',
                         'event parameters', 'advanced parameters']
@@ -665,7 +812,10 @@ class FRBCat_create:
 
 def parse_mapping():
     '''
-    read mapping from json file
+    Read mapping from json file.
+
+    :returns: mapping dictionary from mapping.json data file
+    :rtype: dict
     '''
     # define path to mapping.json file
     filename = "mapping.json"

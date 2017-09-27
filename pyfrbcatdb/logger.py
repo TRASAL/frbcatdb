@@ -9,6 +9,16 @@ from logging.handlers import RotatingFileHandler
 
 
 class logger:
+    '''
+    Logger class.
+
+    :param filename: log filename
+    :param DEFAULT_LOG_LEVEL: default log level
+    :param DEFAULT_LOG_LEVEL_C: default log level to console
+    :type filename: str
+    :type DEFAULT_LOG_LEVEL: str
+    :type DEFAULT_LOG_LEVEL_C: str
+    '''
     def __init__(self, filename, DEFAULT_LOG_LEVEL='debug',
                  DEFAULT_LOG_LEVEL_C='warning'):
         # define global LOG variables
@@ -28,9 +38,6 @@ class logger:
     def start_logging(self):
         '''
         Start logging with given filename and level.
-            filename: logfile filename
-            level: minumum log level written to logfile
-            level_c: minimum log level written to std_err
         '''
         try:
             self.logger

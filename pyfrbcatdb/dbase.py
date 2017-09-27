@@ -14,17 +14,31 @@ def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
     '''
     Connect to a specified PostgreSQL DB and
     return connection and cursor objects.
+
+    :param dbName: database name
+    :param dbHost: database host
+    :param dbPort: database port
+    :param userName: database user name
+    :param dbPassword: database user password
+    :type dbName: str
+    :type dbHost: str, NoneType
+    :type dbPort: str, NoneType
+    :type userName: str, NoneType
+    :type dbPassword: str, NoneType
+    :returns: connection, cursor
+    :rtype: psycopg2.extensions.connection,
+        psycopg2.extras.DictCursor
     '''
     # Start DB connection
     try:
         connectionString = "dbname='" + dbName + "'"
-        if userName is not None and userName != '':
+        if not userName:
             connectionString += " user='" + userName + "'"
-        if dbHost is not None and dbHost != '':
+        if not dbHost:
             connectionString += " host='" + dbHost + "'"
-        if dbPassword is not None and dbPassword != '':
+        if not dbPassword:
             connectionString += " password='" + dbPassword + "'"
-        if dbPort is not None:
+        if not dbPort:
             connectionString += " port='" + str(dbPort) + "'"
         connection = psycopg2.connect(connectionString)
     except Exception:
@@ -36,18 +50,26 @@ def connectToDB(dbName=None, userName=None, dbPassword=None, dbHost=None,
 
 def closeDBConnection(connection, cursor):
     '''
-    Closes a connection to a DB given the connection and cursor objects
+    Closes a connection to a DB given the connection and cursor objects.
+
+    :param connection: database connection
+    :param cursor: database cursor object
+    :type connection: psycopg2.extensions.connection
+    :type cursor: psycopg2.extras.DictCursor
     '''
     cursor.close()
     connection.close()
-    # msg = 'Connection to the DB is closed.'
-    # logging.debug(msg)
     return
 
 
 def commitToDB(connection, cursor):
     '''
-    Commit changes to database, rollback in case of errors
+    Commit changes to database, rollback in case of errors.
+
+    :param connection: database connection
+    :param cursor: database cursor object
+    :type connection: psycopg2.extensions.connection
+    :type cursor: psycopg2.extras.DictCursor
     '''
     try:
         connection.commit()
@@ -55,11 +77,22 @@ def commitToDB(connection, cursor):
         connection.rollback()
 
 
-def extract_from_db_sql(cursor, table, column, row, value):
+def extract_from_db_sql(cursor, table, column, col, value):
     '''
-    Extract a value from the database
+    Extract a value from the database.
+
+    :param cursor: database cursor object
+    :param table: db table name
+    :param column: db table column name
+    :param col: db table column name
+    :param value: value of db table column name to match
+    :type cursor: psycopg2.extras.DictCursor
+    :type table: str
+    :type column: str
+    :type col: str
+    :type value: str
     '''
     sql = "select {} from {} where {}='{}'".format(column, table,
-                                                   row, value)
+                                                   col, value)
     cursor.execute(sql)
     return cursor.fetchone()

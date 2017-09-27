@@ -13,6 +13,25 @@ from astropy.coordinates import SkyCoord
 
 
 class decode_VOEvent(logger):
+    '''
+    Class to decode a VOEvent file and insert it into the
+    FRBCat database.
+
+    :param voevent: filestream or filename
+    :param DB_NAME: database name
+    :param DB_HOST: database host
+    :param DB_PORT: database port
+    :param USER_NAME: database user name
+    :param USER_PASSWORD: database user password
+    :param LOG_FILE: name of log file
+    :type voevent: _io.BufferedReader, str
+    :type DB_NAME: str
+    :type DB_HOST: str, NoneType
+    :type DB_PORT: str, NoneType
+    :type USER_NAME: str, NoneType
+    :type USER_PASSWORD: str, NoneType
+    :type LOG_FILE: str
+    '''
     def __init__(self, voevent, DB_NAME, DB_HOST, DB_PORT, USER_NAME,
                  USER_PASSWORD, LOG_FILE):
         logger.__init__(self, LOG_FILE)
@@ -24,6 +43,12 @@ class decode_VOEvent(logger):
         self.process_VOEvent(voevent)
 
     def process_VOEvent(self, voevent):
+        '''
+        Main method to process the VOEvent.
+
+        :param voevent: filestream or filename
+        :type voevent: _io.BufferedReader, str
+        '''
         try:
             self.logger.info("Processing file {}".format(voevent.name))
         except AttributeError:
@@ -42,7 +67,16 @@ class decode_VOEvent(logger):
     @staticmethod
     def get_param(param_data, param_group, param_name):
         '''
-        Get param data for a given attribute
+        Get param data for a given attribute.
+
+        :param param_data: all param data from VOEvent file
+        :param param_group: param group in VOEvent which holds param_name
+        :param param_name: name of parameter to get value for
+        :type param_data: orderedmultidict.orderedmultidict.omdict
+        :type param_group: str
+        :type param_name: str
+        :returns: param value if defined in VOEvent, else None
+        :rtype: str, float, int, NoneType
         '''
         try:
             # return value of the param if defined in the XML
@@ -54,7 +88,14 @@ class decode_VOEvent(logger):
     @staticmethod
     def get_description(v, item):
         '''
-        Return description of parameter
+        Return description of parameter.
+
+        :param v: VOEvent xml
+        :param item: single dictionary item from mapping
+        :type v: lxml.objectify.ObjectifiedElement
+        :type item: dict
+        :returns: Description on parameter is applicable, else None
+        :rtype: str, NoneType
         '''
         param_group = item.get('param_group')
         param_name = item.get('param_name')
@@ -71,9 +112,17 @@ class decode_VOEvent(logger):
     @staticmethod
     def get_coord(v, coordname):
         '''
-        Get coordinate from VOEvent file
+        Get coordinate from VOEvent file.
           - transform to HH:MM:SS if coordname=ra
           - transform to DD:HH:SS if coordname=dec
+
+        :param v: VOEvent xml
+        :param coordname: coordinate name ('ra' or 'dec')
+        :type v: lxml.objectify.ObjectifiedElement
+        :type coordname: str
+        :returns: location string in HH:MM:SS.MS for coordname=ra
+            or DD:HH:SS.MS for coordname=dec
+        :rtype: str
         '''
         try:
             units = getattr(vp.get_event_position(v, index=0), 'units')
@@ -107,7 +156,14 @@ class decode_VOEvent(logger):
     @staticmethod
     def get_attrib(v, attribname):
         '''
-        Get xml attributes
+        Get xml attributes.
+
+        :param v: VOEvent xml
+        :param attribname: attribute name
+        :type v: lxml.objectify.ObjectifiedElement
+        :type attribname: str
+        :returns: v.attrib[attribname]
+        :rtype: str
         '''
         try:
             return v.attrib[attribname]
@@ -119,13 +175,32 @@ class decode_VOEvent(logger):
     @staticmethod
     def get_utc_time_str(v):
         '''
-        Get time in UTC
-        Return string 'YYYY-MM-DD HH:MM:SS'
+        Get time in UTC.
+
+        :param v: VOEvent xml
+        :type v: lxml.objectify.ObjectifiedElement
+        :returns: time as string 'YYYY-MM-DD HH:MM:SS.MS'
+        :rtype: str
         '''
         utctime = vp.get_event_time_as_utc(v, index=0)
         return utctime.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
 
     def get_value(self, v, param_data, item, event_type):
+        '''
+        Extract the value of item from VOEvent.
+
+        :param v: VOEvent xml
+        :param param_data: all param data from VOEvent file
+        :param item: single dictionary item from mapping
+        :param event_type: event type of VOEvent, including
+            citation if applicable, e.g. ('new', None)
+        :type v: lxml.objectify.ObjectifiedElement, str
+        :type param_data: orderedmultidict.orderedmultidict.omdict
+        :type item: dict
+        :type event_type: tuple
+        :returns: value for item
+        :rtype: int, float, str, bool, NoneType
+        '''
         itemtype = item.get('type')
         if itemtype == 'ivorn':
             if (event_type[0] == 'supersedes'):
@@ -180,13 +255,15 @@ class decode_VOEvent(logger):
 
     def parse_VOEvent(self, voevent, mapping):
         '''
-        parse VOEvent xml file
-            input:
-            - voevent: VOEvent xml file
-            - mapping: mapping dictionary voevent -> FRBCAT
-            returns vo_dict, mapping
-            - vo_dict: dictionary vo_event: value
-            - mapping: dictionary vo_event: FRBCAT location
+        Parse VOEvent xml file.
+
+        :param voevent: VOEvent xml file
+        :param mapping: mapping from mapping.json
+        :type voevent: lxml.objectify.ObjectifiedElement, str
+        :type mapping: dict
+        :returns:  mapping (mapping from mapping.json with values filled),
+            event_type (event_type and citation if applicable)
+        :rtype: dict, tuple
         '''
         # load VOEvent xml file
         try:
@@ -216,8 +293,6 @@ class decode_VOEvent(logger):
             param_data = None
         for table in mapping.keys():  # iterate over all tables
             for idx, item in enumerate(mapping[table]):
-                # validate item
-                # TODO pass item to a validate function to check
                 # Add values from XML to dictionary
                 mapping[table][idx]['value'] = self.get_value(v, param_data,
                                                               item, event_type)
@@ -229,7 +304,12 @@ class decode_VOEvent(logger):
 
     def update_FRBCat(self, mapping, event_type):
         '''
-        Add new FRBCat entry
+        Add new FRBCat entry. Calls the FRBCat_add class.
+
+        :param mapping: mapping from mapping.json
+        :param event_type: event_type and citation if applicable
+        :type mapping: dict
+        :type event_type: tuple
         '''
         # connect to database
         connection, cursor = dbase.connectToDB(self.DB_NAME,
