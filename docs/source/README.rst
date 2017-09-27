@@ -22,6 +22,7 @@ pyfrbcatdb usage
 A default configuration file is installed in /etc/pyfrbcatdb/dbase.config. In this file the FRBCat database configuration can be defined. Alternatively, a user may supply their own configuration file with a command line argument of the executable, or define the database configuration via argument switches, or, alternatively via environment variables.
 
 For inserting a VOEvent XML file into the FRBCat database, the decode_VOEvent executable is used:
+
 ::
   usage: decode_VOEvent [-h] [-c MY_CONFIG] --dbName DBNAME [--dbHost DBHOST]
                         [--dbPort DBPORT] --dbUser DBUSER
@@ -53,6 +54,7 @@ For inserting a VOEvent XML file into the FRBCat database, the decode_VOEvent ex
     --log LOG             log file, default=[HOME]/pyfrbcatdb_decode.log
 
 For extracting a VOEvent from the FRBCat database, the create_VOEvent executable is used. Note that some features might still be missing for the current release from this utility.
+
 ::
   usage: create_VOEvent [-h] [-c MY_CONFIG] --dbName DBNAME [--dbHost DBHOST]
                         [--dbPort DBPORT] --dbUser DBUSER
