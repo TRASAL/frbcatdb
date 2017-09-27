@@ -7,7 +7,7 @@ from pyfrbcatdb import dbase as dbase
 class BasicDBTest(unittest.TestCase):
     def setUp(self):
         if 'TRAVIS' in os.environ:
-            self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', userName='postgres', dbPassword=None, dbHost=None,dbPort=None, dbCursor=psycopg2.extensions.cursor)
+            self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', dbUser='postgres', dbPassword=None, dbHost=None,dbPort=None, dbCursor=psycopg2.extensions.cursor)
         else:
             self.connection, self.cursor = dbase.connectToDB(dbName='frbcat', dbCursor=psycopg2.extensions.cursor)
         self.tableColumnsDict = {

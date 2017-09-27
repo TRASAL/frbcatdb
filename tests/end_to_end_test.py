@@ -10,28 +10,28 @@ from pyfrbcatdb import create_VOEvent as create
 class end2endtest(unittest.TestCase):
     def setUp(self):
         if 'TRAVIS' in os.environ:
-             self.DB_NAME = 'frbcat'
-             self.USER_NAME = 'postgres'
-             self.DB_HOST = None
-             self.DB_PORT = None
-             self.USER_PASSWORD = None
-             self.LOG_FILE = 'frbcatdb.log'
-             self.connection, self.cursor = dbase.connectToDB(
-                 dbName=self.DB_NAME, userName=self.USER_NAME,
-                 dbPassword=self.USER_PASSWORD, dbHost=self.DB_HOST,
-                 dbPort=self.DB_PORT, dbCursor=psycopg2.extensions.cursor)
+            self.dbName = 'frbcat'
+            self.dbUser = 'postgres'
+            self.dbHost = None
+            self.dbPort = None
+            self.dbPassword = None
+            self.logfile = 'frbcatdb.log'
+            self.connection, self.cursor = dbase.connectToDB(
+                dbName=self.dbName, dbUser=self.dbUser,
+                dbPassword=self.dbPassword, dbHost=self.dbHost,
+                dbPort=self.dbPort, dbCursor=psycopg2.extensions.cursor)
         else:
             # TODO: read config file
-            self.DB_NAME = 'frbcat'
-            self.USER_NAME = 'postgres'
-            self.DB_HOST = 'localhost'
-            self.DB_PORT = None
-            self.USER_PASSWORD = 'None'
-            self.LOG_FILE = 'frbcatdb.log'
+            self.dbName = 'frbcat'
+            self.dbUser = 'postgres'
+            self.dbHost = 'localhost'
+            self.dbPort = None
+            self.dbPassword = 'None'
+            self.logfile = 'frbcatdb.log'
             self.connection, self.cursor = dbase.connectToDB(
-                dbName=self.DB_NAME, userName=self.USER_NAME,
-                dbPassword=self.USER_PASSWORD, dbHost=self.DB_HOST,
-                dbPort=self.DB_PORT, dbCursor=psycopg2.extensions.cursor)
+                dbName=self.dbName, dbUser=self.dbUser,
+                dbPassword=self.dbPassword, dbHost=self.dbHost,
+                dbPort=self.dbPort, dbCursor=psycopg2.extensions.cursor)
         self.test_data = os.path.join(dirname(abspath(__file__)), '..', 'test_data')
 
     def tearDown(self):
@@ -67,8 +67,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Detection_unitTest1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors increased by 1
         self.assertEqual(len_before[0], len_after[0]-1)
@@ -100,8 +100,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Detection_unitTest2.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors increased by 1
         self.assertEqual(len_before[0], len_after[0]-1)
@@ -133,8 +133,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Confirmation_unitTest1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors remains the same
         self.assertEqual(len_before[0], len_after[0])
@@ -168,8 +168,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Confirmation_unitTest2.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors remains the same
         self.assertEqual(len_before[0], len_after[0])
@@ -205,8 +205,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Subsequent_unitTest1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors increased by 1
         self.assertEqual(len_before[0], len_after[0]-1)
@@ -236,8 +236,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Retraction_unitTest1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors remains the same
         self.assertEqual(len_before[0], len_after[0])
@@ -263,8 +263,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Retraction_unitTest2.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors remains the same
         self.assertEqual(len_before[0], len_after[0])
@@ -291,8 +291,8 @@ class end2endtest(unittest.TestCase):
         '''
         len_before = self.get_num_rows_main_tables()
         decode.decode_VOEvent(os.path.join(self.test_data, 'Notes_unitTest1.xml'),
-                              self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD, self.LOG_FILE)
+                              self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword, self.logfile)
         len_after = self.get_num_rows_main_tables()
         # assert authors increased by 1
         self.assertEqual(len_before[0], len_after[0])
@@ -324,8 +324,8 @@ class end2endtest(unittest.TestCase):
         '''
         Creating VOEvent from database
         '''
-        create.create_VOEvent([1], self.DB_NAME, self.DB_HOST, self.DB_PORT,
-                              self.USER_NAME, self.USER_PASSWORD)
+        create.create_VOEvent([1], self.dbName, self.dbHost, self.dbPort,
+                              self.dbUser, self.dbPassword)
 
 if __name__ == '__main__':
     unittest.main()
