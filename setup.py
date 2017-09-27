@@ -13,23 +13,22 @@ def conf_path(name):
   return conf_path
 setup(
     name = "pyfrbcatdb",
-    version = "0.0.1",
+    version = "1.0.0",
     author = "Ronald van Haren, Oscar Martinez-Rubi",
     author_email = "r.vanharen@esciencecenter.nl",
-    description = (""),
+    description = ("A package for manipulating the frbcatdb and its linking with the VOEvent backbone."),
     license = "Apache 2.0",
     keywords = "VOEvent, FRBCAT",
     url = "https://github.com/AA-ALERT/frbcatdb",
     packages=['pyfrbcatdb'],
-    package_data={'pyfrbcatdb': ['mapping.txt', 'rop_params.txt',
-                                 'rmp_params.txt', 'mapping.json']},
+    package_data={'pyfrbcatdb': ['mapping.json']},
     data_files=[(os.path.join(conf_path('pyfrbcatdb')), ['pyfrbcatdb/dbase.config'])],
     scripts=['pyfrbcatdb/scripts/decode_VOEvent',
              'pyfrbcatdb/scripts/create_VOEvent'],
     long_description=read('README.md'),
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
-        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Development Status :: 5 - Production/Stable",
+        "Topic :: Scientific/Engineering :: Astronomy",
         "License :: OSI Approved ::Apache Software License",
     ],
 )
