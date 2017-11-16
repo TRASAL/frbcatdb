@@ -24,7 +24,8 @@ setup(
     package_data={'pyfrbcatdb': ['mapping.json']},
     data_files=[(os.path.join(conf_path('pyfrbcatdb')), ['pyfrbcatdb/dbase.config'])],
     scripts=['pyfrbcatdb/scripts/decode_VOEvent',
-             'pyfrbcatdb/scripts/create_VOEvent'],
+             'pyfrbcatdb/scripts/create_VOEvent',
+             'pyfrbcatdb/scripts/frbcatdb-image'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
