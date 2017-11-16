@@ -29,6 +29,6 @@ setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Topic :: Scientific/Engineering :: Astronomy",
-        "License :: OSI Approved ::Apache Software License",
+        "License :: OSI Approved :: Apache Software License",
     ],
 )
