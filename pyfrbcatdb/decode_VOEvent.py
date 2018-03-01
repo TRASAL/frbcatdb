@@ -5,7 +5,8 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 '''
 import voeventparse as vp
 from pyfrbcatdb import dbase
-from pyfrbcatdb.FRBCat import *
+from pyfrbcatdb.FRBCat import FRBCat_add
+from pyfrbcatdb.FRBCat import parse_mapping
 from pyfrbcatdb.logger import logger
 from dateutil import parser
 from astropy import units as u

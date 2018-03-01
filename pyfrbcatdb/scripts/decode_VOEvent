@@ -8,9 +8,9 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 
 import configargparse
 from pyfrbcatdb import decode_VOEvent
+from pyfrbcatdb import writeCSV
 import sys
 import os
-from os import environ as env
 
 
 def cli_parser():
@@ -34,11 +34,13 @@ def cli_parser():
                env_var='dbUserFRBCat')
     parser.add('--dbPassword', help='user postgres database password',
                env_var='dbPasswordFRBCat')
+    parser.add('--CSV', help='CSV filename to dump database to',
+               env_var="CSVFRBCat")
     parser.add('--log', type=str, default=os.path.join(
       os.path.expanduser("~"), 'pyfrbcatdb_decode.log'
       ), help='log file, default=[HOME]/pyfrbcatdb_decode.log')
     parser.add('VOEvents', metavar='VOEvent',
-               type=configargparse.FileType('rb'), nargs='+',
+               type=configargparse.FileType('rb'), nargs='*',
                help='List of VOEvent XML files')
     results = parser.parse_args()
     return results
@@ -52,3 +54,7 @@ if __name__ == "__main__":
                                       results.dbUser, results.dbPassword,
                                       results.log)
         voevent.close()
+    # write database to CSV file
+    writeCSV.writeCSV(results.CSV,  results.dbName, results.dbHost,
+                      results.dbPort, results.dbUser, results.dbPassword,
+                      results.log)
