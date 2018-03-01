@@ -43,6 +43,10 @@ def cli_parser():
                type=configargparse.FileType('rb'), nargs='*',
                help='List of VOEvent XML files')
     results = parser.parse_args()
+    # print help message of no VOEvents are supplied and
+    # no CSV file needs to be written
+    if not (results.VOEvents or (results.CSV and results.CSV is not "=")):
+        parser.print_help()
     return results
 
 
