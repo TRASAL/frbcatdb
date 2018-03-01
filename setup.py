@@ -13,7 +13,7 @@ def conf_path(name):
   return conf_path
 setup(
     name = "pyfrbcatdb",
-    version = "1.0.0",
+    version = "1.1.0",
     author = "Ronald van Haren, Oscar Martinez-Rubi",
     author_email = "r.vanharen@esciencecenter.nl",
     description = ("A package for manipulating the frbcatdb and its linking with the VOEvent backbone."),
