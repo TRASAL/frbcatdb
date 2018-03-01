@@ -138,7 +138,8 @@ class writeCSV(logger):
                 JOIN radio_observations_params rop ON (o.id = rop.obs_id)
                 JOIN radio_measured_params rmp ON (rop.id = rmp.rop_id)
                 JOIN authors armp ON (rmp.author_id = armp.id)
-                WHERE (f.private = FALSE AND o.verified = TRUE)
+                WHERE (f.private = FALSE AND o.verified = TRUE AND
+                 o.detected = TRUE)
                 ORDER BY f.name, o.utc)
                 TO STDOUT DELIMITER ',' CSV HEADER"""
         return sql
