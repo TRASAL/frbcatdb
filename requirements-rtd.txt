@@ -3,6 +3,6 @@ python-dateutil
 psycopg2
 configargparse
 PyYAML
-astropy
+astropy==2.0.5
 sphinx
 sphinx-autobuild
