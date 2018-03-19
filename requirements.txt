@@ -2,5 +2,5 @@ voevent-parse
 python-dateutil
 psycopg2
 configargparse
-ruamel.yaml
+PyYAML
 astropy

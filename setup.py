@@ -34,6 +34,6 @@ setup(
     ],
     install_requires=['voevent-parse', 'python-dateutil',
                       'psycopg2', 'configargparse',
-                      'ruamel.yaml', 'astropy'],
+                      'PyYAML', 'astropy'],
     setup_requires=['sphinx', 'sphinx-autobuild'],
 )

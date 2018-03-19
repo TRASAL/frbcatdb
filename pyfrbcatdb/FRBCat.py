@@ -15,7 +15,7 @@ import re
 import psycopg2
 import lxml
 from xml.dom.minidom import parseString
-import ruamel.yaml as yaml
+import yaml
 from astropy import units as u
 from astropy.coordinates import SkyCoord
 
