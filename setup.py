@@ -32,4 +32,8 @@ setup(
         "Topic :: Scientific/Engineering :: Astronomy",
         "License :: OSI Approved ::Apache Software License",
     ],
+    install_requires=['voevent-parse', 'python-dateutil',
+                      'psycopg2', 'configargparse',
+                      'PyYAML', 'astropy'],
+    setup_requires=['sphinx', 'sphinx-autobuild'],
 )
