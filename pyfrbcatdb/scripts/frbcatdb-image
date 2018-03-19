@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+
+'''
+description:    Insert images into FRBCat database
+license:        APACHE 2.0
+author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
+'''
+
+import os
+import sys
+import configargparse
+from pyfrbcatdb import dbase
+
+
+def main(argv):
+    cfile = os.path.join(sys.prefix, 'etc', 'pyfrbcatdb', 'dbase.config')
+    parser = configargparse.ArgumentParser(
+      default_config_files=[cfile],
+      description='Create VOEvent XML file from FRB database')
+    parser.add('-c', '--my-config', required=False, is_config_file=True,
+               help='config file path')
+    parser.add('--dbName', required=True, help='name postgres database',
+               env_var='dbNameFRBCat')
+    parser.add('--dbHost', help='name postgres database',
+               env_var='dbHostFRBCat')
+    parser.add('--dbPort', help='name postgres database',
+               env_var='dbPortFRBCat')
+    parser.add('--dbUser', required=True, help='user postgres database',
+               env_var='dbUserFRBCat')
+    parser.add('--dbPassword', help='user postgres database password',
+               env_var='dbPasswordFRBCat')
+    parser.add('--caption', help='figure caption', type=str)
+    parser.add('--title', help='figure title', type=str)
+    parser.add_argument("filename",
+                        help="Name of file to fetch from")
+    parser.add_argument("rmpid", help="rmp_id")
+    # parse arguments
+    args = parser.parse_args(argv[1:])
+    # connect to database
+    conn, curs = dbase.connectToDB(args.dbName, args.dbUser,
+                                   args.dbPassword,
+                                   args.dbHost, args.dbPort)
+    # Reads the whole file into memory.
+    f = open(args.filename, 'rb')
+    filedata = f.read()
+    # insert image into database
+    curs.execute("INSERT INTO radio_images(id, title, caption, image) \
+                 VALUES (DEFAULT, %s ,%s ,%s) RETURNING id",
+                 (args.title, args.caption, filedata))
+    ri_id = curs.fetchone()[0]
+    f.close()  # close file
+    # link image to rmp
+    curs.execute("INSERT INTO radio_images_have_radio_measured_params\
+                 (radio_image_id, rmp_id) VALUES (%s, %s)",
+                 (ri_id, args.rmpid))
+    # commit changes
+    conn.commit()
+    print("Stored {0} into radio_images DB record {1}".format
+          (args.filename, ri_id))
+    conn.close()
+
+
+if __name__ == '__main__':
+    main(sys.argv)

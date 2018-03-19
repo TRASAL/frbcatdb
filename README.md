@@ -22,16 +22,16 @@ For inserting a VOEvent XML file into the FRBCat database, the decode_VOEvent ex
 ```
 usage: decode_VOEvent [-h] [-c MY_CONFIG] --dbName DBNAME [--dbHost DBHOST]
                       [--dbPort DBPORT] --dbUser DBUSER
-                      [--dbPassword DBPASSWORD] [--log LOG]
-                      VOEvent [VOEvent ...]
+                      [--dbPassword DBPASSWORD] [--CSV CSV] [--log LOG]
+                      [VOEvent [VOEvent ...]]
 
 Process VOEvent XML file and add it to FRB database Args that start with '--'
 (eg. --dbName) can also be set in a config file
-(/etc/pyfrbcatdb/dbase.config or specified via -c). Config
-file syntax allows: key=value, flag=true, stuff=[a,b,c] (for details, see
-syntax at https://goo.gl/R74nmi). If an arg is specified in more than one
-place, then commandline values override environment variables which override
-config file values which override defaults.
+(/etc/pyfrbcatdb/dbase.config or specified via -c). Config file syntax
+allows: key=value, flag=true, stuff=[a,b,c] (for details, see syntax at
+https://goo.gl/R74nmi). If an arg is specified in more than one place, then
+commandline values override environment variables which override config file
+values which override defaults.
 
 positional arguments:
   VOEvent               List of VOEvent XML files
@@ -47,8 +47,44 @@ optional arguments:
   --dbPassword DBPASSWORD
                         user postgres database password [env var:
                         dbPasswordFRBCat]
+  --CSV CSV             CSV filename to dump database to [env var: CSVFRBCat]
   --log LOG             log file, default=[HOME]/pyfrbcatdb_decode.log
 ```
+For inserting an image into the database, the frbcatdb-image executable is used. Apart from the database configuration, the tool takes two positional arguments. The first is the filename of the image to be added, the second is the 'id' in the 'radio measurement params' table that the image should be connected to:
+```
+usage: frbcatdb-image [-h] [-c MY_CONFIG] --dbName DBNAME [--dbHost DBHOST]
+                      [--dbPort DBPORT] --dbUser DBUSER
+                      [--dbPassword DBPASSWORD] [--caption CAPTION]
+                      [--title TITLE]
+                      filename rmpid
+
+Create VOEvent XML file from FRB database Args that start with '--' (eg.
+--dbName) can also be set in a config file (/data/github/venv-
+aa/etc/pyfrbcatdb/dbase.config or specified via -c). Config file syntax
+allows: key=value, flag=true, stuff=[a,b,c] (for details, see syntax at
+https://goo.gl/R74nmi). If an arg is specified in more than one place, then
+commandline values override environment variables which override config file
+values which override defaults.
+
+positional arguments:
+  filename              Name of file to fetch from
+  rmpid                 rmp_id
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c MY_CONFIG, --my-config MY_CONFIG
+                        config file path
+  --dbName DBNAME       name postgres database [env var: dbNameFRBCat]
+  --dbHost DBHOST       name postgres database [env var: dbHostFRBCat]
+  --dbPort DBPORT       name postgres database [env var: dbPortFRBCat]
+  --dbUser DBUSER       user postgres database [env var: dbUserFRBCat]
+  --dbPassword DBPASSWORD
+                        user postgres database password [env var:
+                        dbPasswordFRBCat]
+  --caption CAPTION     figure caption
+  --title TITLE         figure title
+```
+
 For extracting a VOEvent from the FRBCat database, the create_VOEvent executable is used. Note that some features might still be missing for the current release from this utility.
 ```
 usage: create_VOEvent [-h] [-c MY_CONFIG] --dbName DBNAME [--dbHost DBHOST]

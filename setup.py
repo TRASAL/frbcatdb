@@ -13,7 +13,7 @@ def conf_path(name):
   return conf_path
 setup(
     name = "pyfrbcatdb",
-    version = "1.0.0",
+    version = "1.1.0",
     author = "Ronald van Haren, Oscar Martinez-Rubi",
     author_email = "r.vanharen@esciencecenter.nl",
     description = ("A package for manipulating the frbcatdb and its linking with the VOEvent backbone."),
@@ -24,11 +24,16 @@ setup(
     package_data={'pyfrbcatdb': ['mapping.json']},
     data_files=[(os.path.join(conf_path('pyfrbcatdb')), ['pyfrbcatdb/dbase.config'])],
     scripts=['pyfrbcatdb/scripts/decode_VOEvent',
-             'pyfrbcatdb/scripts/create_VOEvent'],
+             'pyfrbcatdb/scripts/create_VOEvent',
+             'pyfrbcatdb/scripts/frbcatdb-image'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Topic :: Scientific/Engineering :: Astronomy",
         "License :: OSI Approved :: Apache Software License",
     ],
+    install_requires=['voevent-parse', 'python-dateutil',
+                      'psycopg2', 'configargparse',
+                      'PyYAML', 'astropy'],
+    setup_requires=['sphinx', 'sphinx-autobuild'],
 )

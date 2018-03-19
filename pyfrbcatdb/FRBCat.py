@@ -633,8 +633,6 @@ class FRBCat_create:
         stream_id = 1
         role = vp.definitions.roles.test
         self.v = vp.Voevent(stream=stream, stream_id=stream_id, role=role)
-        # set description TODO, do we have something to put here?
-        # v.Description =
 
     def set_who(self):
         '''

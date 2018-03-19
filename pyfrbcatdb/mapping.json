@@ -138,27 +138,33 @@
       "column": "beam_semi_major_axis",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "beam_semi-major_axis"
+      "param_name": "beam_semi-major_axis",
+      "ucd": "instr.beam;pos.errorEllipse;phys.angSize.smajAxis",
+      "unit": "MM"
     },
     {
       "column": "beam_semi_minor_axis",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "beam_semi-minor_axis"
+      "param_name": "beam_semi-minor_axis",
+      "ucd": "instr.beam;pos.errorEllipse;phys.angSize.sminAxis",
+      "unit": "MM"
     },
     {
       "column": "beam_rotation_angle",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "beam_rotation_angle"
+      "param_name": "beam_rotation_angle",
+      "ucd": "instr.beam;pos.errorEllipse;instr.offset",
+      "unit": "Degrees"
     },
     {
       "column": "raj",
       "type": "Coord",
       "name": "ra",
-      "description": "right ascension",
+      "description": "Right ascension",
       "ucd": "pos.eq.ra",
-      "unit": "HH:MM:SS",
+      "unit": "HH:MM:SS"
     },
     {
       "column": "decj",
@@ -166,7 +172,7 @@
       "name": "dec",
       "description": "Declination",
       "ucd": "pos.eq.dec",
-      "unit": "HH:MM:SS",
+      "unit": "HH:MM:SS"
     },
     {
       "column": "gl",
@@ -174,7 +180,7 @@
       "param_group": "event parameters",
       "param_name": "gl",
       "ucd": "pos.galactic.lon",
-      "unit": "degrees",
+      "unit": "Degrees"
     },
     {
       "column": "gb",
@@ -182,25 +188,31 @@
       "param_group": "event parameters",
       "param_name": "gb",
       "ucd": "pos.galactic.lat",
-      "unit": "degrees",
+      "unit": "Degrees"
     },
     {
       "column": "sampling_time",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "sampling_time"
+      "param_name": "sampling_time",
+      "ucd": "time.resolution",
+      "unit": "ms"
     },
     {
       "column": "bandwidth",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "bandwidth"
+      "param_name": "bandwidth",
+      "ucd": "instr.bandwidth",
+      "unit": "MHz"
     },
     {
       "column": "centre_frequency",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "centre_frequency"
+      "param_name": "centre_frequency",
+      "ucd": "em.freq;instr",
+      "unit": "MHz"
     },
     {
       "column": "npol",
@@ -225,19 +237,23 @@
       "column": "gain",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "gain"
+      "param_name": "gain",
+      "unit": "K/Jy"
     },
     {
       "column": "tsys",
       "type": "Param",
       "param_group": "observatory parameters",
-      "param_name": "tsys"
+      "param_name": "tsys",
+      "ucd": "phot.antennaTemp",
+      "unit": "K"
     },
     {
       "column": "mw_dm_limit",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "MW_dm_limit"
+      "param_name": "MW_dm_limit",
+      "unit": "pc/cm^3"
     },
     {
       "column": "galactic_electron_model",
@@ -272,43 +288,56 @@
       "column": "dm",
       "type": "Param",
       "param_group": "event parameters",
-      "param_name": "dm"
+      "param_name": "dm",
+      "ucd": "phys.dispMeasure",
+      "unit": "pc/cm^3"
     },
     {
       "column": "dm_error",
       "type": "Param",
       "param_group": "event parameters",
-      "param_name": "dm_error"
+      "param_name": "dm_error",
+      "ucd": "stat.error;phys.dispMeasure",
+      "unit": "pc/cm^3"
     },
     {
       "column": "snr",
       "type": "Param",
       "param_group": "event parameters",
-      "param_name": "snr"
+      "param_name": "snr",
+      "ucd": "stat.snr"
     },
     {
       "column": "width",
       "type": "Param",
       "param_group": "event parameters",
-      "param_name": "width"
+      "param_name": "width",
+      "ucd": "time.duration;src.var.pulse",
+      "unit": "ms"
     },
     {
       "column": "width_error_upper",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "width_error_upper"
+      "param_name": "width_error_upper",
+      "ucd": "stat.error;src.var.pulse;stat.max",
+      "unit": "ms"
     },
     {
       "column": "width_error_lower",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "width_error_lower"
+      "param_name": "width_error_lower",
+      "ucd": "stat.error;src.var.pulse;stat.min",
+      "unit": "ms"
     },
     {
       "column": "flux",
       "type": "Param",
       "param_group": "event parameters",
-      "param_name": "flux"
+      "param_name": "flux",
+      "ucd": "phot.flux",
+      "unit": "Jy"
     },
     {
       "column": "flux_prefix",
@@ -320,19 +349,25 @@
       "column": "flux_error_upper",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "flux_error_upper"
+      "param_name": "flux_error_upper",
+      "ucd": "stat.error;phot.flux;stat.max",
+      "unit": "Jy"
     },
     {
       "column": "flux_error_lower",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "flux_error_lower"
+      "param_name": "flux_error_lower",
+      "ucd": "stat.error;phot.flux;stat.min",
+      "unit": "Jy"
     },
     {
       "column": "flux_calibrated",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "flux_calibrated"
+      "param_name": "flux_calibrated",
+      "ucd": "phot.flux",
+      "unit": "Jy"
     },
     {
       "column": "dm_index",
@@ -386,73 +421,90 @@
       "column": "rm",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "rm"
+      "param_name": "rm",
+      "ucd": "phys.polarization.rotMeasure",
+      "unit": "rad/m^2"
     },
     {
       "column": "rm_error",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "rm_error"
+      "param_name": "rm_error",
+      "ucd": "stat.error;phys.polarization.rotMeasure",
+      "unit": "rad/m^2"
     },
     {
       "column": "redshift_inferred",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "redshift_inferred"
+      "param_name": "redshift_inferred",
+      "ucd": "src.redshift"
     },
     {
       "column": "redshift_host",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "redshift_host"
+      "param_name": "redshift_host",
+      "ucd": "src.redshift"
     },
     {
       "column": "fluence",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "fluence"
+      "param_name": "fluence",
+      "ucd": "phot.fluence",
+      "unit": "Jy ms"
     },
     {
       "column": "fluence_error_upper",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "fluence_error_upper"
+      "param_name": "fluence_error_upper",
+      "ucd": "stat.error;phot.fluence;stat.max",
+      "unit": "Jy ms"
     },
     {
       "column": "fluence_error_lower",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "fluence_error_lower"
+      "param_name": "fluence_error_lower",
+      "ucd": "stat.error;phot.fluence;stat.min",
+      "unit": "Jy ms"
     },
     {
       "column": "dispersion_smearing",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "dispersion_smearing"
+      "param_name": "dispersion_smearing",
+      "unit": "ms"
     },
     {
       "column": "linear_poln_frac",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "linear_pol"
+      "param_name": "linear_pol",
+      "ucd": "phys.polarization.linear"
     },
     {
       "column": "linear_poln_frac_error",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "linear_pol_error"
+      "param_name": "linear_pol_error",
+      "ucd": "stat.error;phys.polarization.linear"
     },
     {
       "column": "circular_poln_frac",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "circular_pol"
+      "param_name": "circular_pol",
+      "ucd": "phys.polarization.circular"
     },
     {
       "column": "circular_poln_frac_error",
       "type": "Param",
       "param_group": "advanced parameters",
-      "param_name": "circular_pol_error"
+      "param_name": "circular_pol_error",
+      "ucd": "stat.error;phys.polarization.circular"
     },
     {
       "column": "scattering_model",
@@ -473,7 +525,9 @@
       "column": "note",
       "param_group": "advanced parameters",
       "param_name": "scattering",
-      "description": true
+      "description": true,
+      "ucd": "time.duration;src.var.pulse;spect.line.broadening",
+      "unit": "ms"
     },
     {
       "type": "Param",
