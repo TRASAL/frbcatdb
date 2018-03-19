@@ -1,0 +1,8 @@
+voevent-parse
+python-dateutil
+psycopg2
+configargparse
+PyYAML
+astropy
+sphinx
+sphinx-autobuild
