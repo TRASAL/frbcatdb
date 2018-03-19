@@ -1,0 +1,28 @@
+# YAML 1.2
+--- 
+authors: 
+  - 
+    affiliation: "Netherlands eScience Center"
+    family-names: Haren
+    given-names: Ronald
+    name-particle: van
+  - 
+    affiliation: "Netherlands eScience Center"
+    family-names: Martines Rubi
+    given-names: Oscar
+cff-version: "1.0.3"
+commit: 2609e7991ecc8dfb8017b4b4426124a01293e544
+date-released: 2018-03-19
+doi: 10.5281/zenodo.1051040
+keywords: 
+  - "fast radio burst"
+  - "frb"
+  - "astronomy"
+  - "frbcat"
+  - "voevent"
+  - "database"
+license: Apache-2.0
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/AA-ALERT/frbcatdb"
+title: frbcatdb
+version: "1.1.0"
