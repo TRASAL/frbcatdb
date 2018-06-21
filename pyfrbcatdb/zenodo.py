@@ -98,7 +98,7 @@ class zenodo(logger):
                 break
         # define version and set version in metadata
         version = datetime.datetime.now().strftime('%Y.%m.%d')
-        versionFn = datetime.datetime.now().strftime('%Y_%m_%d2')
+        versionFn = datetime.datetime.now().strftime('%Y_%m_%d')
         self.metadata['metadata']['version'] = version
         data = {'filename': "frbcat-{}.csv".format(versionFn)}
         # define file to upload
