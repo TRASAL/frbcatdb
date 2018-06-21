@@ -103,7 +103,6 @@ class zenodo(logger):
         data = {'filename': "frbcat-{}.csv".format(versionFn)}
         # define file to upload
         files = {'file': open(self.CSV, 'rb')}
-        files = {'file': open('test3.csv', 'rb')}
         resp = requests.post(urljoin
                              (self.baseurl, 'api/deposit/depositions/{}/files'.format(deposition_id)),
                              params={'access_token': self.access_token},
