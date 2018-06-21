@@ -9,6 +9,7 @@ author:         Ronald van Haren, NLeSC (r.vanharen@esciencecenter.nl)
 import configargparse
 from pyfrbcatdb import decode_VOEvent
 from pyfrbcatdb import writeCSV
+from pyfrbcatdb import zenodo
 import sys
 import os
 
@@ -42,6 +43,8 @@ def cli_parser():
     parser.add('VOEvents', metavar='VOEvent',
                type=configargparse.FileType('rb'), nargs='*',
                help='List of VOEvent XML files')
+    parser.add('--zenodo', help='upload to Zenodo, access token',
+               env_var="zenodoFRBCat")
     results = parser.parse_args()
     # print help message of no VOEvents are supplied and
     # no CSV file needs to be written
@@ -62,3 +65,5 @@ if __name__ == "__main__":
     writeCSV.writeCSV(results.CSV,  results.dbName, results.dbHost,
                       results.dbPort, results.dbUser, results.dbPassword,
                       results.log)
+    # upload to zenodo
+    zenodo.zenodo(results.zenodo, results.CSV, results.log)
