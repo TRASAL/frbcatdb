@@ -1,20 +1,23 @@
 language: python
 python:
-  - "3.5"
-  - "3.6"
+- '3.5'
+- '3.6'
 services: postgresql
 addons:
-  postgresql: "9.5"
+  postgresql: '9.5'
 install:
-  - pip install .
-  - pip install -r requirements.txt
-  - pip install -r requirements-docs.txt
-  - pip install -r requirements-test.txt
+- pip install .
+- pip install -r requirements.txt
+- pip install -r requirements-docs.txt
+- pip install -r requirements-test.txt
 before_script:
-  - psql -c 'create database frbcat;' -U postgres
-  - psql -U postgres frbcat < db/create_db_tables.sql
-  - psql -U postgres frbcat < tests/fill_db_test_data.sql
+- psql -c 'create database frbcat;' -U postgres
+- psql -U postgres frbcat < db/create_db_tables.sql
+- psql -U postgres frbcat < tests/fill_db_test_data.sql
 script:
-  - py.test --cov=pyfrbcatdb --cov-report term --cov-report xml:cov.sml tests/
+- py.test --cov=pyfrbcatdb --cov-report term --cov-report xml:cov.sml tests/
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+env:
+  global:
+    secure: CqxBE/WRZr+EeHWO+5wpMJksjDJAJypGidlFlWw5WNnz1QtEhO9UlJsIVpBI5eATvDAJdWUGQHtHVxfmlFv61KTAfk1L3IMF45a6CCFYr7x8MRonKNVaqOFmpM0KxycfgP+8D7NtePR079oMDpLuWLavZT75Ur4W6I+vcs5FXQN4zfDzYVdHc8L7m7sLdm7cjy8aHEoY1XUxXCOlLV/78Pwaq2IDFLiiiyEkw6Pgn7ekUnsswRwiXVdGQsCcw8mS8hid15P/EiWq+rw/haulKqE+PgPUSZ4uTWnRV5N+oUbKORzmRT1k2FNLZg3jMFDTXjx0LGu+K/5cQI/buA4fDIoHqjgK2g85M4nJBIGP88wFJ2kc2AmTQMZ+uCZGdsosPDrMiH58V3hPZqQet7zEckZu7nuPzfFLeo4stglJZY14GnYnc8N0lGPnaAKvdDnlG93Tzbau9x74vDA+wFl+cEJDAT6ZpvPalOemukYCvZvPGRJJPhdTau1M97lwxi1sfb0Qn3vgcs3C/f7kG62YpAcHTS0Ijih+xrmGAfMTunyHY/H7i7cWQg7iJsYc53MZhBJQiaKbqtHvEbXAGeFrFp+i94VRPkpWdUK61cd1YH1jrQPZ4OKU/KMawOVns0EuizehqeIpGYotxPrCGsAG4G9yegiSelLVBmMM5NtBZl8=
