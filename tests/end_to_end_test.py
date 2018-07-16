@@ -359,6 +359,7 @@ class end2endtest(unittest.TestCase):
         '''
         Upload csv to Zenodo sandbox environment
         '''
+        zenodoSandbox = os.environ.get('zenodoSandbox')
         zenodo.zenodo(zenodoSandbox, self.CSV, self.logfile)
 
 
