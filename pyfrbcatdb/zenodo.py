@@ -76,7 +76,9 @@ class zenodo(logger):
                     delID = resp.json()[0]['record_id']
                     rdel = requests.delete(urljoin(self.baseurl, 'api/deposit/depositions/{}'.format(delID)),
                                            params={'access_token': self.access_token})
-                    if (int(rdel.status_code) != 204):
+                    if (int(rdel.status_code) not in [204, 410]):
+                        # 204: DELETE request succeeded
+                        # 410: PID has been deleted
                         print(rdel.json())
                         raise IOError('Unable to delete unsubmitted entry from Zenodo')
                 else:

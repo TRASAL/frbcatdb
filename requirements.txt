@@ -4,3 +4,4 @@ psycopg2
 configargparse
 PyYAML
 astropy
+requests
