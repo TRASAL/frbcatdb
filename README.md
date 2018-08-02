@@ -1,6 +1,6 @@
 # frbcatdb
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build Status](https://travis-ci.org/AA-ALERT/frbcatdb.svg?branch=master)](https://travis-ci.org/AA-ALERT/frbcatdb)[![codecov](https://codecov.io/gh/AA-ALERT/frbcatdb/branch/master/graph/badge.svg)](https://codecov.io/gh/AA-ALERT/frbcatdb)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/de13488f778e4843a8922ee2417a3416)](https://www.codacy.com/app/omrubi/frbcatdb?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AA-ALERT/frbcatdb&amp;utm_campaign=Badge_Grade)[![Documentation Status](//readthedocs.org/projects/frbcatdb/badge/?version=latest)](https://frbcatdb.readthedocs.io/en/latest/?badge=latest)[![PyPI version](https://badge.fury.io/py/pyfrbcatdb.svg)](https://badge.fury.io/py/pyfrbcatdb)[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1203579.svg)](https://doi.org/10.5281/zenodo.1203579)
+[![Build Status](https://travis-ci.org/AA-ALERT/frbcatdb.svg?branch=master)](https://travis-ci.org/AA-ALERT/frbcatdb)[![codecov](https://codecov.io/gh/AA-ALERT/frbcatdb/branch/master/graph/badge.svg)](https://codecov.io/gh/AA-ALERT/frbcatdb)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/de13488f778e4843a8922ee2417a3416)](https://www.codacy.com/app/omrubi/frbcatdb?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AA-ALERT/frbcatdb&amp;utm_campaign=Badge_Grade)[![Readthedocs badge](https://readthedocs.org/projects/frbcatdb/badge/)](http://frbcatdb.readthedocs.io/en/latest/?badge=latest)[![PyPI version](https://badge.fury.io/py/pyfrbcatdb.svg)](https://badge.fury.io/py/pyfrbcatdb)[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1203579.svg)](https://doi.org/10.5281/zenodo.1203579)
 
 The frbcatdb is a database to store a catalog of Fast Radio Bursts (FRBs).
 The DB is intended to contain old FRB events as well as new FRBs detected by the
@@ -49,6 +49,7 @@ optional arguments:
                         dbPasswordFRBCat]
   --CSV CSV             CSV filename to dump database to [env var: CSVFRBCat]
   --log LOG             log file, default=[HOME]/pyfrbcatdb_decode.log
+  --zenodo ZENODO       upload CSV to Zenodo, access token [env var: zenodoFRBCat]
 ```
 For inserting an image into the database, the frbcatdb-image executable is used. Apart from the database configuration, the tool takes two positional arguments. The first is the filename of the image to be added, the second is the 'id' in the 'radio measurement params' table that the image should be connected to:
 ```

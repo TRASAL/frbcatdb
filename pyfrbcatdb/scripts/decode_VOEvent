@@ -43,7 +43,7 @@ def cli_parser():
     parser.add('VOEvents', metavar='VOEvent',
                type=configargparse.FileType('rb'), nargs='*',
                help='List of VOEvent XML files')
-    parser.add('--zenodo', help='upload to Zenodo, access token',
+    parser.add('--zenodo', help='upload CSV to Zenodo, access token',
                env_var="zenodoFRBCat")
     results = parser.parse_args()
     # print help message of no VOEvents are supplied and
@@ -61,9 +61,11 @@ if __name__ == "__main__":
                                       results.dbUser, results.dbPassword,
                                       results.log)
         voevent.close()
-    # write database to CSV file
-    writeCSV.writeCSV(results.CSV,  results.dbName, results.dbHost,
-                      results.dbPort, results.dbUser, results.dbPassword,
-                      results.log)
-    # upload to zenodo
-    zenodo.zenodo(results.zenodo, results.CSV, results.log)
+    if results.CSV:
+        # write database to CSV file
+        writeCSV.writeCSV(results.CSV,  results.dbName, results.dbHost,
+                          results.dbPort, results.dbUser, results.dbPassword,
+                          results.log)
+        if results.zenodo:
+            # upload to zenodo
+            zenodo.zenodo(results.zenodo, results.CSV, results.log)

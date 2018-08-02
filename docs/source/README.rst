@@ -53,6 +53,7 @@ For inserting a VOEvent XML file into the FRBCat database, the decode_VOEvent ex
                           dbPasswordFRBCat]
     --CSV CSV             CSV filename to dump database to [env var: CSVFRBCat]
     --log LOG             log file, default=[HOME]/pyfrbcatdb_decode.log
+    --zenodo ZENODO       upload CSV to Zenodo, access token [env var: zenodoFRBCat]
 
 For inserting an image into the database, the frbcatdb-image executable is used. Apart from the database configuration, the tool takes two positional arguments. The first is the filename of the image to be added, the second is the 'id' in the 'radio measurement params' table that the image should be connected to:
 

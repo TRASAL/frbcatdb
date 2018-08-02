@@ -17,7 +17,7 @@ def conf_path(name):
 
 setup(
     name="pyfrbcatdb",
-    version="1.1.0",
+    version="2.0.0",
     author="Ronald van Haren, Oscar Martinez-Rubi",
     author_email="r.vanharen@esciencecenter.nl",
     description=("A package for manipulating the frbcatdb and its linking with the VOEvent backbone."),
@@ -39,6 +39,6 @@ setup(
     ],
     install_requires=['voevent-parse', 'python-dateutil',
                       'psycopg2', 'configargparse',
-                      'PyYAML', 'astropy'],
+                      'PyYAML', 'astropy', 'requests'],
     setup_requires=['sphinx', 'sphinx-autobuild'],
 )
