@@ -11,9 +11,9 @@ authors:
     family-names: Martines Rubi
     given-names: Oscar
 cff-version: "1.0.3"
-commit: 9c71251c5bd358db6b752449317c308a4f25e98e
-date-released: 2018-03-19
-doi: 10.5281/zenodo.1203579
+commit: 37ce6fdf3608e46119190cfcb28e24e05d8bdf49
+date-released: 2018-08-02
+doi: 10.5281/zenodo.1326399
 keywords: 
   - "fast radio burst"
   - "frb"
