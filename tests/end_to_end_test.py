@@ -8,6 +8,7 @@ from pyfrbcatdb import decode_VOEvent as decode
 from pyfrbcatdb import create_VOEvent as create
 from pyfrbcatdb import writeCSV
 from pyfrbcatdb import zenodo
+import sys
 
 
 class end2endtest(unittest.TestCase):
@@ -359,9 +360,15 @@ class end2endtest(unittest.TestCase):
         '''
         Upload csv to Zenodo sandbox environment
         '''
-        zenodoSandbox = os.environ.get('zenodoSandbox')
-        zenodo.zenodo(zenodoSandbox, self.CSV, self.logfile)
-
+        if 'TRAVIS' in os.environ:
+	        # only perform the Zenodo test for 1 python version on TRAVIS
+	        # as simultaneous uploads fail
+	        if (sys.version_info.major==3 and sys.version_info.minor==6):
+		        zenodoSandbox = os.environ.get('zenodoSandbox')
+		        zenodo.zenodo(zenodoSandbox, self.CSV, self.logfile, sandbox=True)
+		else:
+	        zenodoSandbox = os.environ.get('zenodoSandbox')
+	        zenodo.zenodo(zenodoSandbox, self.CSV, self.logfile, sandbox=True)
 
 if __name__ == '__main__':
     unittest.main()

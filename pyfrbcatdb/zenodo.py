@@ -27,7 +27,7 @@ class zenodo(logger):
     :type sandbox: bool
     '''
 
-    def __init__(self, access_token, CSV, logfile, sandbox=True):
+    def __init__(self, access_token, CSV, logfile, sandbox=False):
         logger.__init__(self, logfile)
         self.access_token = access_token
         self.CSV = CSV
