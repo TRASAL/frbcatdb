@@ -23,6 +23,7 @@ For inserting a VOEvent XML file into the FRBCat database, the decode_VOEvent ex
 usage: decode_VOEvent [-h] [-c MY_CONFIG] --dbName DBNAME [--dbHost DBHOST]
                       [--dbPort DBPORT] --dbUser DBUSER
                       [--dbPassword DBPASSWORD] [--CSV CSV] [--log LOG]
+                      [--zenodo ZENODO]
                       [VOEvent [VOEvent ...]]
 
 Process VOEvent XML file and add it to FRB database Args that start with '--'
