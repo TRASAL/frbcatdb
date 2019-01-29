@@ -560,8 +560,7 @@ class FRBCat_create:
         '''
         sql = """select *, radio_measured_params_notes.note as rmp_note,
                  radio_observations_params_notes.note as rop_note,
-                 observations_notes.note as obs_note,
-                 publications.type as pub_type
+                 observations_notes.note as obs_note
                 FROM frbs
                 INNER JOIN authors
                  ON frbs.author_id=authors.id
@@ -578,10 +577,6 @@ class FRBCat_create:
                   radio_observations_params.id
                 LEFT JOIN observations_notes
                  ON observations_notes.obs_id=observations.id
-                INNER JOIN frbs_have_publications
-                 ON frbs_have_publications.frb_id=frbs.id
-                INNER JOIN publications
-                 ON frbs_have_publications.pub_id=publications.id
                 WHERE frbs.id in ({})""".format(self.frbs_id)
         self.cursor.execute(sql)
         while True:
@@ -599,6 +594,7 @@ class FRBCat_create:
                 # first event for this frb
                 counter = 0
                 xmlname = self.event['name'] + '.xml'
+            print(xmlname)
             self.create_xml(xmlname)
 
     def create_xml(self, xmlname):
@@ -631,8 +627,10 @@ class FRBCat_create:
         '''
         stream = self.event['voevent_ivorn'].lstrip('ivo://')
         stream_id = 1
-        role = vp.definitions.roles.test
+        role = vp.definitions.roles.observation
         self.v = vp.Voevent(stream=stream, stream_id=stream_id, role=role)
+        # overwrite ivorn uri to the same as in database
+        self.v.attrib['ivorn'] = self.event['voevent_ivorn']
 
     def set_who(self):
         '''
@@ -733,13 +731,18 @@ class FRBCat_create:
         '''
         # Why section (optional) allows for speculation on probable
         # astrophysical cause
+
         if self.event['detected']:
             vp.add_why(self.v,
                        inferences=vp.Inference(relation='detected',
-                                               name=self.event['name']))
+                                               name=self.event['name']),
+                       importance=int(self.event['verified']))
         else:
             vp.add_why(self.v,
-                       inferences=vp.Inference(name=self.event['name']))
+                       inferences=vp.Inference(name=self.event['name']),
+                       importance=int(self.event['verified']))
+        # set ivorn name
+        self.v.Why.Name = self.event['name']
 
     def save_xml(self, xmlname, force_pretty_print=False):
         '''
