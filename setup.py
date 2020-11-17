@@ -23,7 +23,7 @@ setup(
     description=("A package for manipulating the frbcatdb and its linking with the VOEvent backbone."),
     license="Apache 2.0",
     keywords="VOEvent, FRBCAT",
-    url="https://github.com/AA-ALERT/frbcatdb",
+    url="https://github.com/TRASAL/frbcatdb",
     packages=['pyfrbcatdb'],
     package_data={'pyfrbcatdb': ['mapping.json', 'zenodo.json']},
     data_files=[(os.path.join(conf_path('pyfrbcatdb')),

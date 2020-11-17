@@ -23,6 +23,6 @@ keywords:
   - "database"
 license: Apache-2.0
 message: "If you use this software, please cite it using these metadata."
-repository-code: "https://github.com/AA-ALERT/frbcatdb"
+repository-code: "https://github.com/TRASAL/frbcatdb"
 title: frbcatdb
 version: "2.0.0"
